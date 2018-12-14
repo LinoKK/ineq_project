@@ -1,16 +1,20 @@
 ---
-title: "Einkommensverteilung in Österreich"
-subtitle: "2063 - Ökonomie der Verteilung"
+title: "Einkommensverteilung in <c3><96>sterreich"
 author: "Nikolas Kuschnig & Casper Engelen"
-abstract: "Dieses Dokument stellt einige Funktionen von Rmarkdown vor und bietet eine simple Grundstruktur für Länder-Reports."
-keywords: "a, b, c"
-date: '`r format(Sys.time(), "%d %B, %Y")`'
-output: 
+date: "`r format(Sys.time(), "%d %B, %Y")`"
+output:
+  html_document:
+    df_print: paged
+    toc: yes
   pdf_document:
-    toc: true
-    includes: 
+    includes:
       in_header: header.tex
+    toc: yes
+keywords: a, b, c
 bibliography: references.bib
+subtitle: 2063 - <c3><96>konomie der Verteilung
+abstract: Dieses Dokument stellt einige Funktionen von Rmarkdown vor und bietet eine
+  simple Grundstruktur f<c3><bc>r L<c3><a4>nder-Reports.
 ---
 
 ```{r setup, include=FALSE}
