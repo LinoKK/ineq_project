@@ -1,6 +1,6 @@
 # r code für die Berechnungen
 
-
+#Davids update
 
 ##aus dem conncetion script#####
 # Connect to the PostgreSQL database --------------------------------------
