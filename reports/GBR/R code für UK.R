@@ -1,7 +1,5 @@
 # r code für die Berechnungen
 
-#Davids update
-
 ##aus dem conncetion script#####
 # Connect to the PostgreSQL database --------------------------------------
 
@@ -61,21 +59,25 @@ silc.d <- tbl(pg, "dd") %>%
 # beinhaltet personal cross sectional personal weight rb050, personal id rb030 sollte pb030 entsprechen
 silc.r <- tbl(pg, "rr") %>% 
   filter(rb020=='UK' & rb010==2013) %>%
-  select(rb010, rb020, rb030, rb050) %>%
+  select(rb010, rb020, rb030, rb050, rx030) %>%
   collect(n = Inf)
 
 
-# Create unique IDs for merging
+# Create unique IDs for merging id_h is household, id_p is person
 silc.p <- silc.p %>% mutate(id_h = paste0(pb020, px030))
+silc.p <- silc.p %>% mutate(id_p = paste0(pb020, pb030))
 
 silc.h <- silc.h %>% mutate(id_h = paste0(hb020, hb030))
 
 silc.d <- silc.d %>% mutate(id_h = paste0(db020, db030))
 
-silc.r <- silc.r %>% mutate(id_h = paste0(rb020, rb030))
+#kreiert die Variable hier anders als in silc.p, die letzten 2 digits von id_h 
+#müssen weg
+silc.r <- silc.r %>% mutate(id_p = paste0(rb020, rb030))
+silc.r <- silc.r %>% mutate(id_h = paste0(rb020, rx030))
 
 # Merge the datasets
-silc.pd <- left_join(silc.p, silc.d %>% select(id_h, db020, db090))
+silc.pd <- left_join(silc.p, silc.d %>% select(id_h, db020, db090, db040))
 
 silc.hd <- left_join(silc.h, silc.d)
 
@@ -94,10 +96,11 @@ silc.h1 <- silc.h %>%
          eq.h.trans.inc = (hy050g + hy060g + hy070g + hy080g)/hx050,
          eq.h.expenses = (hy120g + hy130g + hy140g)/hx050) 
 
-## match to r
+## match to r ## schauen dass das matching funktioniert, es muss nach id_p 
 
 silc.rh <- left_join(silc.r, silc.h1)
-silc.rhpd <- left_join(silc.rh, silc.pd)
+silc.rhpd <- left_join(silc.rh, silc.pd, by=c("id_p"))
+
 
 # replace NAs
 silc.rhpd <- silc.rhpd %>% replace(is.na(.), 0)
@@ -127,8 +130,14 @@ silc.rhpd <- silc.rhpd %>%
   mutate(disp.inc = nat.inc + eq.h.trans.inc - eq.h.expenses + 
            py110g + py120g + py130g + py140g)
 
+# für das spezielle Jahr speichern, nur die notwendigen variablen
+
+silc.p1.13 <- subset(silc.rhpd, select=c(id_h, work.inc, cap.inc, fac.inc, 
+                                         nat.inc, disp.inc, db020, pb040, db090,
+                                         db040))
+
 ### Summing up, this led to the following variables to calculate the inequality
-### indicators with dataset silc.rhpd:
+### indicators with dataset silc.p1.YY:
 # 1. Arbeitseinkommen: work.inc
 # 2. Vermögenseinkommen: cap.inc
 # 3. Pre-tax factor income: fac.inc
@@ -158,7 +167,7 @@ silc.h2 <- silc.h %>%
          eq.h.expenses = (hy120g + hy130g + hy140g)/h.size) 
 
 #match            
-silc.p2d <- left_join(silc.p2, silc.d %>% select(id_h, db020, db090))
+silc.p2d <- left_join(silc.p2, silc.d %>% select(id_h, db020, db090, db040))
 silc.pdh2 <- left_join(silc.p2d, silc.h2)
 
 # replace NAs
@@ -189,8 +198,14 @@ silc.pdh2 <- silc.pdh2 %>%
   mutate(disp.inc = nat.inc + eq.h.trans.inc - eq.h.expenses + 
            py110g + py120g + py130g + py140g)
 
+# für das spezielle Jahr speichern
+
+silc.p2.13 <- subset(silc.pdh2, select=c(id_h, work.inc, cap.inc, fac.inc, 
+                                         nat.inc, disp.inc, db020, pb040, db090,
+                                         db040))
+
 ### Summing up, this led to the following variables to calculate the inequality
-### indicators with dataset silc.pdh2:
+### indicators with dataset silc.p2.YY:
 # 1. Arbeitseinkommen: work.inc
 # 2. Vermögenseinkommen: cap.inc
 # 3. Pre-tax factor income: fac.inc
@@ -229,72 +244,77 @@ silc.hd.inc <- silc.hd %>% filter(hy010 > 0)
 # Creating Survey Objects -------------------------------------------------
 ## müsste man dann noch auf die oben kreierten silc.pd.inc umschreiben
 
+# personal cross section weighting. braucht es nicht da die Einkommen auf HH sind?
 silc.pd.svy <- svydesign(ids =  ~ id_h,
                          strata = ~db020,
                          weights = ~pb040,
-                         data = silc.pd) %>% convey_prep()
+                         data = silc.p1.13) %>% convey_prep()
 
+# household cross section weighting
 silc.hd.svy <- svydesign(ids = ~id_h,
                          strata = ~db020,
                          weights = ~db090,
-                         data = silc.hd) %>% convey_prep()
+                         data = silc.p1.13) %>% convey_prep()
 
 
 # Indicators --------------------------------------------------------------
 
 # Mean Income
 #
-svymean(~total.inc, silc.pd.svy)
-svymean(~hy010, silc.hd.svy)
-# For comparing countries
-# svyby(~total.inc, ~as.factor(db020), silc.pd.svy, svymean)
-# svyby(~hy010, ~as.factor(db020), silc.hd.svy, svymean)
+
+svymean(~fac.inc, silc.hd.svy)
+svymean(~nat.inc, silc.hd.svy)
+svymean(~disp.inc, silc.hd.svy)
+
+# For comparing regions?
+
+ svyby(~hy010, ~as.factor(db020), silc.hd.svy, svymean)
 
 # Median Income
 #
-svyquantile(~total.inc, silc.pd.svy, quantiles = c(0.5))
-svyquantile(~hy010, silc.hd.svy, quantiles = c(0.5))
 
-# For comparing countries
-# svyby(~total.inc, ~as.factor(db020), silc.pd.svy,
-#       svyquantile, ~total.inc, quantiles = c(0.5), keep.var = FALSE)
-# svyby(~hy010, ~as.factor(db020), silc.hd.svy,
-#       svyquantile, ~hy010, quantiles = c(0.5), keep.var = FALSE)
+svyquantile(~fac.inc, silc.hd.svy, quantiles = c(0.5))
+svyquantile(~nat.inc, silc.hd.svy, quantiles = c(0.5))
+svyquantile(~disp.inc, silc.hd.svy, quantiles = c(0.5))
 
 # Decile Points
-#
-svyquantile(~total.inc, silc.pd.svy, quantiles = seq(0, 1, 0.1))
-svyquantile(~hy010, silc.hd.svy, quantiles = seq(0, 1, 0.1))
-# For comparing countries
-# svyby(~total.inc, ~as.factor(db020), silc.pd.svy, 
-#       svyquantile, ~total.inc, quantiles = seq(0, 1, 0.1), keep.var = FALSE)
-# svyby(~hy010, ~as.factor(hb020), silc.pd.svy, 
-#       svyquantile, ~total.inc, quantiles = seq(0, 1, 0.1), keep.var = FALSE)
+
+svyquantile(~fac.inc, silc.hd.svy, quantiles = seq(0, 1, 0.1))
+svyquantile(~nat.inc, silc.hd.svy, quantiles = seq(0, 1, 0.1))
+svyquantile(~disp.inc, silc.hd.svy, quantiles = seq(0, 1, 0.1))
 
 # Quantile Share Ratio
 #
-svyqsr(~total.inc, silc.pd.svy, 0.2, 0.8)
-svyqsr(~hy010, silc.hd.svy, 0.2, 0.8)
-# For comparing countries
-# svyby(~total.inc, ~as.factor(db020), silc.pd.svy, svyqsr, 0.2, 0.8)
-# svyby(~hy010, ~as.factor(db020), silc.hd.svy, svyqsr, 0.2, 0.8)
+svyqsr(~fac.inc, silc.hd.svy, 0.2, 0.8)
+svyqsr(~nat.inc, silc.hd.svy, 0.2, 0.8)
+svyqsr(~disp.inc, silc.hd.svy, 0.2, 0.8)
+
 
 # Top 10% Income Share
 #
-svytotal(~total.inc, subset(silc.pd.svy, pb020 == country & total.inc >= 
-                              as.numeric(svyquantile(~total.inc, silc.pd.svy, quantile = 0.9)))) / 
-  svytotal(~total.inc, subset(silc.pd.svy, pb020 == country))
-svytotal(~hy010, subset(silc.hd.svy, db020 == country & hy010 >= 
-                          as.numeric(svyquantile(~hy010, silc.hd.svy, quantile = 0.9)))) /
-  svytotal(~hy010,subset(silc.hd.svy, db020 == country))
+
+svytotal(~fac.inc, subset(silc.hd.svy, fac.inc >= 
+                          as.numeric(svyquantile(~fac.inc, silc.hd.svy, quantile = 0.9)))) /
+  svytotal(~fac.inc,silc.hd.svy)
+
+svytotal(~nat.inc, subset(silc.hd.svy, nat.inc >= 
+                            as.numeric(svyquantile(~nat.inc, silc.hd.svy, quantile = 0.9)))) /
+  svytotal(~nat.inc,silc.hd.svy)
+
+svytotal(~disp.inc, subset(silc.hd.svy, disp.inc >= 
+                            as.numeric(svyquantile(~disp.inc, silc.hd.svy, quantile = 0.9)))) /
+  svytotal(~disp.inc,silc.hd.svy)
 
 # Gini Coefficient
 #
-svygini(~total.inc, silc.pd.svy)
-svygini(~hy010, silc.hd.svy)
+
+svygini(~fac.inc, silc.hd.svy)
+svygini(~nat.inc, silc.hd.svy)
+svygini(~disp.inc, silc.hd.svy)
+
 # For comparing countries
-# svyby(~total.inc, ~as.factor(db020), silc.pd.svy, svygini)
-# svyby(~hy010, ~as.factor(db020), silc.hd.svy, svygini)
+
+svyby(~fac.inc, ~as.factor(db040), silc.hd.svy, svygini)
 
 # Theil Index
 #
