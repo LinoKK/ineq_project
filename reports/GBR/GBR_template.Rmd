@@ -1,18 +1,18 @@
 ---
-title: "Einkommensverteilung in <c3><96>sterreich"
-author: "Nikolas Kuschnig & Casper Engelen"
-date: "`r format(Sys.time(), "%d %B, %Y")`"
+title: "Einkommensverteilung in Großbritannien"
+author: "David Kamschal und Lino Kungl"
+date:
 output:
-  html_document:
-    df_print: paged
-    toc: yes
   pdf_document:
     includes:
       in_header: header.tex
     toc: yes
+  html_document:
+    df_print: paged
+    toc: yes
 keywords: a, b, c
 bibliography: references.bib
-subtitle: 2063 - <c3><96>konomie der Verteilung
+subtitle: 2063 - Ökonomie der Verteilung
 abstract: Dieses Dokument stellt einige Funktionen von Rmarkdown vor und bietet eine
   simple Grundstruktur f<c3><bc>r L<c3><a4>nder-Reports.
 ---
@@ -60,6 +60,8 @@ Zitieren aus *BibTeX*:
 - [@marmot2010fair; @lancee2012income]
 - [@humer2013bedeutung, p. 571]
 - @humer2013bedeutung
+- @atkinson2005top
+
 
 Block-Zitate:
 
