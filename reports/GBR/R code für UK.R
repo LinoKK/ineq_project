@@ -71,8 +71,6 @@ silc.h <- silc.h %>% mutate(id_h = paste0(hb020, hb030))
 
 silc.d <- silc.d %>% mutate(id_h = paste0(db020, db030))
 
-#kreiert die Variable hier anders als in silc.p, die letzten 2 digits von id_h 
-#müssen weg
 silc.r <- silc.r %>% mutate(id_p = paste0(rb020, rb030))
 silc.r <- silc.r %>% mutate(id_h = paste0(rb020, rx030))
 
@@ -100,6 +98,8 @@ silc.h1 <- silc.h %>%
 
 silc.rh <- left_join(silc.r, silc.h1)
 silc.rhpd <- left_join(silc.rh, silc.pd, by=c("id_p"))
+# bei dem vorigen merge hat es zwei mal id_h die r dann umbenennt, daher:
+names(silc.rhpd)[names(silc.rhpd) == 'id_h.x'] <- 'id_h'
 
 
 # replace NAs
@@ -132,7 +132,7 @@ silc.rhpd <- silc.rhpd %>%
 
 # für das spezielle Jahr speichern, nur die notwendigen variablen
 
-silc.p1.13 <- subset(silc.rhpd, select=c(id_h, work.inc, cap.inc, fac.inc, 
+silc.p1.13 <- subset(silc.rhpd, select=c(id_h, id_p, work.inc, cap.inc, fac.inc, 
                                          nat.inc, disp.inc, db020, pb040, db090,
                                          db040))
 
