@@ -15,7 +15,11 @@ bibliography: references.bib
 subtitle: 2063 - Ökonomie der Verteilung
 abstract: Dieses Dokument stellt einige Funktionen von Rmarkdown vor und bietet eine
   simple Grundstruktur f<c3><bc>r L<c3><a4>nder-Reports.
----
+---  
+\newpage
+# Einleitung
+
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -27,6 +31,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r, include=FALSE}
 cat("Ausgeführt, nichts angezeigt")
+library(survey)
+library(dplyr)
 ```
 
 ```{r, eval=FALSE}
@@ -35,6 +41,8 @@ cat("Nicht ausgeführt, angezeigt")
 
 ```{r echo=FALSE}
 cat("Ausgeführt, Output angezeigt")
+
+
 ```
 
 ```{r}
@@ -51,7 +59,7 @@ LaTeX Formeln inline: ($e = mc^2$) und:
 
 $$\hat{\beta} = (X'X)^{-1}X'Y$$
 
-![Bilder einfügen (xkcd)](img/xkcd_comparison.png){width=60%}
+![Brexit Referendum Outcome by Region](img/Brexit_Referendum_Outcome_by_Region.png){width=80%}
 
 [Links einfügen (Bildquelle)](https://what-if.xkcd.com/118/)
 
