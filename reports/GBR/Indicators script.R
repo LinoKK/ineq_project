@@ -11,7 +11,7 @@
 library(dplyr)
 library(survey)
 library(convey)
-
+library(dplyr)
 country <- "UK"
 year <- 2013
 
@@ -20,12 +20,11 @@ year <- 2013
 source("R/_connection.R")
 source("R/_setup.R")
 
-
 # Subsetting --------------------------------------------------------------
 
 # To get useful results we may want to subset to only positive income
-silc.pd.inc <- silc.pd %>% filter(py010g > 0)
-silc.hd.inc <- silc.hd %>% filter(hy010 > 0)
+silc.p1.full.inc <- silc.p1.full %>% filter(disp.inc > 0)
+
 
 # Creating Survey Objects -------------------------------------------------
 ## müsste man dann noch auf die oben kreierten silc.pd.inc umschreiben
@@ -34,27 +33,62 @@ silc.hd.inc <- silc.hd %>% filter(hy010 > 0)
 silc.pd.svy <- svydesign(ids =  ~ id_h,
                          strata = ~db020,
                          weights = ~pb040,
-                         data = silc.p1.13) %>% convey_prep()
+                         data = silc.p1.full) %>% convey_prep()
 
 # household cross section weighting
 silc.hd.svy <- svydesign(ids = ~id_h,
                          strata = ~db020,
                          weights = ~db090,
-                         data = silc.p1.13) %>% convey_prep()
+                         data = silc.p1.full) %>% convey_prep()
 
 
 # Indicators --------------------------------------------------------------
 
-# Mean Income
+# Basisset der Indikatoren: Median, Mean, Gini, 80/20, Top 10 von fac.inc, 
+# nat.inc & disp.inc für P1 & P2 über den Zeitraum 2005-2016
+
+# P1
+
+# Mean Income für alle Jahre
+#
+mean.fac.tot <- svyby(~fac.inc, ~rb010, silc.hd.svy, svymean)
+mean.nat.tot <- svyby(~nat.inc, ~rb010, silc.hd.svy, svymean)
+mean.disp.tot <- svyby(~disp.inc, ~rb010, silc.hd.svy, svymean)
+
+
+# Median Income
 #
 
-svymean(~fac.inc, silc.hd.svy)
-svymean(~nat.inc, silc.hd.svy)
-svymean(~disp.inc, silc.hd.svy)
+svyquantile(~fac.inc, silc.hd.svy, quantiles = c(0.5))
+svyquantile(~nat.inc, silc.hd.svy, quantiles = c(0.5))
+svyquantile(~disp.inc, silc.hd.svy, quantiles = c(0.5))
 
 # For comparing regions?
 
-svyby(~hy010, ~as.factor(db020), silc.hd.svy, svymean)
+mean16 <- svyby(~disp.inc, ~as.factor(db040.y), silc.hd.svy, svymean)
+
+
+# Entwicklung des Gini in den Regionen #
+## vor 2009 hat es keine info über die region
+
+# damit man nachher mergen kann als data frame
+gini15 <- as.data.frame(svyby(~disp.inc, ~as.factor(db040.y), silc.hd.svy, svygini))
+
+# Zeitreihe, run for every year
+gini10 <- gini10 %>% mutate(region = `as.factor(db040)`, disp.inc.gini.10 = 
+                              disp.inc)
+
+# Tabellen verkleinern und nur Region und Gini nehmen
+gini16 <- select(gini16, region, disp.inc.gini.16)
+
+# Tabellen zusammenfügen
+gini <- (merge(gini, gini16, by = 'region', select=c(disp.inc)))
+
+# Alternativ, R gibt aber eine Warnung wegen plyr, keine Ahnung ob da was passiert
+library(plyr)
+gini1 <- join_all(list(gini10, gini11, gini12, gini13, gini14, gini15, gini16),
+                  by = 'region')
+
 
 # Median Income
 #
@@ -94,18 +128,19 @@ svytotal(~disp.inc, subset(silc.hd.svy, disp.inc >=
 # Gini Coefficient
 #
 
-svygini(~fac.inc, silc.hd.svy)
+svygini(~fac.inc,  silc.hd.svy)
 svygini(~nat.inc, silc.hd.svy)
 svygini(~disp.inc, silc.hd.svy)
 
 # For comparing countries
 
-svyby(~fac.inc, ~as.factor(db040), silc.hd.svy, svygini)
+gini15 <- svyby(~disp.inc, ~as.factor(db040.y), silc.hd.svy, svygini)
 
 # Theil Index
 #
 svygei(~total.inc, silc.pd.svy, epsilon = 1)
 svygei(~hy010, silc.hd.svy, epsilon = 1)
+
 # For comparing countries
 # svyby(~total.inc, ~as.factor(db020), silc.pd.svy,
 #      svygei, epsilon = 1)
@@ -115,63 +150,4 @@ svygei(~hy010, silc.hd.svy, epsilon = 1)
 
 ######## Ende indicators base script ########
 ###############################################################################
-
-
-###############################################################################
-###### Indicators laeken script #####
-
-# ------------------------------------------------------------------------
-#
-# Laeken Indicators
-# Autoren: Engelen & Kuschnig
-# Datum: 2018-11-10
-#
-# -------------------------------------------------------------------------
-
-library(laeken)
-library(dplyr)
-
-country <- "CZ"
-year <- 2013
-
-# Source the Setup scripts to provide merged household and personal data
-source("R/_connection.R")
-source("R/_setup.R")
-
-
-# Subsetting --------------------------------------------------------------
-
-# To get useful results we may want to subset to only positive income
-silc.pd.inc <- silc.pd %>% filter(py010g > 0)
-silc.hd.inc <- silc.hd %>% filter(hy010 > 0)
-
-# For hourly wages we replace NAs in working hours with 0
-silc.pd.wage <- silc.pd
-silc.pd.wage$pl060[is.na(silc.pd.wage$pl060)] <- 0
-silc.pd.wage$pl100[is.na(silc.pd.wage$pl100)] <- 0
-# Filter out observations with no income and/or hours worked
-silc.pd.wage <- silc.pd.wage %>% 
-  filter(py010g > 0 & pl060 > 0 & (pl073 + pl074) > 0)
-
-
-# Indicators --------------------------------------------------------------
-
-# Share of population at risk of poverty
-#
-arpr(inc = silc.pd.inc$py010g, weights = silc.pd.inc$pb040, 
-     breakdown = silc.pd.inc$pb020)
-arpr(inc = silc.hd.inc$hy010, silc.hd.inc$db090)
-
-# Gender Pay Gap
-#
-silc.pd.wage <- silc.pd.wage %>% 
-  mutate(hwages = py010g / ((pl060 + pl100) * (pl073 + pl074) * 52 / 12),
-         gender = factor(pb150, labels = c("Male", "Female")))
-
-silc.pd.wage <- silc.pd.wage %>% # Make sure female is the first level
-  mutate(gender = relevel(gender, "Female"))
-gpg(silc.pd.wage$hwages, gender = silc.pd.wage$gender)
-
-
-###### Ende Indicators laeken script #####
 
