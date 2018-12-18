@@ -36,29 +36,35 @@ if(!exists(c("country", "year"))) {
 
 # enthält alle notwendigen Einkommenskomponenten entsprechend Mail vom 26.11.
 
-#nur c13p entsprechend der mail für py021g (ansonsten heißt die tabelle pp). auf GitHub hat es ein neues file mit code für diese speziellen Tabellen 
+# nur c13p entsprechend der mail für py021g (ansonsten heißt die tabelle pp). auf
+# GitHub hat es ein neues file mit code für diese speziellen Tabellen 
 
-silc.p <- tbl(pg, "c13p") %>%
-  filter(pb020=='UK' & pb010==2013) %>%
-  select(pb020, pb010, pb030, pb040, pb140, pb150, py010g, py021g, py050g, py090g,py080g, 
+## Die Jahre der Tabellen ändern cxxp, cxxd, cxxh, cxxr
+# bis einschliesslich 2006 die variable py020n statt py021g
+
+year <- 2004
+
+silc.p <- tbl(pg, "c04p") %>%
+  filter(pb020=='UK' & pb010==year) %>%
+  select(pb020, pb010, pb030, pb040, pb140, pb150, py010g, py020n, py050g, py090g,py080g, 
          px010, py100g, py110g, py120g, py130g, py140g, px030) %>%
   collect(n = Inf)
 
-silc.h <- tbl(pg, "hh") %>%
-  filter(hb020=='UK' & hb010==2013) %>%
+silc.h <- tbl(pg, "c04h") %>%
+  filter(hb020=='UK' & hb010==year) %>%
   select(hb020, hb030, hy010, hy110g, hy040g, hy050g, hy060g, hy070g, hy080g,
          hy120g, hy130g, hy140g, hy090g, hx010, hx050) %>%
   collect(n = Inf)
 
 # beinhaltet region und cross section household weight
-silc.d <- tbl(pg, "dd") %>%
-  filter(db020=='UK' & db010==2013) %>%
+silc.d <- tbl(pg, "c04d") %>%
+  filter(db020=='UK' & db010==year) %>%
   select(db010, db020, db030, db040, db090) %>%
   collect(n = Inf)
 
 # beinhaltet personal cross sectional personal weight rb050, personal id rb030 sollte pb030 entsprechen
-silc.r <- tbl(pg, "rr") %>% 
-  filter(rb020=='UK' & rb010==2013) %>%
+silc.r <- tbl(pg, "c04r") %>% 
+  filter(rb020=='UK' & rb010==year) %>%
   select(rb010, rb020, rb030, rb050, rx030) %>%
   collect(n = Inf)
 
@@ -98,16 +104,24 @@ silc.h1 <- silc.h %>%
 
 silc.rh <- left_join(silc.r, silc.h1)
 silc.rhpd <- left_join(silc.rh, silc.pd, by=c("id_p"))
+
 # bei dem vorigen merge hat es zwei mal id_h die r dann umbenennt, daher:
 names(silc.rhpd)[names(silc.rhpd) == 'id_h.x'] <- 'id_h'
+
+# Region matching needs to be based on id_h
+silc.rhpd <- left_join(silc.rhpd, silc.d, by=c("id_h"), select=c(db040))
+
+names(silc.rhpd)[names(silc.rhpd) == 'db020.y'] <- 'db020'
+names(silc.rhpd)[names(silc.rhpd) == 'db040.y.'] <- 'db040'
+names(silc.rhpd)[names(silc.rhpd) == 'db090.y'] <- 'db090'
 
 
 # replace NAs
 silc.rhpd <- silc.rhpd %>% replace(is.na(.), 0)
 
-# 1.1 Einkommen aus Arbeit: py010g+py021g+py050g+hy110g
+# 1.1 Einkommen aus Arbeit: py010g+py021g+py050g+hy110g - bis 2006 py020
 silc.rhpd <- silc.rhpd %>% 
-  mutate(work.inc = py010g + py021g + py050g + eq.hy110g)
+  mutate(work.inc = py010g + py020n + py050g + eq.hy110g)
 
 # 1.2 Capital income
 
@@ -132,9 +146,27 @@ silc.rhpd <- silc.rhpd %>%
 
 # für das spezielle Jahr speichern, nur die notwendigen variablen
 
-silc.p1.13 <- subset(silc.rhpd, select=c(id_h, id_p, work.inc, cap.inc, fac.inc, 
-                                         nat.inc, disp.inc, db020, pb040, db090,
-                                         db040))
+silc.p1.04 <- subset(silc.rhpd, select=c(id_h, id_p, work.inc, cap.inc, fac.inc, 
+                                         nat.inc, disp.inc, db020, rb010, pb040, db090,
+                                         db040.y))
+
+# alle Jahre zusammenfügen
+
+### 2011 ist die regionenaufteilung genauer, letzter Buchstabe muss weg damit die 
+### Aufteilung mit den anderen Jahren übereinstimmt
+## vor 2009 hat es keine info über die region
+
+mid = function(text, start_num, num_char) {
+  substr(text, start_num, start_num + num_char - 1)
+}
+silc.p1.10 <- silc.p1.10 %>% mutate(db040.y = mid(db040.y, 1, nchar(db040.y) -1))
+silc.p1.11 <- silc.p1.11 %>% mutate(db040.y = mid(db040.y, 1, nchar(db040.y) -1))
+
+silc.p1.full <- bind_rows(silc.p1.05, silc.p1.06, silc.p1.07, silc.p1.08,
+                          silc.p1.09, silc.p1.10, silc.p1.11, silc.p1.12, silc.p1.13,
+                          silc.p1.14, silc.p1.15, silc.p1.16)
+
+
 
 ### Summing up, this led to the following variables to calculate the inequality
 ### indicators with dataset silc.p1.YY:
