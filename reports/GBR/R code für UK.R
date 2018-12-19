@@ -40,30 +40,31 @@ if(!exists(c("country", "year"))) {
 # GitHub hat es ein neues file mit code für diese speziellen Tabellen 
 
 ## Die Jahre der Tabellen ändern cxxp, cxxd, cxxh, cxxr
-# bis einschliesslich 2006 die variable py020n statt py021g
+# bis einschliesslich 2006 die variable py020n statt py021g (Zeile 49, 124 & 198)
+# für 2017 funktioniert die r tabelle nicht
 
-year <- 2004
+year <- 2017
 
-silc.p <- tbl(pg, "c04p") %>%
+silc.p <- tbl(pg, "c17p") %>%
   filter(pb020=='UK' & pb010==year) %>%
-  select(pb020, pb010, pb030, pb040, pb140, pb150, py010g, py020n, py050g, py090g,py080g, 
+  select(pb020, pb010, pb030, pb040, pb140, pb150, py010g, py021g, py050g, py090g,py080g, 
          px010, py100g, py110g, py120g, py130g, py140g, px030) %>%
   collect(n = Inf)
 
-silc.h <- tbl(pg, "c04h") %>%
+silc.h <- tbl(pg, "c17h") %>%
   filter(hb020=='UK' & hb010==year) %>%
   select(hb020, hb030, hy010, hy110g, hy040g, hy050g, hy060g, hy070g, hy080g,
          hy120g, hy130g, hy140g, hy090g, hx010, hx050) %>%
   collect(n = Inf)
 
 # beinhaltet region und cross section household weight
-silc.d <- tbl(pg, "c04d") %>%
+silc.d <- tbl(pg, "c17d") %>%
   filter(db020=='UK' & db010==year) %>%
   select(db010, db020, db030, db040, db090) %>%
   collect(n = Inf)
 
 # beinhaltet personal cross sectional personal weight rb050, personal id rb030 sollte pb030 entsprechen
-silc.r <- tbl(pg, "c04r") %>% 
+silc.r <- tbl(pg, "c17r") %>% 
   filter(rb020=='UK' & rb010==year) %>%
   select(rb010, rb020, rb030, rb050, rx030) %>%
   collect(n = Inf)
@@ -121,7 +122,7 @@ silc.rhpd <- silc.rhpd %>% replace(is.na(.), 0)
 
 # 1.1 Einkommen aus Arbeit: py010g+py021g+py050g+hy110g - bis 2006 py020
 silc.rhpd <- silc.rhpd %>% 
-  mutate(work.inc = py010g + py020n + py050g + eq.hy110g)
+  mutate(work.inc = py010g + py021g + py050g + eq.hy110g)
 
 # 1.2 Capital income
 
@@ -146,26 +147,9 @@ silc.rhpd <- silc.rhpd %>%
 
 # für das spezielle Jahr speichern, nur die notwendigen variablen
 
-silc.p1.04 <- subset(silc.rhpd, select=c(id_h, id_p, work.inc, cap.inc, fac.inc, 
+silc.p1.17 <- subset(silc.rhpd, select=c(id_h, id_p, work.inc, cap.inc, fac.inc, 
                                          nat.inc, disp.inc, db020, rb010, pb040, db090,
                                          db040.y))
-
-# alle Jahre zusammenfügen
-
-### 2011 ist die regionenaufteilung genauer, letzter Buchstabe muss weg damit die 
-### Aufteilung mit den anderen Jahren übereinstimmt
-## vor 2009 hat es keine info über die region
-
-mid = function(text, start_num, num_char) {
-  substr(text, start_num, start_num + num_char - 1)
-}
-silc.p1.10 <- silc.p1.10 %>% mutate(db040.y = mid(db040.y, 1, nchar(db040.y) -1))
-silc.p1.11 <- silc.p1.11 %>% mutate(db040.y = mid(db040.y, 1, nchar(db040.y) -1))
-
-silc.p1.full <- bind_rows(silc.p1.05, silc.p1.06, silc.p1.07, silc.p1.08,
-                          silc.p1.09, silc.p1.10, silc.p1.11, silc.p1.12, silc.p1.13,
-                          silc.p1.14, silc.p1.15, silc.p1.16)
-
 
 
 ### Summing up, this led to the following variables to calculate the inequality
@@ -186,9 +170,13 @@ silc.p2 <- subset(silc.p, age>19)
 
 # haushaltsgröße
 
+
 silc.p2 <- silc.p2 %>% mutate(count = 1)
-silc.p21 <- group_by(silc.p2, id_h) %>% 
-  summarize(h.size = sum(count)) 
+
+library(data.table)
+silc.p2 <- data.table(silc.p2)
+silc.p21 <- left_join(silc.p2, silc.p2[, list(h.size=sum(count)), by = id_h])
+
 silc.h <- left_join(silc.h, silc.p21)
 
 # divide by HH size
@@ -205,7 +193,8 @@ silc.pdh2 <- left_join(silc.p2d, silc.h2)
 # replace NAs
 silc.pdh2 <- silc.pdh2 %>% replace(is.na(.), 0)
 
-# 1.1 Einkommen aus Arbeit: py010g+py021g+py050g+hy110g
+# 1.1 Einkommen aus Arbeit: py010g+py021g+py050g+hy110g ## hier noch py021g zu 
+# py020n ändern
 silc.pdh2 <- silc.pdh2 %>% 
   mutate(work.inc = py010g + py021g + py050g + eq.hy110g)
 
@@ -232,9 +221,10 @@ silc.pdh2 <- silc.pdh2 %>%
 
 # für das spezielle Jahr speichern
 
-silc.p2.13 <- subset(silc.pdh2, select=c(id_h, work.inc, cap.inc, fac.inc, 
+silc.p2.17 <- subset(silc.pdh2, select=c(id_h, work.inc, cap.inc, fac.inc, 
                                          nat.inc, disp.inc, db020, pb040, db090,
                                          db040))
+
 
 ### Summing up, this led to the following variables to calculate the inequality
 ### indicators with dataset silc.p2.YY:
@@ -244,3 +234,28 @@ silc.p2.13 <- subset(silc.pdh2, select=c(id_h, work.inc, cap.inc, fac.inc,
 # 4. Pre-tax national income: nat.inc
 # 5. Post-tax disposable income: disp.inc
 
+
+# alle Jahre zusammenfügen
+
+### 2011 ist die regionenaufteilung genauer, letzter Buchstabe muss weg damit die 
+### Aufteilung mit den anderen Jahren übereinstimmt
+## vor 2009 hat es keine info über die region
+
+#P1
+mid = function(text, start_num, num_char) {
+  substr(text, start_num, start_num + num_char - 1)
+}
+silc.p1.10 <- silc.p1.10 %>% mutate(db040.y = mid(db040.y, 1, nchar(db040.y) -1))
+silc.p1.11 <- silc.p1.11 %>% mutate(db040.y = mid(db040.y, 1, nchar(db040.y) -1))
+
+silc.p1.full <- bind_rows(silc.p1.05, silc.p1.06, silc.p1.07, silc.p1.08,
+                          silc.p1.09, silc.p1.10, silc.p1.11, silc.p1.12, silc.p1.13,
+                          silc.p1.14, silc.p1.15, silc.p1.16, silc.p1.17)
+#P2
+
+silc.p2.10 <- silc.p2.10 %>% mutate(db040.y = mid(db040.y, 1, nchar(db040.y) -1))
+silc.p2.11 <- silc.p2.11 %>% mutate(db040.y = mid(db040.y, 1, nchar(db040.y) -1))
+
+silc.p2.full <- bind_rows(silc.p2.05, silc.p2.06, silc.p2.07, silc.p2.08,
+                          silc.p2.09, silc.p2.10, silc.p2.11, silc.p2.12, silc.p2.13,
+                          silc.p2.14, silc.p2.15, silc.p2.16, silc.p2.17)
