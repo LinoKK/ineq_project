@@ -8,12 +8,11 @@
 #
 # -------------------------------------------------------------------------
 
-library(dplyr)
 library(survey)
 library(convey)
+library(plyr)
 library(dplyr)
-country <- "UK"
-year <- 2013
+
 
 # Source the Setup scripts to provide merged household and personal data
 # braucht es nicht wenn wir alles in einem script machen
@@ -22,24 +21,24 @@ source("R/_setup.R")
 
 # Subsetting --------------------------------------------------------------
 
-# To get useful results we may want to subset to only positive income
-silc.p1.full.inc <- silc.p1.full %>% filter(disp.inc > 0)
+# To get useful results we may want to subset to only positive income 
+silc.p2 <- silc.p2 %>% filter(hy010 > 0)
 
 
 # Creating Survey Objects -------------------------------------------------
 ## müsste man dann noch auf die oben kreierten silc.pd.inc umschreiben
 
 # personal cross section weighting. braucht es nicht da die Einkommen auf HH sind?
-silc.pd.svy <- svydesign(ids =  ~ id_h,
-                         strata = ~db020,
-                         weights = ~pb040,
-                         data = silc.p1.full) %>% convey_prep()
+# silc.pd.svy <- svydesign(ids =  ~ id_h,
+                         #strata = ~db020,
+                         #weights = ~pb040,
+                         #data = silc.p1.full) %>% convey_prep()
 
 # household cross section weighting
 silc.hd.svy <- svydesign(ids = ~id_h,
                          strata = ~db020,
                          weights = ~db090,
-                         data = silc.p1.full) %>% convey_prep()
+                         data = silc.p2) %>% convey_prep()
 
 
 # Indicators --------------------------------------------------------------
@@ -49,19 +48,60 @@ silc.hd.svy <- svydesign(ids = ~id_h,
 
 # P1
 
-# Mean Income für alle Jahre
+# Mean Income für alle Jahre pb010 für p2 rb010 für p1
 #
 mean.fac.tot <- svyby(~fac.inc, ~rb010, silc.hd.svy, svymean)
 mean.nat.tot <- svyby(~nat.inc, ~rb010, silc.hd.svy, svymean)
 mean.disp.tot <- svyby(~disp.inc, ~rb010, silc.hd.svy, svymean)
 
+mean.tot <- join_all(list(mean.fac.tot, mean.nat.tot, mean.disp.tot ),
+                     by = 'rb010')
 
-# Median Income
+rm(mean.fac.tot, mean.nat.tot, mean.disp.tot)
+
+# Median Income für alle Jahre
+# jeweils noch die column benennen
+
+med.fac.tot <- svyby(~fac.inc, ~rb010, silc.hd.svy,
+                     svyquantile, ~fac.inc, quantiles = c(0.5), keep.var = FALSE)
+names(med.fac.tot)[names(med.fac.tot) == 'statistic'] <- 'med.fac.inc'
+
+med.nat.tot <- svyby(~nat.inc, ~rb010, silc.hd.svy,
+                     svyquantile, ~nat.inc, quantiles = c(0.5), keep.var = FALSE)
+names(med.nat.tot)[names(med.nat.tot) == 'statistic'] <- 'med.nat.inc'
+
+med.disp.tot <- svyby(~disp.inc, ~rb010, silc.hd.svy,
+                      svyquantile, ~disp.inc, quantiles = c(0.5), keep.var = FALSE)
+names(med.disp.tot)[names(med.disp.tot) == 'statistic'] <- 'med.disp.inc'
+
+med.tot <- join_all(list(med.fac.tot, med.nat.tot, med.disp.tot ),
+                     by = 'rb010')
+
+rm(med.fac.tot, med.nat.tot, med.disp.tot)
+
+# Gini für alle Jahre, gini ist viel zu hoch
+
+gini.fac.tot <- svyby(~fac.inc, ~pb010, silc.hd.svy, svygini)
+gini.nat.tot <- svyby(~nat.inc, ~pb010, silc.hd.svy, svygini)
+gini.disp.tot <- svyby(~disp.inc, ~pb010, silc.hd.svy, svygini)
+
+gini.tot <- join_all(list(gini.fac.tot, gini.nat.tot, gini.disp.tot ),
+                     by = 'pb010')
+
+rm(gini.fac.tot, gini.nat.tot, gini.disp.tot)
+
+# decile points
+
+
+decile.fac <- svyby(~fac.inc, ~pb010, silc.hd.svy,
+                     svyquantile, ~fac.inc, quantiles = seq(0, 1, 0.1), keep.var = FALSE)
+
+# Quantile Share Ratio. funktioniert noch nicht.
 #
-
-svyquantile(~fac.inc, silc.hd.svy, quantiles = c(0.5))
-svyquantile(~nat.inc, silc.hd.svy, quantiles = c(0.5))
-svyquantile(~disp.inc, silc.hd.svy, quantiles = c(0.5))
+quant.fac <- svyby(~fac.inc, ~pb010, silc.hd.svy, svyqsr, ~fac.inc,  0.2, 0.8,
+                   keep.var = FALSE)
+svyqsr(~nat.inc, silc.hd.svy, 0.2, 0.8)
+svyqsr(~disp.inc, silc.hd.svy, 0.2, 0.8)
 
 # For comparing regions?
 
@@ -90,18 +130,6 @@ gini1 <- join_all(list(gini10, gini11, gini12, gini13, gini14, gini15, gini16),
                   by = 'region')
 
 
-# Median Income
-#
-
-svyquantile(~fac.inc, silc.hd.svy, quantiles = c(0.5))
-svyquantile(~nat.inc, silc.hd.svy, quantiles = c(0.5))
-svyquantile(~disp.inc, silc.hd.svy, quantiles = c(0.5))
-
-# Decile Points
-
-svyquantile(~fac.inc, silc.hd.svy, quantiles = seq(0, 1, 0.1))
-svyquantile(~nat.inc, silc.hd.svy, quantiles = seq(0, 1, 0.1))
-svyquantile(~disp.inc, silc.hd.svy, quantiles = seq(0, 1, 0.1))
 
 # Quantile Share Ratio
 #
