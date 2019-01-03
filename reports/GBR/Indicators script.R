@@ -19,20 +19,24 @@ library(dplyr)
 source("R/_connection.R")
 source("R/_setup.R")
 
-# Subsetting --------------------------------------------------------------
+# Subsetting for households --------------------------------------------------------------
 
-# To get useful results we may want to subset to only positive income 
-silc.p2 <- silc.p2 %>% filter(hy010 > 0)
+#David: Hinzugefuegt. Vorsicht, ueberschreibt bisheriges silc.p2. Koennte man vll. anders loesen.
+
+#As per the rule, only households with income > 0 should be included
+
+#silc.p2 <- silc.p2 %>% filter(hy010 > 0)
 
 
 # Creating Survey Objects -------------------------------------------------
 ## müsste man dann noch auf die oben kreierten silc.pd.inc umschreiben
 
 # personal cross section weighting. braucht es nicht da die Einkommen auf HH sind?
-# silc.pd.svy <- svydesign(ids =  ~ id_h,
-                         #strata = ~db020,
-                         #weights = ~pb040,
-                         #data = silc.p1.full) %>% convey_prep()
+
+#silc.pd.svy <- svydesign(ids =  ~ id_h,
+ #                        strata = ~db020,
+  #                       weights = ~pb040,
+   #                      data = silc.p1.full) %>% convey_prep()
 
 # household cross section weighting
 silc.hd.svy <- svydesign(ids = ~id_h,
@@ -40,68 +44,106 @@ silc.hd.svy <- svydesign(ids = ~id_h,
                          weights = ~db090,
                          data = silc.p2) %>% convey_prep()
 
-
 # Indicators --------------------------------------------------------------
 
 # Basisset der Indikatoren: Median, Mean, Gini, 80/20, Top 10 von fac.inc, 
 # nat.inc & disp.inc für P1 & P2 über den Zeitraum 2005-2016
 
-# P1
+# P2
+# David: Habe ich auf P2 geaendert
 
-# Mean Income für alle Jahre pb010 für p2 rb010 für p1
-#
-mean.fac.tot <- svyby(~fac.inc, ~rb010, silc.hd.svy, svymean)
-mean.nat.tot <- svyby(~nat.inc, ~rb010, silc.hd.svy, svymean)
-mean.disp.tot <- svyby(~disp.inc, ~rb010, silc.hd.svy, svymean)
+# Mean Income für alle Jahre (pb010 für p2 rb010 für p1)
 
-mean.tot <- join_all(list(mean.fac.tot, mean.nat.tot, mean.disp.tot ),
-                     by = 'rb010')
+mean.fac.tot <- svyby(~fac.inc, ~pb010, silc.hd.svy, svymean, keep.var = FALSE)
+mean.nat.tot <- svyby(~nat.inc, ~pb010, silc.hd.svy, svymean, keep.var = FALSE)
+mean.disp.tot <- svyby(~disp.inc, ~pb010, silc.hd.svy, svymean, keep.var = FALSE)
 
+#Change column names:
+names(mean.fac.tot)[names(mean.fac.tot) == 'statistic'] <- 'mean.fac.inc'
+names(mean.nat.tot)[names(mean.nat.tot) == 'statistic'] <- 'mean.nat.inc'
+names(mean.disp.tot)[names(mean.disp.tot) == 'statistic'] <- 'mean.disp.inc'
+
+#Join mean values into one table:
+mean.tot <- join_all(list(mean.fac.tot, mean.nat.tot, mean.disp.tot),
+                     by = 'pb010')
+
+#remove unnecessary tables
 rm(mean.fac.tot, mean.nat.tot, mean.disp.tot)
 
+
 # Median Income für alle Jahre
-# jeweils noch die column benennen
-
-med.fac.tot <- svyby(~fac.inc, ~rb010, silc.hd.svy,
+med.fac.tot <- svyby(~fac.inc, ~pb010, silc.hd.svy,
                      svyquantile, ~fac.inc, quantiles = c(0.5), keep.var = FALSE)
-names(med.fac.tot)[names(med.fac.tot) == 'statistic'] <- 'med.fac.inc'
-
-med.nat.tot <- svyby(~nat.inc, ~rb010, silc.hd.svy,
+med.nat.tot <- svyby(~nat.inc, ~pb010, silc.hd.svy,
                      svyquantile, ~nat.inc, quantiles = c(0.5), keep.var = FALSE)
-names(med.nat.tot)[names(med.nat.tot) == 'statistic'] <- 'med.nat.inc'
-
-med.disp.tot <- svyby(~disp.inc, ~rb010, silc.hd.svy,
+med.disp.tot <- svyby(~disp.inc, ~pb010, silc.hd.svy,
                       svyquantile, ~disp.inc, quantiles = c(0.5), keep.var = FALSE)
+
+#change column names:
+names(med.fac.tot)[names(med.fac.tot) == 'statistic'] <- 'med.fac.inc'
+names(med.nat.tot)[names(med.nat.tot) == 'statistic'] <- 'med.nat.inc'
 names(med.disp.tot)[names(med.disp.tot) == 'statistic'] <- 'med.disp.inc'
 
+#Join median values into one table:
 med.tot <- join_all(list(med.fac.tot, med.nat.tot, med.disp.tot ),
-                     by = 'rb010')
+                     by = 'pb010')
 
+#remove unnecessary tables
 rm(med.fac.tot, med.nat.tot, med.disp.tot)
 
+
 # Gini für alle Jahre, gini ist viel zu hoch
+# David: standard errors removed
+gini.fac.tot <- svyby(~fac.inc, ~pb010, silc.hd.svy, svygini, keep.var = FALSE)
+gini.nat.tot <- svyby(~nat.inc, ~pb010, silc.hd.svy, svygini, keep.var = FALSE)
+gini.disp.tot <- svyby(~disp.inc, ~pb010, silc.hd.svy, svygini, keep.var = FALSE)
 
-gini.fac.tot <- svyby(~fac.inc, ~pb010, silc.hd.svy, svygini)
-gini.nat.tot <- svyby(~nat.inc, ~pb010, silc.hd.svy, svygini)
-gini.disp.tot <- svyby(~disp.inc, ~pb010, silc.hd.svy, svygini)
+#change column names:
+names(gini.fac.tot)[names(gini.fac.tot) == 'statistic'] <- 'gini.fac.inc'
+names(gini.nat.tot)[names(gini.nat.tot) == 'statistic'] <- 'gini.nat.inc'
+names(gini.disp.tot)[names(gini.disp.tot) == 'statistic'] <- 'gini.disp.inc'
 
+#Join gini values into one table:
 gini.tot <- join_all(list(gini.fac.tot, gini.nat.tot, gini.disp.tot ),
                      by = 'pb010')
 
+#remove unnecessary tables
 rm(gini.fac.tot, gini.nat.tot, gini.disp.tot)
 
 # decile points
 
+#David: Fuer nat und disp hinzugefuegt. Brauchen wir nicht nur die top10 shares?
 
 decile.fac <- svyby(~fac.inc, ~pb010, silc.hd.svy,
                      svyquantile, ~fac.inc, quantiles = seq(0, 1, 0.1), keep.var = FALSE)
 
+decile.nat <- svyby(~nat.inc, ~pb010, silc.hd.svy,
+                    svyquantile, ~fac.inc, quantiles = seq(0, 1, 0.1), keep.var = FALSE)
+
+decile.disp <- svyby(~disp.inc, ~pb010, silc.hd.svy,
+                    svyquantile, ~fac.inc, quantiles = seq(0, 1, 0.1), keep.var = FALSE)
+
 # Quantile Share Ratio. funktioniert noch nicht.
 #
-quant.fac <- svyby(~fac.inc, ~pb010, silc.hd.svy, svyqsr, ~fac.inc,  0.2, 0.8,
-                   keep.var = FALSE)
+
+#Beim Faktoreinkommen haben wir das Problem, dass es anscheinend zu viele Beobachtungen mit factor income = 0 gibt.
+#Sind wir aber nicht ohnehin nur an dem P80/20 fuer das disposable income interessiert?
+
+quant.fac <- svyby(~fac.inc, ~pb010, silc.hd.svy, svyqsr, keep.var = FALSE)
+quant.nat <- svyby(~nat.inc, ~pb010, silc.hd.svy, svyqsr, keep.var = FALSE)
+quant.disp <- svyby(~disp.inc, ~pb010, silc.hd.svy, svyqsr, keep.var = FALSE)
+
+#quant.fac <- svyby(~fac.inc, ~pb010, silc.hd.svy, svyqsr, ~fac.inc,  0.2, 0.8,
+#                   keep.var = FALSE)
+
 svyqsr(~nat.inc, silc.hd.svy, 0.2, 0.8)
 svyqsr(~disp.inc, silc.hd.svy, 0.2, 0.8)
+
+
+
+
+
+
 
 # For comparing regions?
 
