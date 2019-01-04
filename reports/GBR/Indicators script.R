@@ -79,7 +79,26 @@ rm(mean.p.fac.tot, mean.p.nat.tot, mean.p.disp.tot)
 # Median Income fuer alle Jahre - Individuen
 #--------------------------------------------
 
-#To be added
+# Median Income für alle Jahre
+med.p.fac.tot <- svyby(~fac.inc, ~rb010, silc.pd.svy,
+                     svyquantile, ~fac.inc, quantiles = c(0.5), keep.var = FALSE)
+med.p.nat.tot <- svyby(~nat.inc, ~rb010, silc.pd.svy,
+                     svyquantile, ~nat.inc, quantiles = c(0.5), keep.var = FALSE)
+med.p.disp.tot <- svyby(~disp.inc, ~rb010, silc.pd.svy,
+                      svyquantile, ~disp.inc, quantiles = c(0.5), keep.var = FALSE)
+
+#change column names:
+names(med.p.fac.tot)[names(med.p.fac.tot) == 'statistic'] <- 'med.p.fac.inc'
+names(med.p.nat.tot)[names(med.p.nat.tot) == 'statistic'] <- 'med.p.nat.inc'
+names(med.p.disp.tot)[names(med.p.disp.tot) == 'statistic'] <- 'med.p.disp.inc'
+
+#Join median values into one table:
+med.p.tot <- join_all(list(med.p.fac.tot, med.p.nat.tot, med.p.disp.tot ),
+                    by = 'rb010')
+
+#remove unnecessary tables
+rm(med.p.fac.tot, med.p.nat.tot, med.p.disp.tot)
+
 
 #--------------------------------------------
 # Gini für alle Jahre - Individuen
@@ -106,7 +125,28 @@ rm(gini.p.fac.tot, gini.p.nat.tot, gini.p.disp.tot)
 # P80/20 Individuen
 #--------------------------------------------
 
-#To be added
+#P80/20 for individuals
+quant.p.fac <- svyby(~fac.inc, ~rb010, silc.pd.svy, svyqsr, keep.var = FALSE)
+quant.p.nat <- svyby(~nat.inc, ~rb010, silc.pd.svy, svyqsr, keep.var = FALSE)
+quant.p.disp <- svyby(~disp.inc, ~rb010, silc.pd.svy, svyqsr, keep.var = FALSE)
+
+#Change column names:
+names(quant.p.fac)[names(quant.p.fac) == 'statistic'] <- 'quant.p.fac'
+names(quant.p.nat)[names(quant.p.nat) == 'statistic'] <- 'quant.p.nat'
+names(quant.p.disp)[names(quant.p.disp) == 'statistic'] <- 'quant.p.disp'
+
+#Join mean values into one table:
+
+#Solange es mit factor income nicht funktioniert:
+quant.p.tot <- join_all(list(quant.p.nat, quant.p.disp),
+                        by = 'rb010')
+
+#quant.p.tot <- join_all(list(quant.p.fac, quant.p.nat, quant.p.disp),
+#                     by = 'rb010')
+
+#remove unnecessary tables
+rm(quant.p.fac, quant.p.nat, quant.p.disp)
+
 
 #--------------------------------------------------------
 #Ending Individuals Indicators
