@@ -59,7 +59,7 @@ LaTeX Formeln inline: ($e = mc^2$) und:
 
 $$\hat{\beta} = (X'X)^{-1}X'Y$$
 
-![Brexit Referendum Outcome by Region](img/Brexit_Referendum_Outcome_by_Region.png){width=80%}
+
 
 [Links einfügen (Bildquelle)](https://what-if.xkcd.com/118/)
 
@@ -122,6 +122,30 @@ Horizontale Linien:
 ## Indikatoren
 
 # Ergebnisse
+
+# Deep Dive: Regionale Unterschiede und Brexit
+
+An dieser Stelle wollen wir uns intensiver der Fragestellung inwieweit Ungleichheitsmaße
+mit dem Brexit in Verbindung gebracht werden können. Ausgangspunkt dieser Fragestellung ist
+die vielfach g
+Dazu wollen wir uns anschauen inwieweit regionale Unterschiede in den Abstimmungen
+sich auch in unterschiedlichen Graden der Ungleichheit niederschlagen. Hierzu soll auf die 
+12 Regionen eingegangen werden die der EU-Silc Datensatz unter DB040 auflistet. Diese
+Aufteilung ist die selbe die auch die Electoral Commission in UK vornimmt. Figure 2 zeigt
+die Abstimmungsergebnisse des EU Referendums für die einzelnen Regionen, prozentual nach Leave
+und Remain. 
+Die Regionenaufteilung im EU-Silc Datensatz ist dabei erst ab 2010 verfügbar. Für die
+Jahre 2010 und 2011 werden die 12 Regionen noch weiter unterteilt in ingesammt 37 Sub-Regionen.
+
+
+
+![Brexit Referendum Outcome by Region](img/Brexit_Referendum_Outcome_by_Region.png){width=80%}
+
+Weiterer Ansatzpunkt ist der Vergleich der Wahlergebnisse verschiedener Altersgruppen und deren
+Einkommen. Die Einteilung wurde beispielweise von BBC vorgenommen (Figure 3). Der Trend hier
+ist eindeutig, ältere Bevölkerungsschichten haben eher für einen Austritt aus der EU gestimmt
+
+
 
 # Zusammenfassung
 
