@@ -350,6 +350,7 @@ silc.hd <- left_join(silc.h, silc.d, by = c('id_h' = 'id_h', 'hb010' = 'db010'))
 
 ## Aufteilung P1 ##
 
+# Version 1 nur Einkommen auf Haushaltsebene durch Äquivalenzfaktor geteilt
 # stimmt die Berechnung oder alles inklusive der p-einkommen zusammenrechnen
 # und dann durch den äquivalenzfaktor teilen?
 
@@ -409,7 +410,15 @@ silc.rhpd <- silc.rhpd %>%
 
 silc.p1 <- subset(silc.rhpd, select=c(id_h, id_p, work.inc, cap.inc, fac.inc, 
                                       nat.inc, disp.inc, db020, rb010, pb040, db090,
-                                      db040))
+                                      db040, hy010))
+
+# alles auf Haushaltsebene zusammenfassen
+
+silc.p1 <- aggregate(cbind(work.inc, cap.inc, fac.inc, 
+                            nat.inc,  disp.inc) ~ id_h + rb010 + db020 + db090, silc.p1, FUN=sum)
+
+
+
 
 ### Summing up, this led to the following variables to calculate the inequality
 ### indicators with dataset silc.p1.YY:
@@ -476,3 +485,7 @@ silc.p2 <- subset(silc.pdh, select=c(id_h, id_p, work.inc, cap.inc, fac.inc,
 
 rm(silc.pdh, silc.pd, silc.p20, silc.rpd, silc.rh, 
    silc.hd, silc.h1)
+
+# alles auf Haushaltsebene zusammenfassen
+silc.p2 <- aggregate(cbind(work.inc, cap.inc, fac.inc, 
+                           nat.inc,  disp.inc) ~ id_h + pb010 + db020 + db090, silc.p2, FUN=sum)
