@@ -21,22 +21,24 @@ source("R/_setup.R")
 
 # Subsetting for households --------------------------------------------------------------
 
-#David: Hinzugefuegt. Vorsicht, ueberschreibt bisheriges silc.p2. Koennte man vll. anders loesen.
+#David: Hinzugefuegt. Vorsicht, ueberschreibt bisheriges silc.p2 / silc.p1. Koennte man vll. anders loesen.
 
 #As per the rule, only households with income > 0 should be included
 
 #silc.p2 <- silc.p2 %>% filter(hy010 > 0)
 
+silc.p1 <- silc.p1 %>% filter(disp.inc > 0)
 
 # Creating Survey Objects -------------------------------------------------
 ## müsste man dann noch auf die oben kreierten silc.pd.inc umschreiben
 
 # personal cross section weighting. braucht es nicht da die Einkommen auf HH sind?
 
-#silc.pd.svy <- svydesign(ids =  ~ id_h,
- #                        strata = ~db020,
-  #                       weights = ~pb040,
-   #                      data = silc.p1.full) %>% convey_prep()
+# personal cross section weighting
+silc.pd.svy <- svydesign(ids =  ~ id_p,
+                       strata = ~db020,
+                       weights = ~pb040,
+                       data = silc.p1) %>% convey_prep()
 
 # household cross section weighting
 silc.hd.svy <- svydesign(ids = ~id_h,
@@ -48,6 +50,69 @@ silc.hd.svy <- svydesign(ids = ~id_h,
 
 # Basisset der Indikatoren: Median, Mean, Gini, 80/20, Top 10 von fac.inc, 
 # nat.inc & disp.inc für P1 & P2 über den Zeitraum 2005-2016
+
+
+# P1
+#Indicators for individuals
+
+#------------------------------------------
+# Mean Income für alle Jahre - Individuen
+#------------------------------------------
+
+mean.p.fac.tot <- svyby(~fac.inc, ~rb010, silc.pd.svy, svymean, keep.var = FALSE)
+mean.p.nat.tot <- svyby(~nat.inc, ~rb010, silc.pd.svy, svymean, keep.var = FALSE)
+mean.p.disp.tot <- svyby(~disp.inc, ~rb010, silc.pd.svy, svymean, keep.var = FALSE)
+
+#Change column names:
+names(mean.p.fac.tot)[names(mean.p.fac.tot) == 'statistic'] <- 'mean.p.fac.inc'
+names(mean.p.nat.tot)[names(mean.p.nat.tot) == 'statistic'] <- 'mean.p.nat.inc'
+names(mean.p.disp.tot)[names(mean.p.disp.tot) == 'statistic'] <- 'mean.p.disp.inc'
+
+#Join mean values into one table:
+mean.p.tot <- join_all(list(mean.p.fac.tot, mean.p.nat.tot, mean.p.disp.tot),
+                     by = 'rb010')
+
+#remove unnecessary tables
+rm(mean.p.fac.tot, mean.p.nat.tot, mean.p.disp.tot)
+
+#--------------------------------------------
+# Median Income fuer alle Jahre - Individuen
+#--------------------------------------------
+
+#To be added
+
+#--------------------------------------------
+# Gini für alle Jahre - Individuen
+#--------------------------------------------
+
+gini.p.fac.tot <- svyby(~fac.inc, ~rb010, silc.pd.svy, svygini, keep.var = FALSE)
+gini.p.nat.tot <- svyby(~nat.inc, ~rb010, silc.pd.svy, svygini, keep.var = FALSE)
+gini.p.disp.tot <- svyby(~disp.inc, ~rb010, silc.pd.svy, svygini, keep.var = FALSE)
+
+#change column names:
+names(gini.p.fac.tot)[names(gini.p.fac.tot) == 'statistic'] <- 'gini.p.fac.inc'
+names(gini.p.nat.tot)[names(gini.p.nat.tot) == 'statistic'] <- 'gini.p.nat.inc'
+names(gini.p.disp.tot)[names(gini.p.disp.tot) == 'statistic'] <- 'gini.p.disp.inc'
+
+#Join gini values into one table:
+gini.p.tot <- join_all(list(gini.p.fac.tot, gini.p.nat.tot, gini.p.disp.tot ),
+                     by = 'rb010')
+
+#remove unnecessary tables
+rm(gini.p.fac.tot, gini.p.nat.tot, gini.p.disp.tot)
+
+
+#--------------------------------------------
+# P80/20 Individuen
+#--------------------------------------------
+
+#To be added
+
+#--------------------------------------------------------
+#Ending Individuals Indicators
+#--------------------------------------------------------
+
+
 
 # P2
 # David: Habe ich auf P2 geaendert
