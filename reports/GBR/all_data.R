@@ -486,6 +486,6 @@ silc.p2 <- subset(silc.pdh, select=c(id_h, id_p, work.inc, cap.inc, fac.inc,
 rm(silc.pdh, silc.pd, silc.p20, silc.rpd, silc.rh, 
    silc.hd, silc.h1)
 
-# alles auf Haushaltsebene zusammenfassen
+# alles auf Haushaltsebene zusammenfassen 
 silc.p2 <- aggregate(cbind(work.inc, cap.inc, fac.inc, 
                            nat.inc,  disp.inc) ~ id_h + pb010 + db020 + db090, silc.p2, FUN=sum)
