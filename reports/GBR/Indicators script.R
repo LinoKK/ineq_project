@@ -44,7 +44,7 @@ silc.pd.svy <- svydesign(ids =  ~ id_p,
 silc.hd.svy <- svydesign(ids = ~id_h,
                          strata = ~db020,
                          weights = ~db090,
-                         data = silc.p2) %>% convey_prep()
+                         data = silc.p2h) %>% convey_prep()
 
 # Indicators --------------------------------------------------------------
 
@@ -197,11 +197,11 @@ med.tot <- join_all(list(med.fac.tot, med.nat.tot, med.disp.tot ),
 rm(med.fac.tot, med.nat.tot, med.disp.tot)
 
 
-# Gini für alle Jahre, gini ist viel zu hoch
+# Gini für alle Jahre # nur jeweils die positiven Einkommen
 # David: standard errors removed
-gini.fac.tot <- svyby(~fac.inc, ~pb010, silc.hd.svy, svygini, keep.var = FALSE)
-gini.nat.tot <- svyby(~nat.inc, ~pb010, silc.hd.svy, svygini, keep.var = FALSE)
-gini.disp.tot <- svyby(~disp.inc, ~pb010, silc.hd.svy, svygini, keep.var = FALSE)
+gini.fac.tot <- svyby(~fac.inc, ~pb010, subset(silc.hd.svy, fac.inc > 0 ), svygini, keep.var = FALSE)
+gini.nat.tot <- svyby(~nat.inc, ~pb010, subset(silc.hd.svy, nat.inc > 0 ), svygini, keep.var = FALSE)
+gini.disp.tot <- svyby(~disp.inc, ~pb010, subset(silc.hd.svy, disp.inc > 0 ), svygini, keep.var = FALSE)
 
 #change column names:
 names(gini.fac.tot)[names(gini.fac.tot) == 'statistic'] <- 'gini.fac.inc'
