@@ -377,12 +377,12 @@ silc.hdpr <- silc.hdpr %>% mutate(check.hy020 = (pdisp.inc + hy040g + hy090g + h
                                                 hy050g + hy060g + hy070g + hy080g
                                               - hy120g - hy130g - hy140g ))
 
-silc.p1neu <- subset(silc.hdpr, select=c(id_h, work.inc, cap.inc, fac.inc, 
+silc.p1 <- subset(silc.hdpr, select=c(id_h, work.inc, cap.inc, fac.inc, 
                                       nat.inc, disp.inc, db020, hb010, pb040, db090,
                                       db040, hy010, check.hy020, hy020))
 
 # replace NAs
-silc.p1neu <- silc.p1neu %>% replace(is.na(.), 0)
+silc.p1 <- silc.p1 %>% replace(is.na(.), 0)
 
 # vergleich check.hy020 und hy020 sieht ganz gut aus
 
