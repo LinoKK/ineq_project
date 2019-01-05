@@ -22,7 +22,7 @@ c16p <- tbl(pg, "c16p") %>%
 c16h <- tbl(pg, "c16h") %>%
   filter(hb020=='UK' & hb010==year) %>%
   select(hb020, hb030, hy010, hy110g, hy040g, hy050g, hy060g, hy070g, hy080g,
-         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010) %>%
+         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010, hy020) %>%
   collect(n = Inf)
 
 # beinhaltet region und cross section household weight
@@ -48,7 +48,7 @@ c15p <- tbl(pg, "c15p") %>%
 c15h <- tbl(pg, "c15h") %>%
   filter(hb020=='UK' & hb010==year) %>%
   select(hb020, hb030, hy010, hy110g, hy040g, hy050g, hy060g, hy070g, hy080g,
-         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010) %>%
+         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010, hy020) %>%
   collect(n = Inf)
 
 # beinhaltet region und cross section household weight
@@ -74,7 +74,7 @@ c14p <- tbl(pg, "c14p") %>%
 c14h <- tbl(pg, "c14h") %>%
   filter(hb020=='UK' & hb010==year) %>%
   select(hb020, hb030, hy010, hy110g, hy040g, hy050g, hy060g, hy070g, hy080g,
-         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010) %>%
+         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010, hy020) %>%
   collect(n = Inf)
 
 # beinhaltet region und cross section household weight
@@ -100,7 +100,7 @@ c13p <- tbl(pg, "c13p") %>%
 c13h <- tbl(pg, "c13h") %>%
   filter(hb020=='UK' & hb010==year) %>%
   select(hb020, hb030, hy010, hy110g, hy040g, hy050g, hy060g, hy070g, hy080g,
-         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010) %>%
+         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010, hy020) %>%
   collect(n = Inf)
 
 c13d <- tbl(pg, "c13d") %>%
@@ -124,7 +124,7 @@ c12p <- tbl(pg, "c12p") %>%
 c12h <- tbl(pg, "c12h") %>%
   filter(hb020=='UK' & hb010==year) %>%
   select(hb020, hb030, hy010, hy110g, hy040g, hy050g, hy060g, hy070g, hy080g,
-         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010) %>%
+         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010, hy020) %>%
   collect(n = Inf)
 
 c12d <- tbl(pg, "c12d") %>%
@@ -148,7 +148,7 @@ c11p <- tbl(pg, "c11p") %>%
 c11h <- tbl(pg, "c11h") %>%
   filter(hb020=='UK' & hb010==year) %>%
   select(hb020, hb030, hy010, hy110g, hy040g, hy050g, hy060g, hy070g, hy080g,
-         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010) %>%
+         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010, hy020) %>%
   collect(n = Inf)
 
 c11d <- tbl(pg, "c11d") %>%
@@ -172,7 +172,7 @@ c10p <- tbl(pg, "c10p") %>%
 c10h <- tbl(pg, "c10h") %>%
   filter(hb020=='UK' & hb010==year) %>%
   select(hb020, hb030, hy010, hy110g, hy040g, hy050g, hy060g, hy070g, hy080g,
-         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010) %>%
+         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010, hy020) %>%
   collect(n = Inf)
 
 c10d <- tbl(pg, "c10d") %>%
@@ -196,7 +196,7 @@ c09p <- tbl(pg, "c09p") %>%
 c09h <- tbl(pg, "c09h") %>%
   filter(hb020=='UK' & hb010==year) %>%
   select(hb020, hb030, hy010, hy110g, hy040g, hy050g, hy060g, hy070g, hy080g,
-         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010) %>%
+         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010, hy020) %>%
   collect(n = Inf)
 
 c09d <- tbl(pg, "c09d") %>%
@@ -220,7 +220,7 @@ c08p <- tbl(pg, "c08p") %>%
 c08h <- tbl(pg, "c08h") %>%
   filter(hb020=='UK' & hb010==year) %>%
   select(hb020, hb030, hy010, hy110g, hy040g, hy050g, hy060g, hy070g, hy080g,
-         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010) %>%
+         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010, hy020) %>%
   collect(n = Inf)
 
 c08d <- tbl(pg, "c08d") %>%
@@ -244,7 +244,7 @@ c07p <- tbl(pg, "c07p") %>%
 c07h <- tbl(pg, "c07h") %>%
   filter(hb020=='UK' & hb010==year) %>%
   select(hb020, hb030, hy010, hy110g, hy040g, hy050g, hy060g, hy070g, hy080g,
-         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010) %>%
+         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010, hy020) %>%
   collect(n = Inf)
 
 c07d <- tbl(pg, "c07d") %>%
@@ -268,7 +268,7 @@ c06p <- tbl(pg, "c06p") %>%
 c06h <- tbl(pg, "c06h") %>%
   filter(hb020=='UK' & hb010==year) %>%
   select(hb020, hb030, hy010, hy110g, hy040g, hy050g, hy060g, hy070g, hy080g,
-         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010) %>%
+         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010, hy020) %>%
   collect(n = Inf)
 
 c06d <- tbl(pg, "c06d") %>%
@@ -294,7 +294,7 @@ c05p <- tbl(pg, "c05p") %>%
 c05h <- tbl(pg, "c05h") %>%
   filter(hb020=='UK' & hb010==year) %>%
   select(hb020, hb030, hy010, hy110g, hy040g, hy050g, hy060g, hy070g, hy080g,
-         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010) %>%
+         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010, hy020) %>%
   collect(n = Inf)
 
 c05d <- tbl(pg, "c05d") %>%
@@ -350,75 +350,41 @@ silc.hd <- left_join(silc.h, silc.d, by = c('id_h' = 'id_h', 'hb010' = 'db010'))
 
 ## Aufteilung P1 ##
 
-# Version 1 nur Einkommen auf Haushaltsebene durch Äquivalenzfaktor geteilt
-# stimmt die Berechnung oder alles inklusive der p-einkommen zusammenrechnen
-# und dann durch den äquivalenzfaktor teilen?
+silc.rp <- left_join(silc.r, silc.p, by = c('id_p' = 'id_p', 'rb010' = 'pb010')) 
+names(silc.rp)[names(silc.rp) == 'id_h.x'] <- 'id_h'
 
-# Aufteilung der jeweiligen Haushaltsgrößen nach Äquivalenzfaktor
-silc.h1 <- silc.h %>% 
-  mutate(eq.hy110g = hy110g/hx050,
-         eq.h.cap.inc = (hy040g + hy090g)/hx050,
-         eq.h.trans.inc = (hy050g + hy060g + hy070g + hy080g)/hx050,
-         eq.h.expenses = (hy120g + hy130g + hy140g)/hx050) 
+silc.rp <- silc.rp %>% mutate(pwork.inc = py010g + py021g + py050g)
+silc.rp <- silc.rp %>% mutate(pfac.inc = pwork.inc + py080g)
+silc.rp <- silc.rp %>% mutate(pnat.inc = pfac.inc + py090g + py100g)
+silc.rp <- silc.rp %>% mutate(pdisp.inc = pnat.inc + py110g + py120g + py130g + py140g)
 
-## match to r ## schauen dass das matching funktioniert, es muss nach id_p 
+silc.ph <- aggregate(cbind(pwork.inc, py080g, pfac.inc, 
+                           pnat.inc,  pdisp.inc) ~ id_h + rb010 + rb020 + pb040
+                     , silc.rp, FUN=sum)
 
-silc.rh <- left_join(silc.r, silc.h1, by = c('id_h' = 'id_h', 'rb010' = 'hb010')) 
-silc.rhpd <- left_join(silc.rh, silc.pd, by=c('id_p' = 'id_p', 'rb010' = 'pb010'))
+silc.hdpr <- left_join(silc.hd, silc.ph, by = c('id_h' = 'id_h', 'hb010' = 'rb010'))
 
-# bei dem vorigen merge hat es zwei mal id_h die r dann umbenennt, daher:
-names(silc.rhpd)[names(silc.rhpd) == 'id_h.x'] <- 'id_h'
+silc.hdpr <- silc.hdpr %>% mutate(work.inc = (pwork.inc + hy110g)/hx050)
+silc.hdpr <- silc.hdpr %>% mutate(cap.inc = (py080g + hy040g + hy090g)/hx050)
+silc.hdpr <- silc.hdpr %>% mutate(fac.inc = (pfac.inc + hy040g + hy090g 
+                                             + hy110g) / hx050)
+silc.hdpr <- silc.hdpr %>% mutate(nat.inc = (pnat.inc + hy040g + hy090g + hy110g) 
+                                  / hx050)
+silc.hdpr <- silc.hdpr %>% mutate(disp.inc = (pdisp.inc + hy040g + hy090g + hy110g +
+                                                hy050g + hy060g + hy070g + hy080g
+                                              - hy120g - hy130g - hy140g )/hx050)
+silc.hdpr <- silc.hdpr %>% mutate(check.hy020 = (pdisp.inc + hy040g + hy090g + hy110g +
+                                                hy050g + hy060g + hy070g + hy080g
+                                              - hy120g - hy130g - hy140g ))
 
-# Region matching needs to be based on id_h
-silc.rhpd <- left_join(silc.rhpd, silc.d, by=c('id_h' = 'id_h', 'rb010' = 'db010')
-                       , select=c(db040))
-
-names(silc.rhpd)[names(silc.rhpd) == 'db020.y'] <- 'db020'
-names(silc.rhpd)[names(silc.rhpd) == 'db040.y'] <- 'db040'
-names(silc.rhpd)[names(silc.rhpd) == 'db090.y'] <- 'db090'
-
+silc.p1neu <- subset(silc.hdpr, select=c(id_h, work.inc, cap.inc, fac.inc, 
+                                      nat.inc, disp.inc, db020, hb010, pb040, db090,
+                                      db040, hy010, check.hy020, hy020))
 
 # replace NAs
-silc.rhpd <- silc.rhpd %>% replace(is.na(.), 0)
+silc.p1neu <- silc.p1neu %>% replace(is.na(.), 0)
 
-# 1.1 Einkommen aus Arbeit: py010g+py021g+py050g+hy110g - bis 2006 py020
-silc.rhpd <- silc.rhpd %>% 
-  mutate(work.inc = py010g + py021g + py050g + eq.hy110g)
-
-# 1.2 Capital income
-
-silc.rhpd <- silc.rhpd %>% 
-  mutate(cap.inc = eq.h.cap.inc + py080g)
-
-# factor income
-
-silc.rhpd <- silc.rhpd %>% 
-  mutate(fac.inc = cap.inc + work.inc)
-
-# Pre-tax national income
-
-silc.rhpd <- silc.rhpd %>% 
-  mutate(nat.inc = fac.inc + py100g + py090g)
-
-# post-tax disposable income
-
-silc.rhpd <- silc.rhpd %>% 
-  mutate(disp.inc = nat.inc + eq.h.trans.inc - eq.h.expenses + 
-           py110g + py120g + py130g + py140g)
-
-# für das spezielle Jahr speichern, nur die notwendigen variablen
-
-silc.p1 <- subset(silc.rhpd, select=c(id_h, id_p, work.inc, cap.inc, fac.inc, 
-                                      nat.inc, disp.inc, db020, rb010, pb040, db090,
-                                      db040, hy010))
-
-# alles auf Haushaltsebene zusammenfassen neu
-
-silc.p1 <- aggregate(cbind(work.inc, cap.inc, fac.inc, 
-                           nat.inc,  disp.inc) ~ id_h + rb010 + db020 + db090, silc.p1, FUN=sum)
-
-
-
+# vergleich check.hy020 und hy020 sieht ganz gut aus
 
 ### Summing up, this led to the following variables to calculate the inequality
 ### indicators with dataset silc.p1.YY:
@@ -487,5 +453,6 @@ rm(silc.pdh, silc.pd, silc.p20, silc.rpd, silc.rh,
    silc.hd, silc.h1)
 
 # alles auf Haushaltsebene zusammenfassen 
-silc.p2 <- aggregate(cbind(work.inc, cap.inc, fac.inc, 
-                           nat.inc,  disp.inc) ~ id_h + pb010 + db020 + db090, silc.p2, FUN=sum)
+silc.p2h <- aggregate(cbind(work.inc, cap.inc, fac.inc, 
+                           nat.inc,  disp.inc, hy010) ~ id_h + pb010 + db020 
+                      + db090 + db040, silc.p2, FUN=sum)
