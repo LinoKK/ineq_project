@@ -42,108 +42,6 @@ silc.hd.svy <- svydesign(ids = ~id_h,
 
 
 # P1
-#Indicators for individuals
-
-#------------------------------------------
-# Mean Income für alle Jahre - Individuen
-#------------------------------------------
-
-mean.p.fac.tot <- svyby(~fac.inc, ~year, silc.pd.svy, svymean, keep.var = FALSE)
-mean.p.nat.tot <- svyby(~nat.inc, ~year, silc.pd.svy, svymean, keep.var = FALSE)
-mean.p.disp.tot <- svyby(~disp.inc, ~year, silc.pd.svy, svymean, keep.var = FALSE)
-
-#Change column names:
-names(mean.p.fac.tot)[names(mean.p.fac.tot) == 'statistic'] <- 'mean.p.fac.inc'
-names(mean.p.nat.tot)[names(mean.p.nat.tot) == 'statistic'] <- 'mean.p.nat.inc'
-names(mean.p.disp.tot)[names(mean.p.disp.tot) == 'statistic'] <- 'mean.p.disp.inc'
-
-#Join mean values into one table:
-mean.p.tot <- join_all(list(mean.p.fac.tot, mean.p.nat.tot, mean.p.disp.tot),
-                     by = 'year')
-
-#remove unnecessary tables
-rm(mean.p.fac.tot, mean.p.nat.tot, mean.p.disp.tot)
-
-#--------------------------------------------
-# Median Income fuer alle Jahre - Individuen
-#--------------------------------------------
-
-# Median Income für alle Jahre
-med.p.fac.tot <- svyby(~fac.inc, ~rb010, silc.pd.svy,
-                     svyquantile, ~fac.inc, quantiles = c(0.5), keep.var = FALSE)
-med.p.nat.tot <- svyby(~nat.inc, ~rb010, silc.pd.svy,
-                     svyquantile, ~nat.inc, quantiles = c(0.5), keep.var = FALSE)
-med.p.disp.tot <- svyby(~disp.inc, ~rb010, silc.pd.svy,
-                      svyquantile, ~disp.inc, quantiles = c(0.5), keep.var = FALSE)
-
-#change column names:
-names(med.p.fac.tot)[names(med.p.fac.tot) == 'statistic'] <- 'med.p.fac.inc'
-names(med.p.nat.tot)[names(med.p.nat.tot) == 'statistic'] <- 'med.p.nat.inc'
-names(med.p.disp.tot)[names(med.p.disp.tot) == 'statistic'] <- 'med.p.disp.inc'
-
-#Join median values into one table:
-med.p.tot <- join_all(list(med.p.fac.tot, med.p.nat.tot, med.p.disp.tot ),
-                    by = 'rb010')
-
-#remove unnecessary tables
-rm(med.p.fac.tot, med.p.nat.tot, med.p.disp.tot)
-
-
-#--------------------------------------------
-# Gini für alle Jahre - Individuen
-#--------------------------------------------
-
-gini.p.fac.tot <- svyby(~fac.inc, ~rb010, silc.pd.svy, svygini, keep.var = FALSE)
-gini.p.nat.tot <- svyby(~nat.inc, ~rb010, silc.pd.svy, svygini, keep.var = FALSE)
-gini.p.disp.tot <- svyby(~disp.inc, ~rb010, silc.pd.svy, svygini, keep.var = FALSE)
-
-#change column names:
-names(gini.p.fac.tot)[names(gini.p.fac.tot) == 'statistic'] <- 'gini.p.fac.inc'
-names(gini.p.nat.tot)[names(gini.p.nat.tot) == 'statistic'] <- 'gini.p.nat.inc'
-names(gini.p.disp.tot)[names(gini.p.disp.tot) == 'statistic'] <- 'gini.p.disp.inc'
-
-#Join gini values into one table:
-gini.p.tot <- join_all(list(gini.p.fac.tot, gini.p.nat.tot, gini.p.disp.tot ),
-                     by = 'rb010')
-
-#remove unnecessary tables
-rm(gini.p.fac.tot, gini.p.nat.tot, gini.p.disp.tot)
-
-
-#--------------------------------------------
-# P80/20 Individuen
-#--------------------------------------------
-
-#P80/20 for individuals
-quant.p.fac <- svyby(~fac.inc, ~rb010, silc.pd.svy, svyqsr, keep.var = FALSE)
-quant.p.nat <- svyby(~nat.inc, ~rb010, silc.pd.svy, svyqsr, keep.var = FALSE)
-quant.p.disp <- svyby(~disp.inc, ~rb010, silc.pd.svy, svyqsr, keep.var = FALSE)
-
-#Change column names:
-names(quant.p.fac)[names(quant.p.fac) == 'statistic'] <- 'quant.p.fac'
-names(quant.p.nat)[names(quant.p.nat) == 'statistic'] <- 'quant.p.nat'
-names(quant.p.disp)[names(quant.p.disp) == 'statistic'] <- 'quant.p.disp'
-
-#Join mean values into one table:
-
-#Solange es mit factor income nicht funktioniert:
-quant.p.tot <- join_all(list(quant.p.nat, quant.p.disp),
-                        by = 'rb010')
-
-#quant.p.tot <- join_all(list(quant.p.fac, quant.p.nat, quant.p.disp),
-#                     by = 'rb010')
-
-#remove unnecessary tables
-rm(quant.p.fac, quant.p.nat, quant.p.disp)
-
-
-#--------------------------------------------------------
-#Ending Individuals Indicators
-#--------------------------------------------------------
-
-
-
-# P1
 
 # Mean Income für alle Jahre 
 
@@ -163,8 +61,15 @@ mean.tot.p1 <- join_all(list(mean.fac.tot, mean.nat.tot, mean.disp.tot),
 #remove unnecessary tables
 rm(mean.fac.tot, mean.nat.tot, mean.disp.tot)
 
+# auf 2 Dezimalstellen runden
+mean.tot.p1 <- round(mean.tot.p1, digits = 0)
 
-# Median Income für alle Jahre
+# als excel speichern um eine Tabelle zu haben
+write.csv(mean.tot.p1, file = "reports/GBR/tables/mean.tot.p1.csv",row.names=FALSE)
+
+
+#### Median Income für alle Jahre #####
+
 med.fac.tot <- svyby(~fac.inc, ~year, subset(silc.hd.svy, fac.inc > 0 ),
                      svyquantile, ~fac.inc, quantiles = c(0.5), keep.var = FALSE)
 med.nat.tot <- svyby(~nat.inc, ~year, subset(silc.hd.svy, nat.inc > 0 ),
@@ -334,6 +239,13 @@ gini.tot.p2 <- join_all(list(gini.fac.tot, gini.nat.tot, gini.disp.tot ),
 
 #remove unnecessary tables
 rm(gini.fac.tot, gini.nat.tot, gini.disp.tot)
+
+# auf 2 Dezimalstellen runden
+gini.tot.p2 <- round(gini.tot.p2, digits = 2)
+
+# als excel speichern um eine Tabelle zu haben
+write.csv(gini.tot.p2, file = "reports/GBR/tables/gini.tot.p2.csv",row.names=FALSE)
+
 
 # decile points
 
