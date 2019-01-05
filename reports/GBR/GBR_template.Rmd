@@ -108,9 +108,50 @@ knitr::kable(table, caption = "Mean P1")
 
 ```{r echo=FALSE, }
 # Read CSV data, "../../" to look two levels upwards
+table <- read.csv("tables/med.tot.p1.csv")
+knitr::kable(table, caption = "Median P1")
+```
+
+
+```{r echo=FALSE, }
+# Read CSV data, "../../" to look two levels upwards
+table <- read.csv("tables/gini.tot.p1.csv")
+knitr::kable(table, caption = "Gini P1")
+```
+
+```{r echo=FALSE, }
+# Read CSV data, "../../" to look two levels upwards
+table <- read.csv("tables/quint.tot.p1.csv")
+knitr::kable(table, caption = "80/20 P1")
+```
+
+
+```{r echo=FALSE, }
+# Read CSV data, "../../" to look two levels upwards
+table <- read.csv("tables/mean.tot.p2.csv")
+knitr::kable(table, caption = "Mean P2")
+```
+
+
+```{r echo=FALSE, }
+# Read CSV data, "../../" to look two levels upwards
+table <- read.csv("tables/med.tot.p2.csv")
+knitr::kable(table, caption = "Median P2")
+```
+
+
+```{r echo=FALSE, }
+# Read CSV data, "../../" to look two levels upwards
 table <- read.csv("tables/gini.tot.p2.csv")
 knitr::kable(table, caption = "Gini P2")
 ```
+
+```{r echo=FALSE, }
+# Read CSV data, "../../" to look two levels upwards
+table <- read.csv("tables/quint.tot.p2.csv")
+knitr::kable(table, caption = "80/20 P2")
+```
+
 
 Horizontale Linien:
 
