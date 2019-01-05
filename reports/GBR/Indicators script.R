@@ -89,6 +89,11 @@ med.tot.p1 <- join_all(list(med.fac.tot, med.nat.tot, med.disp.tot ),
 #remove unnecessary tables
 rm(med.fac.tot, med.nat.tot, med.disp.tot)
 
+med.tot.p1 <- round(med.tot.p1, digits = 0)
+
+# als excel speichern um eine Tabelle zu haben
+write.csv(med.tot.p1, file = "reports/GBR/tables/med.tot.p1.csv",row.names=FALSE)
+
 
 # Gini für alle Jahre # nur jeweils die positiven Einkommen
 # David: standard errors removed
@@ -107,6 +112,11 @@ gini.tot.p1 <- join_all(list(gini.fac.tot, gini.nat.tot, gini.disp.tot ),
 
 #remove unnecessary tables
 rm(gini.fac.tot, gini.nat.tot, gini.disp.tot)
+
+gini.tot.p1 <- round(gini.tot.p1, digits = 2)
+
+# als excel speichern um eine Tabelle zu haben
+write.csv(gini.tot.p1, file = "reports/GBR/tables/gini.tot.p1.csv",row.names=FALSE)
 
 # decile points
 
@@ -138,6 +148,11 @@ quint.tot.p1 <- join_all(list(quint.fac, quint.nat, quint.disp),
 
 #remove unnecessary tables
 rm(quint.fac, quint.nat, quint.disp)
+
+quint.tot.p1 <- round(quint.tot.p1, digits = 2)
+
+# als excel speichern um eine Tabelle zu haben
+write.csv(quint.tot.p1, file = "reports/GBR/tables/quint.tot.p1.csv",row.names=FALSE)
 
 #quant.fac <- svyby(~fac.inc, ~pb010, silc.hd.svy, svyqsr, ~fac.inc,  0.2, 0.8,
 #                   keep.var = FALSE)
@@ -200,6 +215,10 @@ mean.tot.p2 <- join_all(list(mean.fac.tot, mean.nat.tot, mean.disp.tot),
 #remove unnecessary tables
 rm(mean.fac.tot, mean.nat.tot, mean.disp.tot)
 
+mean.tot.p2 <- round(mean.tot.p2, digits = 0)
+
+# als excel speichern um eine Tabelle zu haben
+write.csv(mean.tot.p2, file = "reports/GBR/tables/mean.tot.p2.csv",row.names=FALSE)
 
 # Median Income für alle Jahre
 med.fac.tot <- svyby(~fac.inc, ~year, subset(silc.hd.svy, fac.inc > 0 ),
@@ -220,6 +239,11 @@ med.tot.p2 <- join_all(list(med.fac.tot, med.nat.tot, med.disp.tot ),
 
 #remove unnecessary tables
 rm(med.fac.tot, med.nat.tot, med.disp.tot)
+
+med.tot.p2 <- round(med.tot.p2, digits = 0)
+
+# als excel speichern um eine Tabelle zu haben
+write.csv(med.tot.p2, file = "reports/GBR/tables/med.tot.p2.csv",row.names=FALSE)
 
 
 # Gini für alle Jahre # nur jeweils die positiven Einkommen
@@ -277,6 +301,11 @@ quint.tot.p2 <- join_all(list(quint.fac, quint.nat, quint.disp),
 
 #remove unnecessary tables
 rm(quint.fac, quint.nat, quint.disp)
+
+quint.tot.p2 <- round(quint.tot.p2, digits = 0)
+
+# als excel speichern um eine Tabelle zu haben
+write.csv(quint.tot.p2, file = "reports/GBR/tables/quint.tot.p2.csv",row.names=FALSE)
 
 #quant.fac <- svyby(~fac.inc, ~pb010, silc.hd.svy, svyqsr, ~fac.inc,  0.2, 0.8,
 #                   keep.var = FALSE)
