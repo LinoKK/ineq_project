@@ -99,12 +99,17 @@ R-Plots:
 plot(rnorm(50), rnorm(50))
 ```
 
-Potentiell weniger simple Tabellen:
+```{r echo=FALSE, }
+# Read CSV data, "../../" to look two levels upwards
+table <- read.csv("tables/mean.tot.p1.csv")
+knitr::kable(table, caption = "Mean P1")
+```
+
 
 ```{r echo=FALSE, }
 # Read CSV data, "../../" to look two levels upwards
-table <- read.csv("tables/_template-table.csv")
-knitr::kable(table, caption = "Mit Optionen")
+table <- read.csv("tables/gini.tot.p2.csv")
+knitr::kable(table, caption = "Gini P2")
 ```
 
 Horizontale Linien:
