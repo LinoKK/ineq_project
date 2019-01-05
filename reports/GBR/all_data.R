@@ -383,6 +383,7 @@ silc.p1 <- subset(silc.hdpr, select=c(id_h, work.inc, cap.inc, fac.inc,
 
 # replace NAs
 silc.p1 <- silc.p1 %>% replace(is.na(.), 0)
+names(silc.p1)[names(silc.p1) == 'hb010'] <- 'year'
 
 # vergleich check.hy020 und hy020 sieht ganz gut aus
 
@@ -456,3 +457,5 @@ rm(silc.pdh, silc.pd, silc.p20, silc.rpd, silc.rh,
 silc.p2h <- aggregate(cbind(work.inc, cap.inc, fac.inc, 
                            nat.inc,  disp.inc, hy010) ~ id_h + pb010 + db020 
                       + db090 + db040, silc.p2, FUN=sum)
+
+names(silc.p2h)[names(silc.p2h) == 'pb010'] <- 'year'
