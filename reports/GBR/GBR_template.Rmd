@@ -229,7 +229,9 @@ table <- read.csv("tables/quint.tot.p2.csv")
 knitr::kable(table, caption = "80/20 P2 Households")
 ```
 
-#Erklärung
+Der 80/20-Koeffizient für Haushalte zeigt, dass die Unterschiede im verfügbaren Einkommen tendenziell abgenommen haben. Noch deutlicher wird das im Bezug auf die Faktoreinkommen, bei denen sich der Koeffizient seit 2005 beinahe halbiert hat. 
+#(möglicherweise Problem mit den Daten?)
+
 
 #Plot
 
