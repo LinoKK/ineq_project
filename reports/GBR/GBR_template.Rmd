@@ -160,12 +160,32 @@ Horizontale Linien:
 \newpage
 
 # Einführung
+Großbritannien, wie auch andere entwickelte Länder, weist insbesondere seit den späten 70er bzw. frühen 80er-Jahren eine Vergrößerung der
+Einkommensungleichheiten auf. Doch nimmt Großbritannien eine Sonderstellung auch innerhalb der EU ein, da in GB zumindest bis zum Brexit
+die Finanzindustrie eine vergleichsweise bedeutende Rolle gespielt hat. Der freie Zugang zum europäischen Festland, die englische Sprache
+und nicht zuletzt kulturelle Gründe hatten England als europäischen "Außenposten" amerikanischer und auch internationaler Finanzkonzerne
+etabliert. Diese Entwicklung hatte für Großbritannien allerdings nicht nur positive Auswirkungen: Die hohen Spitzenverdienste in der Finanzbranche
+führten zu einem vergleichsweise stärkeren Anstieg der Einkommensungleichheit, und der Fokus auf Finanzdienstleistungen machte die britische
+Wirtschaft gegenüber Krisen auf dem Finanzmarkt besonders verwundbar.
+
+Im Laufe dieser Arbeit widmen wir uns nicht nur der Errechnung, Visualisierung und Interpretation verschiedener Verteilungsmaße, sondern
+behandeln darüber hinaus auch den Brexit als Thema. Stehen Brexit und eine Veränderung der Einkommensungleichheit miteinander in Verbindung?
+Welche Regionen Großbritanniens haben maßgeblich für oder gegen den Brexit gestimmt, und was sind die regionalen Kennzahlen zur
+Einkommensverteilung?
+
 
 # Methodologie
 
+
+
 ## Daten
+Der von uns verwendete Datensatz umfasst EU-SILC-Daten von 2005 bis 2017. Aufgrund des Aufbaus von EU-SILC enthält er
+Informationen sowohl über Familien als auch über Einzelpersonen.
 
 ## Indikatoren
+Zu den von uns errechneten Indikatoren gehören (über die Jahre hinweg) das Durchschnittseinkommen (Mean), das Medianeinkommen (Med), der Gini-Koeffizient, P80/20 und den Top 10% Income Share. Wir errechnen alle Indikatoren sowohl für Personen als auch für Haushalte.
+
+
 
 # Ergebnisse
 
