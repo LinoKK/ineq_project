@@ -112,7 +112,7 @@ und Remain.
 Die Regionenaufteilung im EU-Silc Datensatz ist dabei erst ab 2010 verfügbar. Für die
 Jahre 2010 und 2011 werden die 12 Regionen noch weiter unterteilt in ingesammt 37 Sub-Regionen.
 
-
+  
 
 ![Brexit Referendum Outcome by Region](img/Brexit_Referendum_Outcome_by_Region.png){width=100%}
 
