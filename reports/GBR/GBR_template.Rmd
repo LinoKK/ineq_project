@@ -221,7 +221,10 @@ knitr::kable(table, caption = "gini P2 Households")
 
 Der Gini-Koeffizient der verfügbaren Haushaltseinkommen liefert ein interessantes Bild: Infolge der Krise kam es zu einer leichten Verringerung der Ungleichheit. Das unterstützt die These, dass der in GB besonders wichtige Finanzsektor stark unter der Krise gelitten hat. Allerdings handelt es sich bei der Veränderung des Gini-Koeffizienten nur um eine geringe Bandbreite.
 
-#Plot
+![Gini P2 Haushalte - verfügbares Einkommen](plots/plot_gini_disp_p2_hh.png){height=50%, width=80%}
+
+#ist noch sehr rudimentär eingefügt
+#auch der Plot braucht noch Arbeit
 
 ```{r echo=FALSE, }
 # Read CSV data, "../../" to look two levels upwards
