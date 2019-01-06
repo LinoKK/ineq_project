@@ -192,6 +192,10 @@ rm(ten.fac, ten.nat, ten.disp)
 ######## P2 ################
 ############################
 
+#-----------------------------------
+#Indikatoren auf Haushaltsebene - P2
+#-----------------------------------
+
 silc.hd.svy <- svydesign(ids = ~id_h,
                          strata = ~db020,
                          weights = ~db090,
@@ -247,7 +251,6 @@ write.csv(med.tot.p2, file = "reports/GBR/tables/med.tot.p2.csv",row.names=FALSE
 
 
 # Gini für alle Jahre # nur jeweils die positiven Einkommen
-# David: standard errors removed
 gini.fac.tot <- svyby(~fac.inc, ~year, subset(silc.hd.svy, fac.inc > 0 ), svygini, keep.var = FALSE)
 gini.nat.tot <- svyby(~nat.inc, ~year, subset(silc.hd.svy, nat.inc > 0 ), svygini, keep.var = FALSE)
 gini.disp.tot <- svyby(~disp.inc, ~year, subset(silc.hd.svy, disp.inc > 0 ), svygini, keep.var = FALSE)
@@ -340,7 +343,16 @@ ten.tot.p2 <- join_all(list(ten.fac, ten.nat, ten.disp), by="row.names")
 rm(ten.fac, ten.nat, ten.disp)
 
 
-#Indicators for individuals
+
+
+#-----------------------------------------
+#Indikatoren auf Personenebene - P2
+#-----------------------------------------
+
+silc.pd.svy <- svydesign(ids = ~id_p,
+                         strata = ~db020,
+                         weights = ~pb040,
+                         data = silc.p2) %>% convey_prep()
 
 #------------------------------------------
 # Mean Income für alle Jahre - Individuen
@@ -356,22 +368,28 @@ names(mean.p.nat.tot)[names(mean.p.nat.tot) == 'statistic'] <- 'mean.p.nat.inc'
 names(mean.p.disp.tot)[names(mean.p.disp.tot) == 'statistic'] <- 'mean.p.disp.inc'
 
 #Join mean values into one table:
-mean.p.tot <- join_all(list(mean.p.fac.tot, mean.p.nat.tot, mean.p.disp.tot),
+mean.tot.p2.p <- join_all(list(mean.p.fac.tot, mean.p.nat.tot, mean.p.disp.tot),
                        by = 'year')
 
 #remove unnecessary tables
 rm(mean.p.fac.tot, mean.p.nat.tot, mean.p.disp.tot)
+
+#die Kommastellen abfeilen
+mean.tot.p2.p <- round(mean.tot.p2.p, digits = 0)
+
+# als excel speichern um eine Tabelle zu haben
+write.csv(mean.tot.p2.p, file = "reports/GBR/tables/mean.tot.p2.p.csv",row.names=FALSE)
 
 #--------------------------------------------
 # Median Income fuer alle Jahre - Individuen
 #--------------------------------------------
 
 # Median Income für alle Jahre
-med.p.fac.tot <- svyby(~fac.inc, ~rb010, silc.pd.svy,
+med.p.fac.tot <- svyby(~fac.inc, ~year, silc.pd.svy,
                        svyquantile, ~fac.inc, quantiles = c(0.5), keep.var = FALSE)
-med.p.nat.tot <- svyby(~nat.inc, ~rb010, silc.pd.svy,
+med.p.nat.tot <- svyby(~nat.inc, ~year, silc.pd.svy,
                        svyquantile, ~nat.inc, quantiles = c(0.5), keep.var = FALSE)
-med.p.disp.tot <- svyby(~disp.inc, ~rb010, silc.pd.svy,
+med.p.disp.tot <- svyby(~disp.inc, ~year, silc.pd.svy,
                         svyquantile, ~disp.inc, quantiles = c(0.5), keep.var = FALSE)
 
 #change column names:
@@ -380,20 +398,25 @@ names(med.p.nat.tot)[names(med.p.nat.tot) == 'statistic'] <- 'med.p.nat.inc'
 names(med.p.disp.tot)[names(med.p.disp.tot) == 'statistic'] <- 'med.p.disp.inc'
 
 #Join median values into one table:
-med.p.tot <- join_all(list(med.p.fac.tot, med.p.nat.tot, med.p.disp.tot ),
-                      by = 'rb010')
+med.tot.p2.p <- join_all(list(med.p.fac.tot, med.p.nat.tot, med.p.disp.tot ),
+                      by = 'year')
 
 #remove unnecessary tables
 rm(med.p.fac.tot, med.p.nat.tot, med.p.disp.tot)
 
+#die Kommastellen abfeilen
+med.tot.p2.p <- round(med.tot.p2.p, digits = 0)
+
+# als excel speichern um eine Tabelle zu haben
+write.csv(med.tot.p2.p, file = "reports/GBR/tables/med.tot.p2.p.csv",row.names=FALSE)
 
 #--------------------------------------------
 # Gini für alle Jahre - Individuen
 #--------------------------------------------
 
-gini.p.fac.tot <- svyby(~fac.inc, ~rb010, silc.pd.svy, svygini, keep.var = FALSE)
-gini.p.nat.tot <- svyby(~nat.inc, ~rb010, silc.pd.svy, svygini, keep.var = FALSE)
-gini.p.disp.tot <- svyby(~disp.inc, ~rb010, silc.pd.svy, svygini, keep.var = FALSE)
+gini.p.fac.tot <- svyby(~fac.inc, ~year, silc.pd.svy, svygini, keep.var = FALSE)
+gini.p.nat.tot <- svyby(~nat.inc, ~year, silc.pd.svy, svygini, keep.var = FALSE)
+gini.p.disp.tot <- svyby(~disp.inc, ~year, silc.pd.svy, svygini, keep.var = FALSE)
 
 #change column names:
 names(gini.p.fac.tot)[names(gini.p.fac.tot) == 'statistic'] <- 'gini.p.fac.inc'
@@ -401,21 +424,26 @@ names(gini.p.nat.tot)[names(gini.p.nat.tot) == 'statistic'] <- 'gini.p.nat.inc'
 names(gini.p.disp.tot)[names(gini.p.disp.tot) == 'statistic'] <- 'gini.p.disp.inc'
 
 #Join gini values into one table:
-gini.p.tot <- join_all(list(gini.p.fac.tot, gini.p.nat.tot, gini.p.disp.tot ),
-                       by = 'rb010')
+gini.tot.p2.p <- join_all(list(gini.p.fac.tot, gini.p.nat.tot, gini.p.disp.tot ),
+                       by = 'year')
 
 #remove unnecessary tables
 rm(gini.p.fac.tot, gini.p.nat.tot, gini.p.disp.tot)
 
+# auf 2 Dezimalstellen runden
+gini.tot.p2.p <- round(gini.tot.p2.p, digits = 2)
+
+# als excel speichern um eine Tabelle zu haben
+write.csv(gini.tot.p2.p, file = "reports/GBR/tables/gini.tot.p2.p.csv",row.names=FALSE)
 
 #--------------------------------------------
 # P80/20 Individuen
 #--------------------------------------------
 
 #P80/20 for individuals
-quant.p.fac <- svyby(~fac.inc, ~rb010, silc.pd.svy, svyqsr, keep.var = FALSE)
-quant.p.nat <- svyby(~nat.inc, ~rb010, silc.pd.svy, svyqsr, keep.var = FALSE)
-quant.p.disp <- svyby(~disp.inc, ~rb010, silc.pd.svy, svyqsr, keep.var = FALSE)
+quant.p.fac <- svyby(~fac.inc, ~year, silc.pd.svy, svyqsr, keep.var = FALSE)
+quant.p.nat <- svyby(~nat.inc, ~year, silc.pd.svy, svyqsr, keep.var = FALSE)
+quant.p.disp <- svyby(~disp.inc, ~year, silc.pd.svy, svyqsr, keep.var = FALSE)
 
 #Change column names:
 names(quant.p.fac)[names(quant.p.fac) == 'statistic'] <- 'quant.p.fac'
@@ -423,17 +451,17 @@ names(quant.p.nat)[names(quant.p.nat) == 'statistic'] <- 'quant.p.nat'
 names(quant.p.disp)[names(quant.p.disp) == 'statistic'] <- 'quant.p.disp'
 
 #Join mean values into one table:
-
-#Solange es mit factor income nicht funktioniert:
-quant.p.tot <- join_all(list(quant.p.nat, quant.p.disp),
-                        by = 'rb010')
-
-#quant.p.tot <- join_all(list(quant.p.fac, quant.p.nat, quant.p.disp),
-#                     by = 'rb010')
+quant.tot.p2.p <- join_all(list(quant.p.nat, quant.p.disp),
+                        by = 'year')
 
 #remove unnecessary tables
 rm(quant.p.fac, quant.p.nat, quant.p.disp)
 
+#Kommastellen auf 0
+quant.tot.p2.p <- round(quant.tot.p2.p, digits = 0)
+
+# als excel speichern um eine Tabelle zu haben
+write.csv(quant.tot.p2.p, file = "reports/GBR/tables/quant.tot.p2.p.csv",row.names=FALSE)
 
 #--------------------------------------------------------
 #Ending Individuals Indicators
