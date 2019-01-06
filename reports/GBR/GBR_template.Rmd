@@ -189,6 +189,51 @@ Zu den von uns errechneten Indikatoren gehören (über die Jahre hinweg) das Dur
 
 # Ergebnisse
 
+
+- **Haushalte**
+
+```{r echo=FALSE, }
+# Read CSV data, "../../" to look two levels upwards
+table <- read.csv("tables/mean.tot.p2.csv")
+knitr::kable(table, caption = "mean P2 Households")
+```
+
+Das durchschnittliche verfügbare Haushaltseinkommen wuchs bis 2007 an, im Jahr 2007 sogar besonders stark. Bemerkenswert ist der Rückfall des verfügbaren Einkommens im Jahr 2009 um ca. 22% gegenüber dem Niveau von 2007 bzw. 13% gegenüber 2006. Die Auswirkungen der Krise waren auch in den folgenden Jahren deutlich spürbar, denn die verfügbaren Haushaltseinkommen erreichten erst 2012 wieder das nominale Niveau von 2006. Erst ab 2014 schien die Krise vollständig überwunden zu sein.   
+
+#Plot
+
+```{r echo=FALSE, }
+# Read CSV data, "../../" to look two levels upwards
+table <- read.csv("tables/med.tot.p2.csv")
+knitr::kable(table, caption = "median P2 Households")
+```
+
+Bei den Medianeinkommen der Haushalte zeichnet sich ein ähnliches Bild wie bei den durchschnittlichen: Starker Anstieg bis 2007, erste Zeichen von Schwäche ab 2008 und daraufhin ein "Tal der Tränen", das erst ab 2012 bzw. 2014 vollständig durchquert wurde.
+
+#Plot
+
+
+```{r echo=FALSE, }
+# Read CSV data, "../../" to look two levels upwards
+table <- read.csv("tables/gini.tot.p2.csv")
+knitr::kable(table, caption = "gini P2 Households")
+```
+
+Der Gini-Koeffizient der verfügbaren Haushaltseinkommen liefert ein interessantes Bild: Infolge der Krise kam es zu einer leichten Verringerung der Ungleichheit. Das unterstützt die These, dass der in GB besonders wichtige Finanzsektor stark unter der Krise gelitten hat. Allerdings handelt es sich bei der Veränderung des Gini-Koeffizienten nur um eine geringe Bandbreite.
+
+#Plot
+
+```{r echo=FALSE, }
+# Read CSV data, "../../" to look two levels upwards
+table <- read.csv("tables/quint.tot.p2.csv")
+knitr::kable(table, caption = "80/20 P2 Households")
+```
+
+#Erklärung
+
+#Plot
+
+
 # Deep Dive: Regionale Unterschiede und Brexit
 
 An dieser Stelle wollen wir uns intensiver der Fragestellung inwieweit Ungleichheitsmaße
