@@ -149,7 +149,8 @@ quint.tot.p1 <- join_all(list(quint.fac, quint.nat, quint.disp),
 #remove unnecessary tables
 rm(quint.fac, quint.nat, quint.disp)
 
-quint.tot.p1 <- round(quint.tot.p1, digits = 2)
+#Kommastellen entfernen
+quint.tot.p1 <- round(quint.tot.p1, digits = 0)
 
 # als excel speichern um eine Tabelle zu haben
 write.csv(quint.tot.p1, file = "reports/GBR/tables/quint.tot.p1.csv",row.names=FALSE)
