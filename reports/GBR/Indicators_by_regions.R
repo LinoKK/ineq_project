@@ -90,6 +90,8 @@ names(gini.regions)[names(gini.regions) == 'as.factor(region)'] <- 'Region'
 
 rm(gini10, gini11, gini12, gini13, gini14, gini15, gini16)
 
+gini.regions <- gini.regions %>% mutate(Percent.Change = (gini16/gini10 - 1) * 100)
+
 gini.regions <- gini.regions %>% mutate_if(is.numeric, ~round(., 2))
 
 # als excel speichern um eine Tabelle zu haben
@@ -139,6 +141,13 @@ mean.regions <- join_all(list(mean10, mean11, mean12, mean13, mean14, mean15, me
 names(mean.regions)[names(mean.regions) == 'as.factor(region)'] <- 'Region'
 
 rm(mean10, mean11, mean12, mean13, mean14, mean15, mean16)
+
+#Veränderung über die Jahre
+mean.regions <- mean.regions %>% mutate(Delta = mean16 - mean10 )
+
+mean.regions <- mean.regions %>% mutate_if(is.numeric, ~round(., 0))
+
+write.csv(mean.regions, file = "reports/GBR/tables/mean.regions.csv",row.names=FALSE)
 
 
 # genauerer split der Regionen
