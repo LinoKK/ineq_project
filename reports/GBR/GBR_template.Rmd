@@ -19,18 +19,13 @@ subtitle: 2063 - Ökonomie der Verteilung
 \newpage
 
 # Einführung
-Großbritannien, wie auch andere entwickelte Länder, weist insbesondere seit den späten 70er bzw. frühen 80er-Jahren eine Vergrößerung der
-Einkommensungleichheiten auf. Doch nimmt Großbritannien eine Sonderstellung auch innerhalb der EU ein, da in GB zumindest bis zum Brexit
-die Finanzindustrie eine vergleichsweise bedeutende Rolle gespielt hat. Der freie Zugang zum europäischen Festland, die englische Sprache
-und nicht zuletzt kulturelle Gründe hatten England als europäischen "Außenposten" amerikanischer und auch internationaler Finanzkonzerne
-etabliert. Diese Entwicklung hatte für Großbritannien allerdings nicht nur positive Auswirkungen: Die hohen Spitzenverdienste in der Finanzbranche
-führten zu einem vergleichsweise stärkeren Anstieg der Einkommensungleichheit, und der Fokus auf Finanzdienstleistungen machte die britische
-Wirtschaft gegenüber Krisen auf dem Finanzmarkt besonders verwundbar.
+Großbritannien weist insbesondere seit den späten 70er bzw. frühen 80er-Jahren eine Vergrößerung der Einkommensungleichheiten auf. GB zog hierbei auch anderen hochentwickelten Ländern davon, wobei der Anstieg der Ungleichheit nur noch von jenem in den USA übertroffen wurde (Machin 1996). In Anbetracht der Tatsache, dass die Thatcher-Regierung zusammen mit der US-amerikanischen Reagan-Regierung damals die Speerspitze der neoliberalen Bewegung bildete, unter deren Ägide vor allem Steuersenkungen für Reiche und Unternehmen durchgesetzt wurden (mutmaßlich in der fehlgeleiteten Annahme, durch höheres Wachstum und sinkenden Steuerwiderstand zusätzliches Steuereinkommen zu generieren), ist dies wohl nicht weiter verwunderlich.
 
+Zusätzlich zu dieser historischen Tatsache, hat Großbritannien auch aus anderen Gründen innerhalb der EU eine Sonderstellung inne. Zumindest bis zum Brexit-Votum spielte die Finanzindustrie in GB eine vergleichsweise bedeutende Rolle als Quelle der Wertschöpfung. Der freie Zugang zum europäischen Festland, die englische Sprache und nicht zuletzt kulturelle Gründe hatten England als europäischen "Außenposten" amerikanischer und auch internationaler Finanzkonzerne etabliert. Diese Entwicklung hatte für Großbritanniens Bürgerinnen und Bürger allerdings nicht nur positive Auswirkungen: Die hohen Spitzenverdienste in der Finanzbranche führten zu einem vergleichsweise stärkeren Anstieg der Einkommensungleichheit, und der Fokus auf Finanzdienstleistungen machte die britische Wirtschaft gegenüber Krisen auf dem Finanzmarkt besonders verwundbar. Wie man in späteren Kapitaln dieser Arbeit noch sehen wird, hat die Finanzkrise zuerst zu einem Rückgang und dann zu einer nur langsamen Erholung der Durchschnittseinkommen britischer Haushalte geführt. Da Durchschnittswerte besonders stark auf Ausreißer (ergo: Bestverdiener) reagieren, die in der Finanzindustrie zu finden sein dürften, ist dieser starke Rückgang womöglich ein direktes Resultat von Pleiten und Entlassungen im Finanzsektor. Allerdings handelt es sich hierbei um Mutmaßungen. 
+
+#Aufbau
 Im Laufe dieser Arbeit widmen wir uns nicht nur der Errechnung, Visualisierung und Interpretation verschiedener Verteilungsmaße, sondern
-behandeln darüber hinaus auch den Brexit als Thema. Stehen Brexit und eine Veränderung der Einkommensungleichheit miteinander in Verbindung?
-Welche Regionen Großbritanniens haben maßgeblich für oder gegen den Brexit gestimmt, und was sind die regionalen Kennzahlen zur
-Einkommensverteilung?
+behandeln darüber hinaus auch den Brexit als Thema. Stehen Brexit und eine Veränderung der Einkommensungleichheit miteinander in Verbindung? Welche Regionen Großbritanniens haben maßgeblich für oder gegen den Brexit gestimmt, und was sind die regionalen Kennzahlen zur Einkommensverteilung?
 
 
 # Methodologie
@@ -139,7 +134,7 @@ table <- read.csv("tables/mean.regions.csv")
 knitr::kable(table, caption = "Mean Income by Region")
 ```
 
-Auch im Durschnittseinkommen sieht man, dass in Schottland und Nord Irland die Einkommen
+Auch im Durschnittseinkommen sieht man, dass in Schottland und Nordirland die Einkommen
 besonders stark gestiegen sind und in London generell hoch sind.
 
 
