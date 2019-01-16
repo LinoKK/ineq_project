@@ -96,20 +96,25 @@ Plot
 # Deep Dive: Regionale Unterschiede und Brexit
 
 An dieser Stelle wollen wir uns intensiver der Fragestellung inwieweit Ungleichheitsmaße
-mit dem Brexit in Verbindung gebracht werden können. Ausgangspunkt dieser Fragestellung ist
-die vielfach g
-Dazu wollen wir uns anschauen inwieweit regionale Unterschiede in den Abstimmungen
+mit dem Brexit in Verbindung gebracht werden können. Dazu wollen wir uns anschauen inwieweit regionale Unterschiede in den Abstimmungen 
 sich auch in unterschiedlichen Graden der Ungleichheit niederschlagen. Hierzu soll auf die 
 12 Regionen eingegangen werden die der EU-Silc Datensatz unter DB040 auflistet. Diese
-Aufteilung ist die selbe die auch die Electoral Commission in UK vornimmt. Figure 3 zeigt
-die Abstimmungsergebnisse des EU Referendums für die einzelnen Regionen, prozentual nach Leave
-und Remain. 
+Aufteilung ist die selbe die auch die Electoral Commission in UK vornimmt.  
 Die Regionenaufteilung im EU-Silc Datensatz ist dabei erst ab 2010 verfügbar. Für die
 Jahre 2010 und 2011 werden die 12 Regionen noch weiter unterteilt in ingesammt 37 Sub-Regionen.
-
+Es gab diesbezüglich bereits empirische Arbeiten die sozioökonomische Variablen mit den Ergebnissen
+des Referendums in den verschiedenen Regionen in Verbindung brachten. Arnorsson und Zoega (2016) konnten 
+zeigen, dass eine Ablehnung gegenüber der EU, welche sich in einem "leave" Votum manifestierte, besonders in 
+Regionen mit niedrigem BIP per capita, hohem Anteil an Personem mit niedrigem Bildungsgrad, hohem Anteil an
+Personen über 65 sowie einer starken Netto Immigration auftritt. Die in dieser Arbeit verwendeten Einkommensmaße
+spiegeln dabei analoge Phänomene wieder. Ein niedriges Drchschnittseinkommen respektive ein niedriges Medianeinkommen ist mit einem niedrigen BIP per capita vergleichbar sowie einem niedrigem durchschnittlichen Bildungsgrad. Hier würden wir ähnliche Ergebnisse in unseren Daten erwarten. Inwieweit auch die direkten Ungleichheitsmaße wie der Gini-Koeffizient oder das Verhältnis der einkommensstärksten 10 Prozent am Gesamteinkommen eine Korrelation mit dem Wahlergebnis der verschiedenen Regionen aufweist eröffnet einen zusätzlichen Blickwinkel für die Thematik. Figure 3 zeigt zunächst
+die Abstimmungsergebnisse des EU Referendums für die einzelnen Regionen, prozentual nach Leave
+und Remain.
   
 
 ![Brexit Referendum Outcome by Region](img/Brexit_Referendum_Outcome_by_Region.png){width=100%}
+
+
 
 
 ```{r echo=FALSE, }
@@ -136,6 +141,14 @@ knitr::kable(table, caption = "Mean Income by Region")
 
 Auch im Durschnittseinkommen sieht man, dass in Schottland und Nordirland die Einkommen
 besonders stark gestiegen sind und in London generell hoch sind.
+Arnorsson und Zoega (2016) stellen fest, dass es einen großen Anteil an Befürwortern des Brexit besonders 
+in den Regionen gab die im 19. und 20. Jahrhundert große Industriestandorte waren und in den letzten Jahrzehnten
+im Zuge der Globalisierung eher einen Schwund ihrer Wirtschaftskraft sahen. Darunter zählen die Autoren beispielsweise die Regionen "East Yorkshire and Northern Lincolnshire" und "South Yorkshire" die mit knapp 65 respektive 61,5 Prozent für den Brexit stimmten und die früher das Zentrum der Kohle- und Stahlindustrie waren, seitdem aber einen wirtschaftlichen Abschwung erlebten. Im Gegensatz dazu stehen London und die südöstlichen Regionen "Berkshire, Buckinghamshire and Oxfordshire" und "Surrey, East and West Sussex", die wirtschaftliche Gewinner der letzten Dekaden waren und allesamt gegen den Brexit gestimmt haben. Aus diesem Grund sollen auch die Veränderungen der Durchschnittseinkommen untersucht werden und als Proxy für die generelle Entwicklung der Wirtschaft in den Regionen dienen. 
+
+
+Da wir für die Jahre 2010 und 2011 eine feingliedrige Aufteilung der Regionen auf NUTS 2 Ebene haben, wollen wir diese Jahre noch explizit ausleuchten. Zwar liegen diese Jahre weiter zurück, jedoch können die Zusammenhänge durch die Vergrößerung des Samples präzieser geschätz werden. Im folgenden sieht man die Wahlergebnisse des Referendum auf NUTS 2 Ebene 
+
+
 
 
 # Zusammenfassung
