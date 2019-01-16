@@ -162,3 +162,25 @@ silc.d <- silc.d %>% mutate(id_h = paste0(db020, db030))
 
 region.10 <- left_join(subset(silc.p2h, pb010==2010), silc.d, by = c('id_h' = 'id_h', 'pb010' = 'db010'))
 
+library(readxl)
+voting_detail <- read_excel("reports/GBR/voting_detail.xlsx")
+voting_detail <- voting_detail %>% mutate(Leave = as.numeric(Leave))
+voting_detail <- voting_detail %>% mutate(Remain = as.numeric(Remain))
+voting_detail <- voting_detail %>% mutate_if(is.numeric, ~round(., 4))
+
+# for regression analysis:
+
+library(readxl)
+voting_by_region <- read_excel("reports/GBR/voting_by_region.xlsx")
+
+gini.regions <- left_join(gini.regions, voting_by_region, by = c( "Region" = "Region"))
+
+gini.reg <- lm( log(Remain.y) ~ Percent.Change , gini.regions)
+summary(gini.reg)
+
+mean.regions <- left_join(mean.regions, voting_by_region, by = c( "Region" = "Region"))
+
+mean.reg <- lm(Remain.Share ~ Delta, mean.regions)
+summary(mean.reg)
+
+
