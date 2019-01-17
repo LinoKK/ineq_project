@@ -233,12 +233,17 @@ summary(mean.reg)
 #subset is since there are no rsults for one region
 
 nuts2 <- nuts2 %>% 
-  mutate(gini.scale = gini*100,
-         log.leave = log (Leave))
+  mutate(gini.reg = gini*100,
+         log.leave = log (Leave),
+         mean.reg = mean*1000,
+         median.reg = median*1000)
+
+
 
 nuts2.table <- select(nuts2, "Region Name", "gini", "mean", "median", "Remain", "Leave")
 
 write.csv(nuts2.table, file = "reports/GBR/tables/nuts2.csv",row.names=FALSE)
+write.csv(nuts2, file = "reports/GBR/tables/nuts.csv",row.names=FALSE)
 
 gini.reg.nuts <- lm(Leave ~ gini.scale , subset(nuts2, Leave > 0))
 summary(gini.reg.nuts)
