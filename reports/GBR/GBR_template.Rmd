@@ -13,7 +13,6 @@ output:
 keywords: a, b, c
 bibliography: references.bib
 subtitle: 2063 - Ökonomie der Verteilung
-
 ---  
 
 \newpage
@@ -146,10 +145,14 @@ in den Regionen gab die im 19. und 20. Jahrhundert große Industriestandorte war
 im Zuge der Globalisierung eher einen Schwund ihrer Wirtschaftskraft sahen. Darunter zählen die Autoren beispielsweise die Regionen "East Yorkshire and Northern Lincolnshire" und "South Yorkshire" die mit knapp 65 respektive 61,5 Prozent für den Brexit stimmten und die früher das Zentrum der Kohle- und Stahlindustrie waren, seitdem aber einen wirtschaftlichen Abschwung erlebten. Im Gegensatz dazu stehen London und die südöstlichen Regionen "Berkshire, Buckinghamshire and Oxfordshire" und "Surrey, East and West Sussex", die wirtschaftliche Gewinner der letzten Dekaden waren und allesamt gegen den Brexit gestimmt haben. Aus diesem Grund sollen auch die Veränderungen der Durchschnittseinkommen untersucht werden und als Proxy für die generelle Entwicklung der Wirtschaft in den Regionen dienen. 
 
 
-Da wir für die Jahre 2010 und 2011 eine feingliedrige Aufteilung der Regionen auf NUTS 2 Ebene haben, wollen wir diese Jahre noch explizit ausleuchten. Zwar liegen diese Jahre weiter zurück, jedoch können die Zusammenhänge durch die Vergrößerung des Samples präzieser geschätz werden. Im folgenden sieht man die Wahlergebnisse des Referendum auf NUTS 2 Ebene 
+Da wir für die Jahre 2010 und 2011 eine feingliedrige Aufteilung der Regionen auf NUTS 2 Ebene haben, wollen wir diese Jahre noch explizit ausleuchten. Zwar liegen diese Jahre weiter zurück, jedoch können die Zusammenhänge durch die Vergrößerung des Samples präzieser geschätz werden. Im folgenden sieht man die Wahlergebnisse des Referendum auf NUTS 2 Ebene: 
 
+```{r echo=FALSE, }
+table <- read.csv("tables/nuts2.csv")
+knitr::kable(table, caption = "NUTS 2 Regions")
+```
 
-
+Im Anschluss die Ergebnisse 
 
 # Zusammenfassung
 
