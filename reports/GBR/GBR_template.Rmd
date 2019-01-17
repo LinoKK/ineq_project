@@ -152,8 +152,33 @@ table <- read.csv("tables/nuts2.csv")
 knitr::kable(table, caption = "NUTS 2 Regions")
 ```
 
-Im Anschluss die Ergebnisse 
+Im Anschluss die Ergebnisse der Regression die hier immer mit den disposable Incomes durchgeführt wurden. Wir finden zwei Koeffizienten die auf dem 5 Prozent Niveau signifikant sind, der des Ginis sowie der des Durchschnitteinkommens. Für den Gini ist der Koeffizient negativ, was bedeuten würde dass eine Erhöhung der Ungleichheit gemessen am Gini negativ mit den "Leave" Votum korreliert. Also Ungleichere Regionen waren eher für den Verbleib in der EU. Umgekehrt und damit eher wie erwartet verhält es sich beim Durchschnittseinkommen, bei höheren Durchschnittseinkommen würde man eher einen geringen Anteil an Brexit Befürwortern erwarten. Allerdings ist der Effekt ökonomisch nur sehr klein, der Koeffizient besagt, dass eine Steigerung des Durchschnittseinkommens um 1000, eine Verringerung des Leave-Votums um 0,0044 Prozentpunkte ausmacht.
 
+```{r setup, include=FALSE}
+# You can set chunk options globally so you don't have to repeat them in every chunk
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
+
+library(stargazer)
+```
+
+```{r echo=FALSE, }
+table <- read.csv("tables/nuts.csv")
+```
+
+
+```{r, results='asis', echo=FALSE}
+stargazer(lm(Leave ~ gini.reg , subset(table, Leave > 0)), lm(Leave ~ median.reg, subset(table, Leave > 0)),
+          lm(Leave ~ mean.reg, subset(table, Leave > 0)),header=FALSE)
+```
+
+
+```{r, results='asis', echo=FALSE}
+stargazer(lm(Leave ~ gini.reg , subset(table, Leave > 0, !(Region.Name == 'Inner London'))), lm(Leave ~ median.reg, subset(table, Leave > 0)),
+          lm(Leave ~ mean.reg, subset(table, Leave > 0)),header=FALSE)
+```
+
+
+\newpage
 # Zusammenfassung
 
 \newpage
