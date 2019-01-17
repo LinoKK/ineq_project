@@ -1,0 +1,38 @@
+"Region Name","gini","mean","median","Remain","Leave"
+"Tees Valley and Durham",0.4023,27574,20494,0.3911,0.6089
+"Northumberland and Tyne and Wear",0.3742,27231,21077,0.4429,0.5571
+"Cumbria",0.3857,33810,26185,0.4357,0.5643
+"Cheshire",0.3558,26923,22361,0.4833,0.5167
+"Greater Manchester",0.3947,32200,25878,0.4654,0.5346
+"Lancashire",0.4169,33451,25173,0.4097,0.5903
+"Merseyside",0.4396,25849,17858,0.5118,0.4882
+"East Yorkshire and North Lincolnshire",0.3843,27109,19777,0.3525,0.6475
+"North Yorkshire",0.4127,32855,23827,0.4811,0.5189
+"South Yorkshire",0.3637,26472,21600,0.3844,0.6156
+"West Yorkshire",0.385,31134,24495,0.4522,0.5478
+"Derbyshire and Nottinghamshire",0.3893,30064,22715,0.4147,0.5853
+"Leicestershire, Rutland and Northamptonshire",0.3719,31069,26507,0.4097,0.5903
+"Lincolnshire",0.3804,29791,25519,0.3484,0.6516
+"Herefordshire, Worcestershire and Warwickshire",0.4191,38240,28553,0.4344,0.5656
+"Shropshire and Staffordshire",0.3945,33933,26546,0.3747,0.6253
+"West Midlands",0.3967,28228,23851,0.4136,0.5864
+"East Anglia",0.3994,32589,26252,0.4455,0.5545
+"Bedfordshire and Hertfordshire",0.4448,42364,30622,0.4807,0.5193
+"Essex",0.4034,37610,27205,0.3766,0.6234
+"Inner London",0.4646,45051,30733,0.7191,0.2809
+"Outer London",0.4752,40569,28312,0.5603,0.4397
+"Berkshire, Buckinghamshire and Oxfordshire",0.4805,46848,31667,0.5316,0.4684
+"Surrey, East and West Sussex",0.4153,42509,31347,0.5071,0.4929
+"Hampshire and Isle of Wight",0.4183,37026,28550,0.4542,0.5458
+"Kent",0.3884,33455,27232,0.4075,0.5925
+"Gloucestershire, Wiltshire and BristolBath area",0.3509,34420,30720,0.5088,0.4912
+"Dorset and Somerset",0.3866,33041,25966,0.438,0.562
+"Cornwall and Isles of Scilly",0.3748,28820,23164,0.4354,0.5646
+"Devon",0.4539,33472,24689,0.4466,0.5534
+"West Wales and The Valleys",0.3871,30467,24002,0.4611,0.5389
+"East Wales",0.3923,31065,25856,0.4975,0.5025
+"Eastern Scotland",0.3844,27873,22600,0.6318,0.3682
+"South Western Scotland",0.3696,27730,21116,0.6322,0.3678
+"North Eastern Scotland",0.4742,37126,24582,NA,NA
+"Highlands and Islands",0.6855,54634,22167,0.5604,0.4396
+"Northern Ireland",0.3969,27616,22336,0.5576,0.4424
