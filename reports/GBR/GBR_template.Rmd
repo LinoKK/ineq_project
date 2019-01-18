@@ -43,14 +43,14 @@ Zu den von uns errechneten Indikatoren gehören (über die Jahre hinweg) das Dur
 
 ```{r echo=FALSE, }
 # Read CSV data, "../../" to look two levels upwards
-table <- read.csv("tables/mean.tot.p2.csv")
-knitr::kable(table, caption = "mean P2 Households")
+table <- read.csv("tables/mean.tot.csv")
+knitr::kable(table, caption = "Mean P1 & P2 Households")
 ```
 
 ```{r echo=FALSE, }
 # Read CSV data, "../../" to look two levels upwards
-table <- read.csv("tables/med.tot.p2.csv")
-knitr::kable(table, caption = "median P2 Households")
+table <- read.csv("tables/med.tot.csv")
+knitr::kable(table, caption = "Median P1 & P2 Households")
 ```
 
 Wie aus den beiden obigen Plots ersichtlich ist, entwickelten sich im Vorfeld der Krise sowohl Durchschnitts- als auch Medianeinkommen überdurchschnittlich stark. So wuch etwa das durchschnittliche verfügbare Haushaltseinkommen bis 2007 an, im Jahr 2007 sogar besonders stark, mit ca. 9% im Vergleich zum Vorjahr. Ebenfalls bemerkenswert ist der Rückfall des verfügbaren Einkommens im Jahr 2009 um ca. 22% gegenüber dem Niveau von 2007 bzw. 13% gegenüber 2006. Die Auswirkungen der Krise waren auch in den folgenden Jahren deutlich spürbar, denn die durchschnittlichen verfügbaren Haushaltseinkommen erreichten erst 2012 wieder das nominale Niveau von 2006. Erst ab 2014 schien die Krise vollständig überwunden zu sein.   
@@ -59,8 +59,8 @@ Bei den Medianeinkommen der Haushalte zeichnet sich ein ähnliches Bild wie bei 
 
 ```{r echo=FALSE, }
 # Read CSV data, "../../" to look two levels upwards
-table <- read.csv("tables/gini.tot.p2.csv")
-knitr::kable(table, caption = "gini P2 Households")
+table <- read.csv("tables/gini.tot.csv")
+knitr::kable(table, caption = "Gini for P1 & P2 Households")
 ```
 
 Der Gini-Koeffizient der verfügbaren Haushaltseinkommen liefert ein interessantes Bild: Infolge der Krise kam es zu einer leichten Verringerung der Ungleichheit. Das unterstützt die These, dass der in GB besonders wichtige Finanzsektor stark unter der Krise gelitten hat. Allerdings handelt es sich bei der Veränderung des Gini-Koeffizienten nur um eine geringe Bandbreite. Es ist daher fraglich, ob diese Werte nicht innerhalb der natürlichen Schwankungsbreite liegen und ob nicht etwa andere Ereignisse und Phänomene ebenso zur Erklärung beitragen könnten.
@@ -70,15 +70,15 @@ Der Gini-Koeffizient der verfügbaren Haushaltseinkommen liefert ein interessant
 
 ```{r echo=FALSE, }
 # Read CSV data, "../../" to look two levels upwards
-table <- read.csv("tables/quint.tot.p2.csv")
-knitr::kable(table, caption = "80/20 P2 Households")
+table <- read.csv("tables/quint.tot.csv")
+knitr::kable(table, caption = "80/20 P1 & P2 Households")
 ```
 
 Der 80/20-Koeffizient für Haushalte zeigt, dass die Unterschiede im verfügbaren Einkommen tendenziell abgenommen haben. Noch deutlicher wird das im Bezug auf die Faktoreinkommen, bei denen sich der Koeffizient seit 2005 beinahe halbiert hat. 
 (möglicherweise Problem mit den Daten?)
 
 
-Plot
+![Gini unsere Berechnungen vs. Eurostat](img/Gini.Eurostat.png){width=100%}
 
 
 # Deep Dive: Regionale Unterschiede und Brexit
@@ -149,12 +149,6 @@ table <- read.csv("tables/nuts.csv")
 
 ```{r, results='asis', echo=FALSE}
 stargazer(lm(Leave ~ gini.reg , subset(table, Leave > 0)), lm(Leave ~ median.reg, subset(table, Leave > 0)),
-          lm(Leave ~ mean.reg, subset(table, Leave > 0)),header=FALSE)
-```
-
-
-```{r, results='asis', echo=FALSE}
-stargazer(lm(Leave ~ gini.reg , subset(table, Leave > 0, !(Region.Name == 'Inner London'))), lm(Leave ~ median.reg, subset(table, Leave > 0)),
           lm(Leave ~ mean.reg, subset(table, Leave > 0)),header=FALSE)
 ```
 
