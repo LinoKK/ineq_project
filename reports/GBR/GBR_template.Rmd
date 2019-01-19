@@ -65,7 +65,6 @@ knitr::kable(table, caption = "Gini for P1 & P2 Households")
 
 Der Gini-Koeffizient der verfügbaren Haushaltseinkommen liefert ein interessantes Bild: Infolge der Krise kam es zu einer leichten Verringerung der Ungleichheit. Das unterstützt die These, dass der in GB besonders wichtige Finanzsektor stark unter der Krise gelitten hat. Allerdings handelt es sich bei der Veränderung des Gini-Koeffizienten nur um eine geringe Bandbreite. Es ist daher fraglich, ob diese Werte nicht innerhalb der natürlichen Schwankungsbreite liegen und ob nicht etwa andere Ereignisse und Phänomene ebenso zur Erklärung beitragen könnten.
 
-![Gini P2 Haushalte - verfügbares Einkommen](plots/plot_gini_disp_p2_hh.png){height=50%, width=80%}
 
 
 ```{r echo=FALSE, }
@@ -120,13 +119,12 @@ knitr::kable(table, caption = "Mean Income by Region")
 ```
 
 Auch im Durschnittseinkommen sieht man, dass in Schottland und Nordirland die Einkommen
-besonders stark gestiegen sind und in London generell hoch sind.
-Arnorsson und Zoega (2016) stellen fest, dass es einen großen Anteil an Befürwortern des Brexit besonders 
-in den Regionen gab, die im 19. und 20. Jahrhundert große Industriestandorte waren und in den letzten Jahrzehnten
+besonders stark gestiegen sind und in London generell hoch sind. In den Regressionen ergeben sich allerdings für keine der Größen statistisch signifikante Effekte. Dies kann allerdings auch an der Größe des Samples liegen. Daher wollen wir im Folgenden noch auf die Jahre 2010 und 2011 eingehen. Für diese Jahre hat es im EU.Silc Datensatz eine feingliedrige Aufteilung der Regionen auf NUTS 2 Ebene. Zwar liegen diese Jahre weiter zurück, jedoch können die Zusammenhänge durch die Vergrößerung des Samples präziser geschätzt werden.
+Arnorsson und Zoega (2016) verwenden ebenfalls die Unterteilung auf NUTS 2 Ebene und erhalten dadurch auch statistisch signifikante Werte in ihren Regression. So stellen sie fest, dass es einen großen Anteil an Befürwortern des Brexit besonders in den Regionen gab, die im 19. und 20. Jahrhundert große Industriestandorte waren und in den letzten Jahrzehnten
 im Zuge der Globalisierung eher einen Schwund ihrer Wirtschaftskraft verbüßen mussten. Dazu zählen die Autoren beispielsweise die Regionen "East Yorkshire and Northern Lincolnshire" und "South Yorkshire", die mit knapp 65 respektive 61,5 Prozent für den Brexit stimmten und die ehemals das Zentrum der Kohle- und Stahlindustrie waren, seitdem aber einen wirtschaftlichen Abschwung erlebten. Im Gegensatz dazu stehen London und die südöstlichen Regionen "Berkshire, Buckinghamshire and Oxfordshire" und "Surrey, East and West Sussex", die wirtschaftliche Gewinner der letzten Dekaden waren und allesamt gegen den Brexit gestimmt haben. Aus diesem Grund sollen auch die Veränderungen der Durchschnittseinkommen untersucht werden und als Proxy für die generelle Entwicklung der Wirtschaft in den Regionen dienen. 
 
 
-Da wir für die Jahre 2010 und 2011 eine feingliedrige Aufteilung der Regionen auf NUTS 2 Ebene haben, wollen wir diese Jahre noch explizit ausleuchten. Zwar liegen diese Jahre weiter zurück, jedoch können die Zusammenhänge durch die Vergrößerung des Samples präzieser geschätz werden. Im folgenden sieht man die Wahlergebnisse des Referendum auf NUTS 2 Ebene: 
+Im folgenden sieht man die Wahlergebnisse des Referendum auf NUTS 2 Ebene: 
 
 ```{r echo=FALSE, }
 table <- read.csv("tables/nuts2.csv")
@@ -136,7 +134,7 @@ knitr::kable(table, caption = "NUTS 2 Regions")
 Im Anschluss die Ergebnisse der Regression die hier immer mit den disposable Incomes durchgeführt wurden. Wir finden zwei Koeffizienten die auf dem 5 Prozent Niveau signifikant sind, der des Ginis sowie der des Durchschnitteinkommens. Für den Gini ist der Koeffizient negativ, was bedeuten würde dass eine Erhöhung der Ungleichheit gemessen am Gini negativ mit den "Leave" Votum korreliert. Also Ungleichere Regionen waren eher für den Verbleib in der EU. Umgekehrt und damit eher wie erwartet verhält es sich beim Durchschnittseinkommen, bei höheren Durchschnittseinkommen würde man eher einen geringen Anteil an Brexit Befürwortern erwarten. Allerdings ist der Effekt ökonomisch nur sehr klein, der Koeffizient besagt, dass eine Steigerung des Durchschnittseinkommens um 1000, eine Verringerung des Leave-Votums um 0,0044 Prozentpunkte ausmacht.
 
 ```{r setup, include=FALSE}
-# You can set chunk options globally so you don't have to repeat them in every chunk
+
 knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
 
 library(stargazer)
@@ -152,8 +150,11 @@ stargazer(lm(Leave ~ gini.reg , subset(table, Leave > 0)), lm(Leave ~ median.reg
           lm(Leave ~ mean.reg, subset(table, Leave > 0)),header=FALSE)
 ```
 
+Da wir in dieser Analyse nicht die Auswirkung der Veränderung der Einkommen schätzen sondern nur einen Datenpunkt haben könnten die schottischen Regionen und Nordirland die Ergebnisse verzerren. Diese haben zwar eine Steigerung der Einkommen erfahren gemessen am Median und Mittelwert, jedoch ist das generelle Niveau eher tief. Aus dieser Überlegung heraus verwenden auch Arnorsson und Zoega (2016) Dummies für die Regionen um den Effekt zu isolieren. Zusätzlich begründen sie die Entscheidung Schottland und Nordirland getrennt zu betrachten damit, dass die Beweggründe gegen den Brexit zu stimmen generell anders gelagert waren. Ein wichtiger Faktor für Nordirland ist die Grenze mit Irland die historisch Konfliktpotenzial birgt.
+
 
 \newpage
+
 # Zusammenfassung
 
 \newpage
