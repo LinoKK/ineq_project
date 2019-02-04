@@ -50,9 +50,9 @@ mean.nat.tot <- svyby(~nat.inc, ~year, subset(silc.hd.svy, nat.inc > 0 ), svymea
 mean.disp.tot <- svyby(~disp.inc, ~year, subset(silc.hd.svy, disp.inc > 0 ), svymean, keep.var = FALSE)
 
 #Change column names:
-names(mean.fac.tot)[names(mean.fac.tot) == 'statistic'] <- 'mean.fac.inc'
-names(mean.nat.tot)[names(mean.nat.tot) == 'statistic'] <- 'mean.nat.inc'
-names(mean.disp.tot)[names(mean.disp.tot) == 'statistic'] <- 'mean.disp.inc'
+names(mean.fac.tot)[names(mean.fac.tot) == 'statistic'] <- 'fac.inc.P1'
+names(mean.nat.tot)[names(mean.nat.tot) == 'statistic'] <- 'nat.inc.P1'
+names(mean.disp.tot)[names(mean.disp.tot) == 'statistic'] <- 'disp.inc.P1'
 
 #Join mean values into one table:
 mean.tot.p1 <- join_all(list(mean.fac.tot, mean.nat.tot, mean.disp.tot),
@@ -78,9 +78,9 @@ med.disp.tot <- svyby(~disp.inc, ~year, subset(silc.hd.svy, disp.inc > 0 ),
                       svyquantile, ~disp.inc, quantiles = c(0.5), keep.var = FALSE)
 
 #change column names:
-names(med.fac.tot)[names(med.fac.tot) == 'statistic'] <- 'med.fac.inc'
-names(med.nat.tot)[names(med.nat.tot) == 'statistic'] <- 'med.nat.inc'
-names(med.disp.tot)[names(med.disp.tot) == 'statistic'] <- 'med.disp.inc'
+names(med.fac.tot)[names(med.fac.tot) == 'statistic'] <- 'fac.inc.P1'
+names(med.nat.tot)[names(med.nat.tot) == 'statistic'] <- 'nat.inc.P1'
+names(med.disp.tot)[names(med.disp.tot) == 'statistic'] <- 'disp.inc.P1'
 
 #Join median values into one table:
 med.tot.p1 <- join_all(list(med.fac.tot, med.nat.tot, med.disp.tot ),
@@ -102,9 +102,9 @@ gini.nat.tot <- svyby(~nat.inc, ~year, subset(silc.hd.svy, nat.inc > 0 ), svygin
 gini.disp.tot <- svyby(~disp.inc, ~year, subset(silc.hd.svy, disp.inc > 0 ), svygini, keep.var = FALSE)
 
 #change column names:
-names(gini.fac.tot)[names(gini.fac.tot) == 'statistic'] <- 'gini.fac.inc'
-names(gini.nat.tot)[names(gini.nat.tot) == 'statistic'] <- 'gini.nat.inc'
-names(gini.disp.tot)[names(gini.disp.tot) == 'statistic'] <- 'gini.disp.inc'
+names(gini.fac.tot)[names(gini.fac.tot) == 'statistic'] <- 'fac.inc.P1'
+names(gini.nat.tot)[names(gini.nat.tot) == 'statistic'] <- 'nat.inc.P1'
+names(gini.disp.tot)[names(gini.disp.tot) == 'statistic'] <- 'disp.inc.P1'
 
 #Join gini values into one table:
 gini.tot.p1 <- join_all(list(gini.fac.tot, gini.nat.tot, gini.disp.tot ),
@@ -113,7 +113,7 @@ gini.tot.p1 <- join_all(list(gini.fac.tot, gini.nat.tot, gini.disp.tot ),
 #remove unnecessary tables
 rm(gini.fac.tot, gini.nat.tot, gini.disp.tot)
 
-gini.tot.p1 <- round(gini.tot.p1, digits = 2)
+gini.tot.p1 <- round(gini.tot.p1, digits = 3)
 
 # als excel speichern um eine Tabelle zu haben
 write.csv(gini.tot.p1, file = "reports/GBR/tables/gini.tot.p1.csv",row.names=FALSE)
@@ -138,9 +138,9 @@ quint.fac <- svyby(~fac.inc, ~year, subset(silc.hd.svy, fac.inc > 0 ), svyqsr, k
 quint.nat <- svyby(~nat.inc, ~year, subset(silc.hd.svy, nat.inc > 0 ), svyqsr, keep.var = FALSE)
 quint.disp <- svyby(~disp.inc, ~year, subset(silc.hd.svy, disp.inc > 0 ), svyqsr, keep.var = FALSE)
 
-names(quint.fac)[names(quint.fac) == 'statistic'] <- 'quint.fac'
-names(quint.nat)[names(quint.nat) == 'statistic'] <- 'quint.nat'
-names(quint.disp)[names(quint.disp) == 'statistic'] <- 'quint.disp'
+names(quint.fac)[names(quint.fac) == 'statistic'] <- 'quint.fac.P1'
+names(quint.nat)[names(quint.nat) == 'statistic'] <- 'quint.nat.P1'
+names(quint.disp)[names(quint.disp) == 'statistic'] <- 'quint.disp.P1'
 
 #Join into one table:
 quint.tot.p1 <- join_all(list(quint.fac, quint.nat, quint.disp),
@@ -150,7 +150,7 @@ quint.tot.p1 <- join_all(list(quint.fac, quint.nat, quint.disp),
 rm(quint.fac, quint.nat, quint.disp)
 
 #Kommastellen entfernen
-quint.tot.p1 <- round(quint.tot.p1, digits = 0)
+quint.tot.p1 <- round(quint.tot.p1, digits = 2)
 
 # als excel speichern um eine Tabelle zu haben
 write.csv(quint.tot.p1, file = "reports/GBR/tables/quint.tot.p1.csv",row.names=FALSE)
@@ -215,9 +215,9 @@ mean.nat.tot <- svyby(~nat.inc, ~year, subset(silc.hd.svy, nat.inc > 0 ), svymea
 mean.disp.tot <- svyby(~disp.inc, ~year, subset(silc.hd.svy, disp.inc > 0 ), svymean, keep.var = FALSE)
 
 #Change column names:
-names(mean.fac.tot)[names(mean.fac.tot) == 'statistic'] <- 'mean.fac.inc'
-names(mean.nat.tot)[names(mean.nat.tot) == 'statistic'] <- 'mean.nat.inc'
-names(mean.disp.tot)[names(mean.disp.tot) == 'statistic'] <- 'mean.disp.inc'
+names(mean.fac.tot)[names(mean.fac.tot) == 'statistic'] <- 'fac.inc.P2'
+names(mean.nat.tot)[names(mean.nat.tot) == 'statistic'] <- 'nat.inc.P2'
+names(mean.disp.tot)[names(mean.disp.tot) == 'statistic'] <- 'disp.inc.P2'
 
 #Join mean values into one table:
 mean.tot.p2 <- join_all(list(mean.fac.tot, mean.nat.tot, mean.disp.tot),
@@ -228,8 +228,12 @@ rm(mean.fac.tot, mean.nat.tot, mean.disp.tot)
 
 mean.tot.p2 <- round(mean.tot.p2, digits = 0)
 
+# P1 und P2 zusammenfügen
+
+mean.tot <- left_join(mean.tot.p1, mean.tot.p2, by = c("year"="year"))
+
 # als excel speichern um eine Tabelle zu haben
-write.csv(mean.tot.p2, file = "reports/GBR/tables/mean.tot.p2.csv",row.names=FALSE)
+write.csv(mean.tot, file = "reports/GBR/tables/mean.tot.csv",row.names=FALSE)
 
 # Median Income für alle Jahre
 med.fac.tot <- svyby(~fac.inc, ~year, subset(silc.hd.svy, fac.inc > 0 ),
@@ -240,9 +244,9 @@ med.disp.tot <- svyby(~disp.inc, ~year, subset(silc.hd.svy, disp.inc > 0 ),
                       svyquantile, ~disp.inc, quantiles = c(0.5), keep.var = FALSE)
 
 #change column names:
-names(med.fac.tot)[names(med.fac.tot) == 'statistic'] <- 'med.fac.inc'
-names(med.nat.tot)[names(med.nat.tot) == 'statistic'] <- 'med.nat.inc'
-names(med.disp.tot)[names(med.disp.tot) == 'statistic'] <- 'med.disp.inc'
+names(med.fac.tot)[names(med.fac.tot) == 'statistic'] <- 'fac.inc.P2'
+names(med.nat.tot)[names(med.nat.tot) == 'statistic'] <- 'nat.inc.P2'
+names(med.disp.tot)[names(med.disp.tot) == 'statistic'] <- 'disp.inc.P2'
 
 #Join median values into one table:
 med.tot.p2 <- join_all(list(med.fac.tot, med.nat.tot, med.disp.tot ),
@@ -253,8 +257,11 @@ rm(med.fac.tot, med.nat.tot, med.disp.tot)
 
 med.tot.p2 <- round(med.tot.p2, digits = 0)
 
+#P1 und P2 zusammenfügen
+med.tot <- left_join(med.tot.p1, med.tot.p2, by = c("year"="year"))
+
 # als excel speichern um eine Tabelle zu haben
-write.csv(med.tot.p2, file = "reports/GBR/tables/med.tot.p2.csv",row.names=FALSE)
+write.csv(med.tot, file = "reports/GBR/tables/med.tot.csv",row.names=FALSE)
 
 
 # Gini für alle Jahre # nur jeweils die positiven Einkommen
@@ -263,9 +270,9 @@ gini.nat.tot <- svyby(~nat.inc, ~year, subset(silc.hd.svy, nat.inc > 0 ), svygin
 gini.disp.tot <- svyby(~disp.inc, ~year, subset(silc.hd.svy, disp.inc > 0 ), svygini, keep.var = FALSE)
 
 #change column names:
-names(gini.fac.tot)[names(gini.fac.tot) == 'statistic'] <- 'gini.fac.inc'
-names(gini.nat.tot)[names(gini.nat.tot) == 'statistic'] <- 'gini.nat.inc'
-names(gini.disp.tot)[names(gini.disp.tot) == 'statistic'] <- 'gini.disp.inc'
+names(gini.fac.tot)[names(gini.fac.tot) == 'statistic'] <- 'fac.inc.P2'
+names(gini.nat.tot)[names(gini.nat.tot) == 'statistic'] <- 'nat.inc.P2'
+names(gini.disp.tot)[names(gini.disp.tot) == 'statistic'] <- 'disp.inc.P2'
 
 #Join gini values into one table:
 gini.tot.p2 <- join_all(list(gini.fac.tot, gini.nat.tot, gini.disp.tot ),
@@ -274,11 +281,15 @@ gini.tot.p2 <- join_all(list(gini.fac.tot, gini.nat.tot, gini.disp.tot ),
 #remove unnecessary tables
 rm(gini.fac.tot, gini.nat.tot, gini.disp.tot)
 
-# auf 2 Dezimalstellen runden
-gini.tot.p2 <- round(gini.tot.p2, digits = 2)
+# auf 3 Dezimalstellen runden
+gini.tot.p2 <- round(gini.tot.p2, digits = 3)
+
+# mit Gini P1 verbinden
+
+gini.tot <- left_join(gini.tot.p1, gini.tot.p2, by = c("year"="year"))
 
 # als excel speichern um eine Tabelle zu haben
-write.csv(gini.tot.p2, file = "reports/GBR/tables/gini.tot.p2.csv",row.names=FALSE)
+write.csv(gini.tot, file = "reports/GBR/tables/gini.tot.csv",row.names=FALSE)
 
 
 # decile points
@@ -301,9 +312,9 @@ quint.fac <- svyby(~fac.inc, ~year, subset(silc.hd.svy, fac.inc > 0 ), svyqsr, k
 quint.nat <- svyby(~nat.inc, ~year, subset(silc.hd.svy, nat.inc > 0 ), svyqsr, keep.var = FALSE)
 quint.disp <- svyby(~disp.inc, ~year, subset(silc.hd.svy, disp.inc > 0 ), svyqsr, keep.var = FALSE)
 
-names(quint.fac)[names(quint.fac) == 'statistic'] <- 'quint.fac'
-names(quint.nat)[names(quint.nat) == 'statistic'] <- 'quint.nat'
-names(quint.disp)[names(quint.disp) == 'statistic'] <- 'quint.disp'
+names(quint.fac)[names(quint.fac) == 'statistic'] <- 'quint.fac.P2'
+names(quint.nat)[names(quint.nat) == 'statistic'] <- 'quint.nat.P2'
+names(quint.disp)[names(quint.disp) == 'statistic'] <- 'quint.disp.P2'
 
 #Join into one table:
 quint.tot.p2 <- join_all(list(quint.fac, quint.nat, quint.disp),
@@ -312,10 +323,14 @@ quint.tot.p2 <- join_all(list(quint.fac, quint.nat, quint.disp),
 #remove unnecessary tables
 rm(quint.fac, quint.nat, quint.disp)
 
-quint.tot.p2 <- round(quint.tot.p2, digits = 0)
+quint.tot.p2 <- round(quint.tot.p2, digits = 2)
+
+#P1 & P2 zusammenfügen
+
+quint.tot <- left_join(quint.tot.p1, quint.tot.p2, by = c("year"="year"))
 
 # als excel speichern um eine Tabelle zu haben
-write.csv(quint.tot.p2, file = "reports/GBR/tables/quint.tot.p2.csv",row.names=FALSE)
+write.csv(quint.tot, file = "reports/GBR/tables/quint.tot.csv",row.names=FALSE)
 
 #quant.fac <- svyby(~fac.inc, ~pb010, silc.hd.svy, svyqsr, ~fac.inc,  0.2, 0.8,
 #                   keep.var = FALSE)
