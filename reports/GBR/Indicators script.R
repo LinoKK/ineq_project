@@ -187,6 +187,12 @@ ten.tot.p1 <- join_all(list(ten.fac, ten.nat, ten.disp), by="row.names")
 #remove unnecessary tables
 rm(ten.fac, ten.nat, ten.disp)
 
+#Armutsquote
+#Prozentsatz der Familien, deren Einkommen unter 60% des Medianeinkommens liegt
+
+#Berechnung: Anzahl "arme" Familien / Anzahl Familien
+
+
 
 
 ############################
