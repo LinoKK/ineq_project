@@ -161,7 +161,7 @@ silc.d <- tbl(pg, "c10d") %>%
 
 silc.d <- silc.d %>% mutate(id_h = paste0(db020, db030))
 
-region.10 <- left_join(subset(silc.p2h, year==2010), silc.d, by = c('id_h' = 'id_h', 'year' = 'db010'))
+region.10 <- left_join(subset(silc.p1, year==2010), silc.d, by = c('id_h' = 'id_h', 'year' = 'db010'))
 
 library(readxl)
 voting_detail <- read_excel("reports/GBR/voting_detail.xlsx")
@@ -258,7 +258,7 @@ silc.d <- tbl(pg, "c11d") %>%
 
 silc.d <- silc.d %>% mutate(id_h = paste0(db020, db030))
 
-region.11 <- left_join(subset(silc.p2h, year==2011), silc.d, by = c('id_h' = 'id_h', 'year' = 'db010'))
+region.11 <- left_join(subset(silc.p1, year==2011), silc.d, by = c('id_h' = 'id_h', 'year' = 'db010'))
 
 library(readxl)
 voting_detail <- read_excel("reports/GBR/voting_detail.xlsx")
@@ -336,7 +336,9 @@ nuts2.11 <- nuts2.11 %>%
          mean.reg = mean,
          median.reg = median)
 
+library(ggplot2)
 
+qplot(x=Leave, y=gini.reg, data=nuts2.11, geom="point")
 
 nuts2.11.table <- select(nuts2.11, "Region Name", "gini", "mean", "median", "Remain", "Leave")
 

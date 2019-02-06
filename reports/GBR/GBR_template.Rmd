@@ -70,7 +70,7 @@ knitr::kable(table, caption = "Gini for P1 & P2 Households")
 
 Der Gini-Koeffizient der verfügbaren Haushaltseinkommen liefert ein interessantes Bild: Infolge der Krise kam es zu einer leichten Verringerung der Ungleichheit. Das unterstützt die These, dass der in GB besonders wichtige Finanzsektor stark unter der Krise gelitten hat. Allerdings handelt es sich bei der Veränderung des Gini-Koeffizienten nur um eine geringe Bandbreite. Es ist daher fraglich, ob diese Werte nicht innerhalb der natürlichen Schwankungsbreite liegen und ob nicht etwa andere Ereignisse und Phänomene ebenso zur Erklärung beitragen könnten.
 
-Im europäischen Vergleich ist die Einkommensungleichheit gemessen am Gini eher hoch. Großbritannien liegt hier über dem EU-28 Durchschnitt des Gini sowie auch höher als beispielsweise Frankreich oder Deutschland [^2].
+Im europäischen Vergleich ist die Einkommensungleichheit gemessen am Gini eher hoch. Großbritannien liegt hier über dem EU-28 Durchschnitt des Gini sowie auch höher als beispielsweise Frankreich oder Deutschland [^2]. @darvas2016 erklären diesen Unterschied über die relativ geringe soziale Mobilität in Großbritannien. Diese geht Hand in Hand mit einer hohen "intergenerational earnings elasticity" [@darvas2016 S. 18] in Großbritannien. Das bedeutet, dass in Großbritannien das Einkommen stark mit dem Einkommen der Eltern korreliert ist.  
 
 [^2]: Für den europäischen Vergleich der Kennzahlen siehe https://ec.europa.eu/eurostat/data/database
 
@@ -164,12 +164,12 @@ table.11 <- read.csv("tables/nuts.11.csv")
 
 
 ```{r, results='asis', echo=FALSE}
-stargazer(lm(Leave ~ gini.reg , subset(table.11, Leave > 0)), lm(Leave ~ median.reg, subset(table.11, Leave > 0)),
+stargazer(lm(Leave ~ gini.reg + Scotland + Northern.Ireland + London, subset(table.11, Leave > 0)), lm(Leave ~ median.reg, subset(table.11, Leave > 0)),
           lm(Leave ~ mean.reg, subset(table.11, Leave > 0)),header=FALSE)
 ```
 
 
-Da wir in dieser Analyse nicht die Auswirkung der Veränderung der Einkommen schätzen sondern nur einen Datenpunkt haben, könnten die schottischen Regionen und Nordirland die Ergebnisse verzerren. Diese haben zwar eine Steigerung der Einkommen erfahren gemessen am Median und Mittelwert, jedoch ist das generelle Niveau im regionalen Vergleich eher tief. Aus dieser Überlegung heraus verwenden auch @Arnorsson2016brexit Dummies für die Regionen um den Effekt zu isolieren. Zusätzlich begründen sie die Entscheidung Schottland und Nordirland getrennt zu betrachten damit, dass die Beweggründe gegen den Brexit zu stimmen generell anders gelagert waren. Ein wichtiger Faktor für Nordirland ist beispielsweise die Grenze mit Irland die historisch Konfliktpotenzial birgt und auch in den aktuellen Verhandlungen über den geregelten Ausstieg eine wichtige Rolle einnimmt [@Patten2018Ireland].
+Da wir in dieser Analyse nicht die Auswirkung der Veränderung der Einkommen schätzen sondern nur einen Datenpunkt haben, könnten die schottischen Regionen und Nordirland die Ergebnisse verzerren. Diese haben zwar eine Steigerung der Einkommen erfahren gemessen am Median und Mittelwert, jedoch ist das generelle Niveau im regionalen Vergleich eher tief. Aus dieser Überlegung heraus verwenden auch @Arnorsson2016brexit Dummies für die Regionen um den Effekt zu isolieren. Zusätzlich begründen sie die Entscheidung Schottland und Nordirland getrennt zu betrachten damit, dass die Beweggründe gegen den Brexit zu stimmen generell anders gelagert waren. Ein wichtiger Faktor für Nordirland ist beispielsweise die Grenze mit Irland die historisch Konfliktpotenzial birgt und auch in den aktuellen Verhandlungen über den geregelten Ausstieg eine wichtige Rolle einnimmt [@Patten2018Ireland]. Wir können festhalten, dass sich in unseren Daten keine Bestätigung der These findet, dass starke Einkommensungleichgewichte sich direkt in einem "leave" Votum niederschlugen. Auch @darvas2016 (S.22) finden keinen Effekt des durchschnittlichen Haushaltseinkommens auf das Referendumsergebnis. Allerdings stellen sie Korrelationen zwischen dem Alter sowie dem Bildungsgrad mit dem Brexit Votum fest, also Faktoren die auch Symptome von Einkommensungleichheit sind.   
 
 
 
