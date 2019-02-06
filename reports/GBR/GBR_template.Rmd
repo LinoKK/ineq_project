@@ -1,7 +1,6 @@
 ---
 title: "Einkommensverteilung in Großbritannien"
 author: "David Kamschal und Lino Kungl"
-date:
 output:
   pdf_document:
     includes:
@@ -11,6 +10,7 @@ output:
     df_print: paged
     toc: yes
 keywords: a, b, c
+date: '`r format(Sys.time(), "%d %B, %Y")`'
 bibliography: references.bib
 subtitle: 2063 - Ökonomie der Verteilung
 ---  
@@ -18,7 +18,10 @@ subtitle: 2063 - Ökonomie der Verteilung
 \newpage
 
 # Einführung
-Großbritannien weist insbesondere seit den späten 70er bzw. frühen 80er-Jahren eine Vergrößerung der Einkommensungleichheiten auf. GB zog hierbei auch anderen hochentwickelten Ländern davon, wobei der Anstieg der Ungleichheit nur noch von jenem in den USA übertroffen wurde (Machin 1996). In Anbetracht der Tatsache, dass die Thatcher-Regierung zusammen mit der US-amerikanischen Reagan-Regierung damals die Speerspitze der neoliberalen Bewegung bildete, unter deren Ägide vor allem Steuersenkungen für Reiche und Unternehmen durchgesetzt wurden (mutmaßlich in der fehlgeleiteten Annahme, durch höheres Wachstum und sinkenden Steuerwiderstand zusätzliches Steuereinkommen zu generieren), ist dies wohl nicht weiter verwunderlich.
+Fragen der Einkommensverteilung und Einkommensungleichheit sind, nachdem sie bereits im wissenschaftlichen Diskurs
+immer intensiver behandelt wurden, nun auch verstärkt in der öffentlichen Wahrnehmung präsent. Die Art des Diskurses geht dabei über normativ-ethische Erwägungen bezüglich Gerechtigkeit und Fairness hinaus und beinhaltet  differenzierte Analysen zu den ökonomischen Auswirkungen von Ungleichheit zum Beispiel auf das Wirtschaftswachstum (i.a. @kuznets1955, @Barro2000) oder den gesellschaftspolitischen Auswirkungen von Ungleichheit (i.a. @Piketty2014). In diesem Kontext nennt auch der Internationale Währungsfonds in seinem aktuellen Jahresbericht [@IWF2018] die Beseitigung von Ungleichheit als eine der wichtigsten Herausforderungen für die Zukunft. Grundlage für die Diskussion über Einkommensungleichheit ist die statistische Analyse der tatsächlichen Situation. Diese Arbeit widmet sich dieser Analyse anhand des Beispiels Großbritannien.
+
+Großbritannien weist insbesondere seit den späten 70er bzw. frühen 80er-Jahren eine Vergrößerung der Einkommensungleichheiten auf. GB zog hierbei auch anderen hochentwickelten Ländern davon, wobei der Anstieg der Ungleichheit nur noch von jenem in den USA übertroffen wurde [@machin1996wage]. In Anbetracht der Tatsache, dass die Thatcher-Regierung zusammen mit der US-amerikanischen Reagan-Regierung damals die Speerspitze der neoliberalen Bewegung bildete, unter deren Ägide vor allem Steuersenkungen für Reiche und Unternehmen durchgesetzt wurden (mutmaßlich in der fehlgeleiteten Annahme, durch höheres Wachstum und sinkenden Steuerwiderstand zusätzliches Steuereinkommen zu generieren), ist dies wohl nicht weiter verwunderlich.
 
 Zusätzlich zu dieser historischen Tatsache, hat Großbritannien auch aus anderen Gründen innerhalb der EU eine Sonderstellung inne. Zumindest bis zum Brexit-Votum spielte die Finanzindustrie in GB eine vergleichsweise bedeutende Rolle als Quelle der Wertschöpfung. Der freie Zugang zum europäischen Festland, die englische Sprache und nicht zuletzt kulturelle Gründe hatten England als europäischen "Außenposten" amerikanischer und auch internationaler Finanzkonzerne etabliert. Diese Entwicklung hatte für Großbritanniens Bürgerinnen und Bürger allerdings nicht nur positive Auswirkungen: Die hohen Spitzenverdienste in der Finanzbranche führten zu einem vergleichsweise stärkeren Anstieg der Einkommensungleichheit, und der Fokus auf Finanzdienstleistungen machte die britische Wirtschaft gegenüber Krisen auf dem Finanzmarkt besonders verwundbar. Wie man in späteren Kapitaln dieser Arbeit noch sehen wird, hat die Finanzkrise zuerst zu einem Rückgang und dann zu einer nur langsamen Erholung der Durchschnittseinkommen britischer Haushalte geführt. Da Durchschnittswerte besonders stark auf Ausreißer (ergo: Bestverdiener) reagieren, die in der Finanzindustrie zu finden sein dürften, ist dieser starke Rückgang womöglich ein direktes Resultat von Pleiten und Entlassungen im Finanzsektor. Allerdings handelt es sich hierbei um Mutmaßungen. 
 
@@ -29,11 +32,12 @@ behandeln darüber hinaus auch den Brexit als Thema. Stehen Brexit und eine Ver�
 # Methodologie
 
 ## Daten
-Der von uns verwendete Datensatz umfasst EU-SILC-Daten von 2005 bis 2017. Aufgrund des Aufbaus von EU-SILC enthält er
-Informationen sowohl über Familien als auch über Einzelpersonen.
+Der von uns verwendete Datensatz umfasst EU-SILC-Daten von 2005 bis 2016. Der Datensatz für 2017 ist zum Zeitpunkt dieser Arbeit für Großbritannien noch nicht verfügbar. Aufgrund des Aufbaus von EU-SILC enthält er
+Informationen sowohl über Familien als auch über Einzelpersonen. 
+Auf die Probleme der EU-SILC Daten in der Erfassung hoher Einkommen soll in dieser Arbeit nicht im Detail eingegangen werden [siehe bspw. @atkinson2005top S. 326].
 
 ## Indikatoren
-Zu den von uns errechneten Indikatoren gehören (über die Jahre hinweg) das Durchschnittseinkommen (Mean), das Medianeinkommen (Med), der Gini-Koeffizient, P80/20 und den Top 10% Income Share. Wir errechnen alle Indikatoren sowohl für Personen als auch für Haushalte.
+Zu den von uns errechneten Indikatoren gehören (über die Jahre hinweg) das Durchschnittseinkommen (Mean), das Medianeinkommen (Med), der Gini-Koeffizient, P80/20 und den Top 10% Income Share. Die Indikatoren sind hierbei auf Haushaltsebene berechnet. Die Aggregation auf Haushaltsebene wird mit zwei verschiedenen Methoden unternommen. Die erste (als P1 gekennzeichnet) richtet sich nach der Methode von Eurostat und verteilt die Summe aller Einkommen eines Haushalts entsprechend eines Äquivalenzfaktors auf alle Personen dieses Haushaltes. Die zweite Methode (P2) richtet sich nach der *World Inequality Database* und betrachtet nur Personen die 20 Jahre oder älter sind. Die Einkommen werden hier nicht nach dem Äquivalenzfaktor, der quasi Skaleneffekte großer Haushalte berücksichtigt, auf die Personen umgerechnet, sondern nach gleichen Teilen durch die Anzahl der Haushaltsmitglieder dividiert. Wie man bei den Ergebnissen sieht führt diese Art der Berechnung zu einer tendenziell ungleicheren Verteilung. Dies veranschaulicht die Notwendigkeit bei der Interpretation der Ergebnisse auch die Berechnungsmethode im Kopf zu haben.  
 
 
 # Ergebnisse
@@ -53,9 +57,10 @@ table <- read.csv("tables/med.tot.csv")
 knitr::kable(table, caption = "Median P1 & P2 Households")
 ```
 
-Wie aus den beiden obigen Plots ersichtlich ist, entwickelten sich im Vorfeld der Krise sowohl Durchschnitts- als auch Medianeinkommen überdurchschnittlich stark. So wuch etwa das durchschnittliche verfügbare Haushaltseinkommen bis 2007 an, im Jahr 2007 sogar besonders stark, mit ca. 9% im Vergleich zum Vorjahr. Ebenfalls bemerkenswert ist der Rückfall des verfügbaren Einkommens im Jahr 2009 um ca. 22% gegenüber dem Niveau von 2007 bzw. 13% gegenüber 2006. Die Auswirkungen der Krise waren auch in den folgenden Jahren deutlich spürbar, denn die durchschnittlichen verfügbaren Haushaltseinkommen erreichten erst 2012 wieder das nominale Niveau von 2006. Erst ab 2014 schien die Krise vollständig überwunden zu sein.   
+Wie aus den beiden obigen Plots ersichtlich ist, entwickelten sich im Vorfeld der Krise sowohl Durchschnitts- als auch Medianeinkommen überdurchschnittlich stark. So wuchs etwa das durchschnittliche verfügbare Haushaltseinkommen bis 2007 an, im Jahr 2007 sogar besonders stark, mit ca. 9% im Vergleich zum Vorjahr. Ebenfalls bemerkenswert ist der Rückfall des verfügbaren Einkommens im Jahr 2009 um ca. 22% gegenüber dem Niveau von 2007 bzw. 13% gegenüber 2006. Die Auswirkungen der Krise waren auch in den folgenden Jahren deutlich spürbar, denn die durchschnittlichen verfügbaren Haushaltseinkommen erreichten erst 2012 wieder das nominale Niveau von 2006. Erst ab 2014 schien die Krise vollständig überwunden zu sein.   
 
 Bei den Medianeinkommen der Haushalte zeichnet sich ein ähnliches Bild wie bei den durchschnittlichen Haushaltseinkommen: Erst erfolgte bis 2007 ein starker Anstieg als Folge der boomenden Weltwirtschaft. Die Faktoreinkommen legten innerhalb von nur 2 Jahren um ca. 13%, die verfügbaren Einkommen um ca. 19%. Im Rückblick offenbart diese Werte alle Anzeichen einer Überhitzung einer von Konsum, Spekulation und Verschuldung getriebenen Wirtschaft. Ab 2008, mit dem Beginn des Krachs an den Börsen, zeigten sich auch in den Haushaltsmedianeinkommen erste Zeichen von Schwäche; was darauf folgte war ein "Tal der Tränen", das erst ab 2012 bzw. 2014 vollständig durchquert wurde.
+Vergleicht man Median und Durchschnittseinkommen, so fällt eine rechtsschiefe der Einkommensverteilung auf da der Median niedriger ist als der Mittelwert. Dies deutet bereits auf eine ungleiche Verteilung hin. Die Schiefe ist bei den factor-incomes am höchsten, da die Differenz zwischen Median und Mittelwert dort am größten ist, und nimmt zum verfügbaren Einkommen hin ab. Die Umverteilungmaßnahmen scheinen also zu einer gleicheren Verteilung zu führen. 
 
 ```{r echo=FALSE, }
 # Read CSV data, "../../" to look two levels upwards
@@ -65,6 +70,10 @@ knitr::kable(table, caption = "Gini for P1 & P2 Households")
 
 Der Gini-Koeffizient der verfügbaren Haushaltseinkommen liefert ein interessantes Bild: Infolge der Krise kam es zu einer leichten Verringerung der Ungleichheit. Das unterstützt die These, dass der in GB besonders wichtige Finanzsektor stark unter der Krise gelitten hat. Allerdings handelt es sich bei der Veränderung des Gini-Koeffizienten nur um eine geringe Bandbreite. Es ist daher fraglich, ob diese Werte nicht innerhalb der natürlichen Schwankungsbreite liegen und ob nicht etwa andere Ereignisse und Phänomene ebenso zur Erklärung beitragen könnten.
 
+Im europäischen Vergleich ist die Einkommensungleichheit gemessen am Gini eher hoch. Großbritannien liegt hier über dem EU-28 Durchschnitt des Gini sowie auch höher als beispielsweise Frankreich oder Deutschland [^2].
+
+[^2]: Für den europäischen Vergleich der Kennzahlen siehe https://ec.europa.eu/eurostat/data/database
+
 
 
 ```{r echo=FALSE, }
@@ -73,23 +82,21 @@ table <- read.csv("tables/quint.tot.csv")
 knitr::kable(table, caption = "80/20 P1 & P2 Households")
 ```
 
-Der 80/20-Koeffizient für Haushalte zeigt, dass die Unterschiede im verfügbaren Einkommen tendenziell abgenommen haben. Noch deutlicher wird das im Bezug auf die Faktoreinkommen, bei denen sich der Koeffizient seit 2005 beinahe halbiert hat. 
+Der 80/20-Koeffizient für Haushalte zeigt, dass die Unterschiede im verfügbaren Einkommen tendenziell abgenommen haben. Noch deutlicher wird das im Bezug auf die Faktoreinkommen, bei denen sich der Koeffizient seit 2005 beinahe halbiert hat. Es gilt anzumerken, dass der 80/20 Koeffizient für das factor income nicht definiert ist, da das zwanzigste Perzentil Null ist und dadurch das Verhältnis mathematisch nicht berechnet werden kann. Dies liegt an negativen Einkommen, beispielsweise von Unternehmern, hauptsächlich jedoch an den fehlenden Arbeitseinkommen von Rentnern.
 (möglicherweise Problem mit den Daten?)
 
-
-![Gini unsere Berechnungen vs. Eurostat](img/Gini.Eurostat.png){width=100%}
 
 
 # Deep Dive: Regionale Unterschiede und Brexit
 
 An dieser Stelle wollen wir uns intensiver der Fragestellung widmen, inwieweit Ungleichheitsmaße
-mit dem Brexit in Verbindung gebracht werden können. Dazu wollen wir uns ansehen, inwieweit sich regionale Unterschiede in den Abstimmungsergebnissen auch in unterschiedlichen Graden der Ungleichheit niederschlagen. Hierzu soll auf die 
-12 Regionen eingegangen werden, die der EU-Silc Datensatz unter DB040 auflistet. Diese Aufteilung ist die selbe, die auch die Electoral Commission in Großbritannien vornimmt. Die Regionenaufteilung im EU-Silc Datensatz ist dabei erst ab 2010 verfügbar. Für die
+mit dem Brexit in Verbindung gebracht werden können. Dazu wollen wir uns ansehen, ob sich regionale Unterschiede in den Abstimmungsergebnissen auch in unterschiedlichen Graden der Ungleichheit niederschlagen. Hierzu soll auf die 
+12 Regionen eingegangen werden, die der EU-Silc Datensatz unter DB040 auflistet, die sogenannten NUTS 1 Regionen [^1]. Diese Aufteilung ist die selbe, die auch die Electoral Commission in Großbritannien vornimmt. Die Regionenaufteilung im EU-Silc Datensatz ist dabei erst ab 2010 verfügbar. Für die
 Jahre 2010 und 2011 werden die 12 Regionen noch weiter unterteilt in ingesammt 37 Sub-Regionen. Es gab diesbezüglich bereits empirische Arbeiten, die sozioökonomische Variablen mit den Ergebnissen des Referendums in den verschiedenen Regionen in Verbindung brachten. 
-
-Arnorsson und Zoega (2016) konnten zeigen, dass eine Ablehnung gegenüber der EU, welche sich in einem "leave" Votum manifestierte, besonders in Regionen mit niedrigem BIP/Kopf, hohem Anteil an Personem mit niedrigem Bildungsgrad, hohem Anteil an
+@Arnorsson2016brexit konnten zeigen, dass eine Ablehnung gegenüber der EU, welche sich in einem "leave" Votum manifestierte, besonders in Regionen mit niedrigem BIP/Kopf, hohem Anteil an Personem mit niedrigem Bildungsgrad, hohem Anteil an
 Personen über 65 sowie einer starken Netto-Immigration auftritt. Die in dieser Arbeit verwendeten Einkommensmaße spiegeln dabei analoge Phänomene wider. Ein niedriges Drchschnittseinkommen bzw. ein niedriges Medianeinkommen ist mit einem niedrigen BIP/Kopf vergleichbar, sowie mit einem niedrigem durchschnittlichen Bildungsgrad. Hier würden wir ähnliche Ergebnisse in unseren Daten erwarten. Inwieweit auch die direkten Ungleichheitsmaße wie der Gini-Koeffizient oder das Verhältnis der einkommensstärksten 10 Prozent am Gesamteinkommen eine Korrelation mit dem Wahlergebnis der verschiedenen Regionen aufweist, eröffnet einen zusätzlichen Blickwinkel für die Thematik. Figure 3 zeigt zunächst die Abstimmungsergebnisse des EU Referendums für die einzelnen Regionen, prozentual nach Leave und Remain.
 
+[^1]: See <https://www.arcgis.com/sharing/rest/content/items/32fdbc48cd8d46e89fabddd58b353c6c/data> for a map of the NUTS Regions
 
 ![Brexit Referendum Outcome by Region](img/Brexit_Referendum_Outcome_by_Region.png){width=100%}
 
@@ -119,19 +126,19 @@ knitr::kable(table, caption = "Mean Income by Region")
 ```
 
 Auch im Durschnittseinkommen sieht man, dass in Schottland und Nordirland die Einkommen
-besonders stark gestiegen sind und in London generell hoch sind. In den Regressionen ergeben sich allerdings für keine der Größen statistisch signifikante Effekte. Dies kann allerdings auch an der Größe des Samples liegen. Daher wollen wir im Folgenden noch auf die Jahre 2010 und 2011 eingehen. Für diese Jahre hat es im EU.Silc Datensatz eine feingliedrige Aufteilung der Regionen auf NUTS 2 Ebene. Zwar liegen diese Jahre weiter zurück, jedoch können die Zusammenhänge durch die Vergrößerung des Samples präziser geschätzt werden.
-Arnorsson und Zoega (2016) verwenden ebenfalls die Unterteilung auf NUTS 2 Ebene und erhalten dadurch auch statistisch signifikante Werte in ihren Regression. So stellen sie fest, dass es einen großen Anteil an Befürwortern des Brexit besonders in den Regionen gab, die im 19. und 20. Jahrhundert große Industriestandorte waren und in den letzten Jahrzehnten
+besonders stark gestiegen sind und in London generell hoch sind. In den Regressionen ergeben sich allerdings für keine der Größen statistisch signifikante Effekte. Dies hängt höchstwahrscheinlich aber auch mit der Größe des Samples zusammen, das nicht genügend Beobachtungen für statistisch signifikante Koeffizienten bietet. Daher wollen wir im Folgenden noch auf die Jahre 2010 und 2011 eingehen. Für diese Jahre hat es im EU.Silc Datensatz eine feingliedrige Aufteilung der Regionen auf NUTS 2 Ebene. Zwar liegen diese Jahre weiter zurück, jedoch können die Zusammenhänge durch die Vergrößerung des Samples präziser geschätzt werden.
+@Arnorsson2016brexit verwenden ebenfalls die Unterteilung auf NUTS 2 Ebene und erhalten dadurch auch statistisch signifikante Werte in ihren Regression. So stellen sie fest, dass es einen großen Anteil an Befürwortern des Brexit besonders in den Regionen gab, die im 19. und 20. Jahrhundert große Industriestandorte waren und in den letzten Jahrzehnten
 im Zuge der Globalisierung eher einen Schwund ihrer Wirtschaftskraft verbüßen mussten. Dazu zählen die Autoren beispielsweise die Regionen "East Yorkshire and Northern Lincolnshire" und "South Yorkshire", die mit knapp 65 respektive 61,5 Prozent für den Brexit stimmten und die ehemals das Zentrum der Kohle- und Stahlindustrie waren, seitdem aber einen wirtschaftlichen Abschwung erlebten. Im Gegensatz dazu stehen London und die südöstlichen Regionen "Berkshire, Buckinghamshire and Oxfordshire" und "Surrey, East and West Sussex", die wirtschaftliche Gewinner der letzten Dekaden waren und allesamt gegen den Brexit gestimmt haben. Aus diesem Grund sollen auch die Veränderungen der Durchschnittseinkommen untersucht werden und als Proxy für die generelle Entwicklung der Wirtschaft in den Regionen dienen. 
 
 
-Im folgenden sieht man die Wahlergebnisse des Referendum auf NUTS 2 Ebene: 
+Im folgenden sieht man die Wahlergebnisse des Referendums auf NUTS 2 Ebene: 
 
 ```{r echo=FALSE, }
 table <- read.csv("tables/nuts2.csv")
 knitr::kable(table, caption = "NUTS 2 Regions")
 ```
 
-Im Anschluss die Ergebnisse der Regression die hier immer mit den disposable Incomes durchgeführt wurden. Wir finden zwei Koeffizienten die auf dem 5 Prozent Niveau signifikant sind, der des Ginis sowie der des Durchschnitteinkommens. Für den Gini ist der Koeffizient negativ, was bedeuten würde dass eine Erhöhung der Ungleichheit gemessen am Gini negativ mit den "Leave" Votum korreliert. Also Ungleichere Regionen waren eher für den Verbleib in der EU. Umgekehrt und damit eher wie erwartet verhält es sich beim Durchschnittseinkommen, bei höheren Durchschnittseinkommen würde man eher einen geringen Anteil an Brexit Befürwortern erwarten. Allerdings ist der Effekt ökonomisch nur sehr klein, der Koeffizient besagt, dass eine Steigerung des Durchschnittseinkommens um 1000, eine Verringerung des Leave-Votums um 0,0044 Prozentpunkte ausmacht.
+Im Anschluss die Ergebnisse der Regression die hier immer mit den disposable Incomes durchgeführt wurden. Wir finden zwei Koeffizienten die auf dem 5 Prozent Niveau signifikant sind, der des Ginis sowie der des Durchschnitteinkommens. Für den Gini ist der Koeffizient negativ, was bedeuten würde dass eine Erhöhung der Ungleichheit gemessen am Gini negativ mit den "Leave" Votum korreliert. Das heißt, ungleichere Regionen waren eher für den Verbleib in der EU. Umgekehrt - und damit eher wie erwartet - verhält es sich beim Durchschnittseinkommen, bei höheren Durchschnittseinkommen würde man eher einen geringen Anteil an Brexit Befürwortern erwarten. Allerdings ist der Effekt ökonomisch nur sehr klein, der Koeffizient besagt, dass eine Steigerung des Durchschnittseinkommens um 1000, eine Verringerung des Leave-Votums um 0,0044 Prozentpunkte ausmacht.
 
 ```{r setup, include=FALSE}
 
@@ -150,72 +157,30 @@ stargazer(lm(Leave ~ gini.reg , subset(table, Leave > 0)), lm(Leave ~ median.reg
           lm(Leave ~ mean.reg, subset(table, Leave > 0)),header=FALSE)
 ```
 
-Da wir in dieser Analyse nicht die Auswirkung der Veränderung der Einkommen schätzen sondern nur einen Datenpunkt haben könnten die schottischen Regionen und Nordirland die Ergebnisse verzerren. Diese haben zwar eine Steigerung der Einkommen erfahren gemessen am Median und Mittelwert, jedoch ist das generelle Niveau eher tief. Aus dieser Überlegung heraus verwenden auch Arnorsson und Zoega (2016) Dummies für die Regionen um den Effekt zu isolieren. Zusätzlich begründen sie die Entscheidung Schottland und Nordirland getrennt zu betrachten damit, dass die Beweggründe gegen den Brexit zu stimmen generell anders gelagert waren. Ein wichtiger Faktor für Nordirland ist die Grenze mit Irland die historisch Konfliktpotenzial birgt.
+
+```{r echo=FALSE, }
+table.11 <- read.csv("tables/nuts.11.csv")
+```
+
+
+```{r, results='asis', echo=FALSE}
+stargazer(lm(Leave ~ gini.reg , subset(table.11, Leave > 0)), lm(Leave ~ median.reg, subset(table.11, Leave > 0)),
+          lm(Leave ~ mean.reg, subset(table.11, Leave > 0)),header=FALSE)
+```
+
+
+Da wir in dieser Analyse nicht die Auswirkung der Veränderung der Einkommen schätzen sondern nur einen Datenpunkt haben, könnten die schottischen Regionen und Nordirland die Ergebnisse verzerren. Diese haben zwar eine Steigerung der Einkommen erfahren gemessen am Median und Mittelwert, jedoch ist das generelle Niveau im regionalen Vergleich eher tief. Aus dieser Überlegung heraus verwenden auch @Arnorsson2016brexit Dummies für die Regionen um den Effekt zu isolieren. Zusätzlich begründen sie die Entscheidung Schottland und Nordirland getrennt zu betrachten damit, dass die Beweggründe gegen den Brexit zu stimmen generell anders gelagert waren. Ein wichtiger Faktor für Nordirland ist beispielsweise die Grenze mit Irland die historisch Konfliktpotenzial birgt und auch in den aktuellen Verhandlungen über den geregelten Ausstieg eine wichtige Rolle einnimmt [@Patten2018Ireland].
+
 
 
 \newpage
 
 # Zusammenfassung
 
+
 \newpage
 
 # Anhang
-
-
-```{r echo=FALSE, }
-# Read CSV data, "../../" to look two levels upwards
-table <- read.csv("tables/mean.tot.p1.csv")
-knitr::kable(table, caption = "Mean P1")
-```
-
-
-```{r echo=FALSE, }
-# Read CSV data, "../../" to look two levels upwards
-table <- read.csv("tables/med.tot.p1.csv")
-knitr::kable(table, caption = "Median P1")
-```
-
-
-```{r echo=FALSE, }
-# Read CSV data, "../../" to look two levels upwards
-table <- read.csv("tables/gini.tot.p1.csv")
-knitr::kable(table, caption = "Gini P1")
-```
-
-```{r echo=FALSE, }
-# Read CSV data, "../../" to look two levels upwards
-table <- read.csv("tables/quint.tot.p1.csv")
-knitr::kable(table, caption = "80/20 P1")
-```
-
-
-```{r echo=FALSE, }
-# Read CSV data, "../../" to look two levels upwards
-table <- read.csv("tables/mean.tot.p2.csv")
-knitr::kable(table, caption = "Mean P2")
-```
-
-
-```{r echo=FALSE, }
-# Read CSV data, "../../" to look two levels upwards
-table <- read.csv("tables/med.tot.p2.csv")
-knitr::kable(table, caption = "Median P2")
-```
-
-
-```{r echo=FALSE, }
-# Read CSV data, "../../" to look two levels upwards
-table <- read.csv("tables/gini.tot.p2.csv")
-knitr::kable(table, caption = "Gini P2")
-```
-
-```{r echo=FALSE, }
-# Read CSV data, "../../" to look two levels upwards
-table <- read.csv("tables/quint.tot.p2.csv")
-knitr::kable(table, caption = "80/20 P2")
-```
-
-
 
 \newpage
 # Literatur
