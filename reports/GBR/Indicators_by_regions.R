@@ -39,7 +39,7 @@ silc.pdr.svy <- svydesign(ids =  ~ id_h,
 silc.hdr.svy <- svydesign(ids = ~id_h,
                          strata = ~db020,
                          weights = ~db090,
-                         data = silc.p2h.r) %>% convey_prep()
+                         data = silc.p1) %>% convey_prep()
 
 
 # Entwicklung des Gini in den Regionen #
@@ -221,12 +221,12 @@ voting_by_region <- read_excel("reports/GBR/voting_by_region.xlsx")
 
 gini.regions <- left_join(gini.regions, voting_by_region, by = c( "Region" = "Region"))
 
-gini.reg <- lm( log(Remain.y) ~ Percent.Change , gini.regions)
+gini.reg <- lm( Leave ~ Percent.Change , gini.regions)
 summary(gini.reg)
 
 mean.regions <- left_join(mean.regions, voting_by_region, by = c( "Region" = "Region"))
 
-mean.reg <- lm(Remain.Share ~ Delta, mean.regions)
+mean.reg <- lm(Remain.Share ~ Mean, mean.regions)
 summary(mean.reg)
 
 # NUTS 2 Regressions

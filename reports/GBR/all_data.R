@@ -11,6 +11,35 @@ if(!exists("pg")) {
   message("Connection pg already exists.")
 }
 
+# 2017 nicht verfügbar
+#year <- 2017
+
+#c17p <- tbl(pg, "c17p") %>%
+  filter(pb020=='UK' & pb010==year) %>%
+  select(pb020, pb010, pb030, pb040, pb140, pb150, py010g, py021g, py050g, py090g,py080g, 
+         px010, py100g, py110g, py120g, py130g, py140g, px030) %>%
+  collect(n = Inf)
+
+#c17h <- tbl(pg, "c17h") %>%
+  filter(hb020=='UK' & hb010==year) %>%
+  select(hb020, hb030, hy010, hy110g, hy040g, hy050g, hy060g, hy070g, hy080g,
+         hy120g, hy130g, hy140g, hy090g, hx010, hx050, hx040, hb010, hy020) %>%
+  collect(n = Inf)
+
+# beinhaltet region und cross section household weight
+#c17d <- tbl(pg, "c17d") %>%
+  filter(db020=='UK' & db010==year) %>%
+  select(db010, db020, db030, db040, db090) %>%
+  collect(n = Inf)
+
+# beinhaltet personal cross sectional personal weight rb050, personal id rb030 sollte pb030 entsprechen
+#c17r <- tbl(pg, "c17r") %>% 
+  filter(rb020=='UK' & rb010==year) %>%
+  select(rb010, rb020, rb030, rb050, rx030) %>%
+  collect(n = Inf)
+
+
+
 year <- 2016
 
 c16p <- tbl(pg, "c16p") %>%
@@ -364,6 +393,8 @@ silc.ph <- aggregate(cbind(pwork.inc, py080g, pfac.inc,
 
 silc.hdpr <- left_join(silc.hd, silc.ph, by = c('id_h' = 'id_h', 'hb010' = 'rb010'))
 
+# divide everything by the equivalisation factor
+
 silc.hdpr <- silc.hdpr %>% mutate(work.inc = (pwork.inc + hy110g)/hx050)
 silc.hdpr <- silc.hdpr %>% mutate(cap.inc = (py080g + hy040g + hy090g)/hx050)
 silc.hdpr <- silc.hdpr %>% mutate(fac.inc = (pfac.inc + hy040g + hy090g 
@@ -385,7 +416,7 @@ silc.p1 <- subset(silc.hdpr, select=c(id_h, work.inc, cap.inc, fac.inc,
 silc.p1 <- silc.p1 %>% replace(is.na(.), 0)
 names(silc.p1)[names(silc.p1) == 'hb010'] <- 'year'
 
-# vergleich check.hy020 und hy020 sieht ganz gut aus
+# vergleich check.hy020 und hy020 sieht ganz gut aus, stimmen in fast allen Fällen überein
 
 ### Summing up, this led to the following variables to calculate the inequality
 ### indicators with dataset silc.p1.YY:
