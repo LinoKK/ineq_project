@@ -176,8 +176,7 @@ table.11 <- read.csv("tables/nuts.11.csv")
 
 
 ```{r, results='asis', echo=FALSE}
-stargazer(lm(Leave ~ gini.reg + Scotland + Northern.Ireland + London, subset(table.11, Leave > 0)), lm(Leave ~ median.reg, subset(table.11, Leave > 0)),
-          lm(Leave ~ mean.reg, subset(table.11, Leave > 0)),header=FALSE)
+stargazer(lm(Leave ~ gini.reg*mean.reg, subset(table.11, Leave > 0)),lm(Leave ~ gini.reg*mean.reg + Scotland + Northern.Ireland + London , subset(table.11, Leave > 0)),header=FALSE)
 ```
 
 
