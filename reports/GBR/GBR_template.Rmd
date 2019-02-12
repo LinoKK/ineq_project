@@ -184,7 +184,6 @@ Da wir in dieser Analyse nicht die Auswirkung der Veränderung der Einkommen sch
 
 
 
-\newpage
 
 # Zusammenfassung
 
@@ -196,9 +195,6 @@ Dies mag auch mitunter einer der Gründe für das Brexit-Votum sein. Wir haben d
 
 Im Endeffekt deuten diese Indizien darauf hin, dass nicht die Ungleichheit in den Regionen, sondern zwischen den Regionen den Ausschlag für das Votum gegeben hat. Die De-Industrialisierung des Landes hat bei den Betroffenen augenscheinlich Frust verursacht, der sich in politischem Unmut manifestierte, über den auch die durchwegs gute gesamtwirtschaftliche Performance Großbritanniens vor der Krise nicht hinwegtäuschen konnte.
 
-\newpage
-
-# Anhang
 
 \newpage
 # Literatur
