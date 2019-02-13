@@ -149,6 +149,24 @@ mean.regions <- mean.regions %>% mutate_if(is.numeric, ~round(., 0))
 
 write.csv(mean.regions, file = "reports/GBR/tables/mean.regions.csv",row.names=FALSE)
 
+# for regression analysis:
+
+library(readxl)
+voting_by_region <- read_excel("reports/GBR/voting_by_region.xlsx")
+
+gini.regions <- left_join(gini.regions, voting_by_region, by = c( "Region" = "Region"))
+
+mean.regions <- left_join(mean.regions, voting_by_region, by = c( "Region" = "Region"))
+
+
+reg.regions <- left_join(mean.regions, gini.regions, by = c( "Region" = "Region"))
+
+names(reg.regions)[names(reg.regions) == 'Leave.Share.x'] <- 'Leave'
+names(reg.regions)[names(reg.regions) == 'Delta'] <- 'Delta.Mean'
+names(reg.regions)[names(reg.regions) == 'Percent.Change'] <- 'Percent.Change.Gini'
+
+write.csv(reg.regions, file = "reports/GBR/tables/reg.regions.csv",row.names=FALSE)
+
 ##################################################################
 # genauerer split der Regionen, NUTS2 2010
 ##################################################################
@@ -215,23 +233,7 @@ rm(mean.nuts2, med.nuts2, gini.nuts2)
 nuts2 <- left_join(nuts2, voting_detail, by = c("as.factor(Region)" = "Region"))
 
 
-# for regression analysis:
-
-library(readxl)
-voting_by_region <- read_excel("reports/GBR/voting_by_region.xlsx")
-
-gini.regions <- left_join(gini.regions, voting_by_region, by = c( "Region" = "Region"))
-
-gini.reg <- lm( Leave ~ Percent.Change , gini.regions)
-summary(gini.reg)
-
-mean.regions <- left_join(mean.regions, voting_by_region, by = c( "Region" = "Region"))
-
-mean.reg <- lm(Remain.Share ~ Mean, mean.regions)
-summary(mean.reg)
-
 # NUTS 2 Regressions
-#subset is since there are no rsults for one region
 
 nuts2 <- nuts2 %>% 
   mutate(gini.reg = gini,
@@ -247,7 +249,7 @@ write.csv(nuts2.table, file = "reports/GBR/tables/nuts2.csv",row.names=FALSE)
 write.csv(nuts2, file = "reports/GBR/tables/nuts.csv",row.names=FALSE)
 
 ##################################################################
-# genauerer split der Regionen, NUTS2 2010
+# genauerer split der Regionen, NUTS2 2011
 ##################################################################
 
 year <- 2011
@@ -334,11 +336,14 @@ nuts2.11 <- nuts2.11 %>%
   mutate(gini.reg = gini,
          log.leave = log (Leave),
          mean.reg = mean,
-         median.reg = median)
+         median.reg = median,
+         leave100 = Leave*100,
+         log.gini = log(gini))
 
 library(ggplot2)
 
 qplot(x=Leave, y=gini.reg, data=nuts2.11, geom="point")
+qplot(x=Leave, y=mean.reg, data=nuts2.11, geom="point")
 
 nuts2.11.table <- select(nuts2.11, "Region Name", "gini", "mean", "median", "Remain", "Leave")
 
