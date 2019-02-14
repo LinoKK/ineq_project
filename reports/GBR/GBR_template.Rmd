@@ -17,8 +17,9 @@ date: '`r format(Sys.time(), "%d %B, %Y")`'
 bibliography: references.bib
 subtitle: 2063 - Ökonomie der Verteilung
 ---  
-
+\pagenumbering{gobble}
 \newpage
+\pagenumbering{arabic}
 
 # Einführung
 Fragen der Einkommensverteilung und Einkommensungleichheit sind, nachdem sie bereits im wissenschaftlichen Diskurs
