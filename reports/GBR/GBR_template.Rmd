@@ -6,6 +6,9 @@ output:
     includes:
       in_header: header.tex
     toc: yes
+    number_sections: true
+    highlight: tango
+    
   html_document:
     df_print: paged
     toc: yes
