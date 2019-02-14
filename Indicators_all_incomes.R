@@ -12,7 +12,6 @@ library(dplyr)
 
 #David: Hinzugefuegt. Vorsicht, ueberschreibt bisheriges silc.p2 / silc.p1. Koennte man vll. anders loesen.
 
-#As per the rule, only households with income > 0 should be included
 
 #silc.p2 <- silc.p2 %>% filter(hy010 > 0)
 
@@ -102,6 +101,8 @@ gini.fac.tot <- svyby(~fac.inc, ~year, silc.hd.svy, svygini, keep.var = FALSE)
 gini.nat.tot <- svyby(~nat.inc, ~year, silc.hd.svy, svygini, keep.var = FALSE)
 gini.disp.tot <- svyby(~disp.inc, ~year, silc.hd.svy, svygini, keep.var = FALSE)
 
+
+
 #change column names:
 names(gini.fac.tot)[names(gini.fac.tot) == 'statistic'] <- 'fac.inc.P1'
 names(gini.nat.tot)[names(gini.nat.tot) == 'statistic'] <- 'nat.inc.P1'
@@ -135,16 +136,17 @@ write.csv(gini.tot.p1, file = "reports/GBR/tables/gini.tot.p1.csv",row.names=FAL
 # Quantile Share Ratio. 
 #
 
-quint.fac <- svyby(~fac.inc, ~year, silc.hd.svy, svyqsr, keep.var = FALSE)
+# for factor income the 0.2 percentile is zero, therefore the calculation does not work. exclude
+#quint.fac <- svyby(~fac.inc, ~year, silc.hd.svy, svyqsr, keep.var = FALSE)
 quint.nat <- svyby(~nat.inc, ~year, silc.hd.svy, svyqsr, keep.var = FALSE)
 quint.disp <- svyby(~disp.inc, ~year, silc.hd.svy, svyqsr, keep.var = FALSE)
 
-names(quint.fac)[names(quint.fac) == 'statistic'] <- 'quint.fac.P1'
+#names(quint.fac)[names(quint.fac) == 'statistic'] <- 'quint.fac.P1'
 names(quint.nat)[names(quint.nat) == 'statistic'] <- 'quint.nat.P1'
 names(quint.disp)[names(quint.disp) == 'statistic'] <- 'quint.disp.P1'
 
 #Join into one table:
-quint.tot.p1 <- join_all(list(quint.fac, quint.nat, quint.disp),
+quint.tot.p1 <- join_all(list(quint.nat, quint.disp),
                          by = 'year')
 
 #remove unnecessary tables
@@ -198,16 +200,16 @@ rm(ten.fac, ten.nat, ten.disp)
 #Indikatoren auf Haushaltsebene - P2
 #-----------------------------------
 
-silc.hd.svy <- svydesign(ids = ~id_h,
+silc.p2.svy <- svydesign(ids = ~id_h,
                          strata = ~db020,
                          weights = ~db090,
                          data = silc.p2h) %>% convey_prep()
 
 # Mean Income für alle Jahre 
 
-mean.fac.tot <- svyby(~fac.inc, ~year, silc.hd.svy, svymean, keep.var = FALSE)
-mean.nat.tot <- svyby(~nat.inc, ~year, silc.hd.svy, svymean, keep.var = FALSE)
-mean.disp.tot <- svyby(~disp.inc, ~year, silc.hd.svy, svymean, keep.var = FALSE)
+mean.fac.tot <- svyby(~fac.inc, ~year, silc.p2.svy, svymean, keep.var = FALSE)
+mean.nat.tot <- svyby(~nat.inc, ~year, silc.p2.svy, svymean, keep.var = FALSE)
+mean.disp.tot <- svyby(~disp.inc, ~year, silc.p2.svy, svymean, keep.var = FALSE)
 
 #Change column names:
 names(mean.fac.tot)[names(mean.fac.tot) == 'statistic'] <- 'fac.inc.P2'
@@ -231,11 +233,11 @@ mean.tot <- left_join(mean.tot.p1, mean.tot.p2, by = c("year"="year"))
 write.csv(mean.tot, file = "reports/GBR/tables/mean.tot.csv",row.names=FALSE)
 
 # Median Income für alle Jahre
-med.fac.tot <- svyby(~fac.inc, ~year, silc.hd.svy,
+med.fac.tot <- svyby(~fac.inc, ~year, silc.p2.svy,
                      svyquantile, ~fac.inc, quantiles = c(0.5), keep.var = FALSE)
-med.nat.tot <- svyby(~nat.inc, ~year, silc.hd.svy,
+med.nat.tot <- svyby(~nat.inc, ~year, silc.p2.svy,
                      svyquantile, ~nat.inc, quantiles = c(0.5), keep.var = FALSE)
-med.disp.tot <- svyby(~disp.inc, ~year, silc.hd.svy,
+med.disp.tot <- svyby(~disp.inc, ~year, silc.p2.svy,
                       svyquantile, ~disp.inc, quantiles = c(0.5), keep.var = FALSE)
 
 #change column names:
@@ -260,9 +262,9 @@ write.csv(med.tot, file = "reports/GBR/tables/med.tot.csv",row.names=FALSE)
 
 
 # Gini für alle Jahre # nur jeweils die positiven Einkommen
-gini.fac.tot <- svyby(~fac.inc, ~year, silc.hd.svy, svygini, keep.var = FALSE)
-gini.nat.tot <- svyby(~nat.inc, ~year, silc.hd.svy, svygini, keep.var = FALSE)
-gini.disp.tot <- svyby(~disp.inc, ~year, silc.hd.svy, svygini, keep.var = FALSE)
+gini.fac.tot <- svyby(~fac.inc, ~year, silc.p2.svy, svygini, keep.var = FALSE)
+gini.nat.tot <- svyby(~nat.inc, ~year, silc.p2.svy, svygini, keep.var = FALSE)
+gini.disp.tot <- svyby(~disp.inc, ~year, silc.p2.svy, svygini, keep.var = FALSE)
 
 #change column names:
 names(gini.fac.tot)[names(gini.fac.tot) == 'statistic'] <- 'fac.inc.P2'
@@ -294,25 +296,25 @@ write.csv(gini.tot, file = "reports/GBR/tables/gini.tot.csv",row.names=FALSE)
 #decile.fac <- svyby(~fac.inc, ~pb010, silc.hd.svy,
 #svyquantile, ~fac.inc, quantiles = seq(0, 1, 0.1), keep.var = FALSE)
 
-#decile.nat <- svyby(~nat.inc, ~pb010, silc.hd.svy,
+#decile.nat <- svyby(~nat.inc, ~pb010, silc.p2.svy,
 #svyquantile, ~fac.inc, quantiles = seq(0, 1, 0.1), keep.var = FALSE)
 
-#decile.disp <- svyby(~disp.inc, ~pb010, silc.hd.svy,
+#decile.disp <- svyby(~disp.inc, ~pb010, silc.p2.svy,
 #svyquantile, ~fac.inc, quantiles = seq(0, 1, 0.1), keep.var = FALSE)
 
 # Quantile Share Ratio. 
 #
+# factor income 0.2 percentile is zero, therefore exclude as in P1
+#quint.fac <- svyby(~fac.inc, ~year, silc.p2.svy, svyqsr, keep.var = FALSE)
+quint.nat <- svyby(~nat.inc, ~year, silc.p2.svy, svyqsr, keep.var = FALSE)
+quint.disp <- svyby(~disp.inc, ~year, silc.p2.svy, svyqsr, keep.var = FALSE)
 
-quint.fac <- svyby(~fac.inc, ~year, silc.hd.svy, svyqsr, keep.var = FALSE)
-quint.nat <- svyby(~nat.inc, ~year, silc.hd.svy, svyqsr, keep.var = FALSE)
-quint.disp <- svyby(~disp.inc, ~year, silc.hd.svy, svyqsr, keep.var = FALSE)
-
-names(quint.fac)[names(quint.fac) == 'statistic'] <- 'quint.fac.P2'
+#names(quint.fac)[names(quint.fac) == 'statistic'] <- 'quint.fac.P2'
 names(quint.nat)[names(quint.nat) == 'statistic'] <- 'quint.nat.P2'
 names(quint.disp)[names(quint.disp) == 'statistic'] <- 'quint.disp.P2'
 
 #Join into one table:
-quint.tot.p2 <- join_all(list(quint.fac, quint.nat, quint.disp),
+quint.tot.p2 <- join_all(list(quint.nat, quint.disp),
                          by = 'year')
 
 #remove unnecessary tables
@@ -327,22 +329,22 @@ quint.tot <- left_join(quint.tot.p1, quint.tot.p2, by = c("year"="year"))
 # als excel speichern um eine Tabelle zu haben
 write.csv(quint.tot, file = "reports/GBR/tables/quint.tot.csv",row.names=FALSE)
 
-#quant.fac <- svyby(~fac.inc, ~pb010, silc.hd.svy, svyqsr, ~fac.inc,  0.2, 0.8,
+#quant.fac <- svyby(~fac.inc, ~pb010, silc.p2.svy, svyqsr, ~fac.inc,  0.2, 0.8,
 #                   keep.var = FALSE)
 
-svyqsr(~nat.inc, silc.hd.svy, 0.2, 0.8)
-svyqsr(~disp.inc, silc.hd.svy, 0.2, 0.8)
+svyqsr(~nat.inc, silc.p2.svy, 0.2, 0.8)
+svyqsr(~disp.inc, silc.p2.svy, 0.2, 0.8)
 
 
 # Top 10% Anteil
 
-ten.fac <- as.data.frame(svyby(~fac.inc, ~year, subset(silc.hd.svy, fac.inc >=
-                                                         svyby(~fac.inc, ~ year, silc.hd.svy, svyquantile, quantile = 0.9,
-                                                               keep.var = FALSE), svytotal, keep.var = FALSE), svytotal, keep.var = FALSE) / svyby(~fac.inc, ~year, silc.hd.svy, svytotal, keep.var = FALSE))
+ten.fac <- as.data.frame(svyby(~fac.inc, ~year, subset(silc.p2.svy, fac.inc >=
+                                                         svyby(~fac.inc, ~ year, silc.p2.svy, svyquantile, quantile = 0.9,
+                                                               keep.var = FALSE), svytotal, keep.var = FALSE), svytotal, keep.var = FALSE) / svyby(~fac.inc, ~year, silc.p2.svy, svytotal, keep.var = FALSE))
 
-ten.nat <- as.data.frame(svyby(~nat.inc, ~year,subset(silc.hd.svy, nat.inc >=                                                     svyby(~nat.inc, ~year, silc.hd.svy, svyquantile, quantile = 0.9, keep.var = FALSE), svytotal, keep.var = FALSE), svytotal, keep.var = FALSE) / svyby(~nat.inc, ~year, silc.hd.svy, svytotal, keep.var = FALSE))
+ten.nat <- as.data.frame(svyby(~nat.inc, ~year,subset(silc.p2.svy, nat.inc >=                                                     svyby(~nat.inc, ~year, silc.p2.svy, svyquantile, quantile = 0.9, keep.var = FALSE), svytotal, keep.var = FALSE), svytotal, keep.var = FALSE) / svyby(~nat.inc, ~year, silc.p2.svy, svytotal, keep.var = FALSE))
 
-ten.disp <- as.data.frame(svyby(~disp.inc, ~year,subset(silc.hd.svy, disp.inc >=                                                     svyby(~disp.inc, ~year, silc.hd.svy, svyquantile, quantile = 0.9, keep.var = FALSE), svytotal, keep.var = FALSE),svytotal, keep.var = FALSE) / svyby(~disp.inc, ~year, silc.hd.svy, svytotal, keep.var = FALSE))
+ten.disp <- as.data.frame(svyby(~disp.inc, ~year,subset(silc.p2.svy, disp.inc >=                                                     svyby(~disp.inc, ~year, silc.p2.svy, svyquantile, quantile = 0.9, keep.var = FALSE), svytotal, keep.var = FALSE),svytotal, keep.var = FALSE) / svyby(~disp.inc, ~year, silc.p2.svy, svytotal, keep.var = FALSE))
 
 names(ten.fac)[names(ten.fac) == 'statistic'] <- 'ten.fac'
 names(ten.nat)[names(ten.nat) == 'statistic'] <- 'ten.nat'

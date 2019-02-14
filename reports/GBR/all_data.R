@@ -418,6 +418,11 @@ names(silc.p1)[names(silc.p1) == 'hb010'] <- 'year'
 
 # vergleich check.hy020 und hy020 sieht ganz gut aus, stimmen in fast allen Fällen überein
 
+
+# neuer Versuch
+
+silc.r.p1 <- left_join(silc.rp, silc.hdpr, by= c('id_h' = 'id_h', 'rb010' = 'hb010'))
+
 ### Summing up, this led to the following variables to calculate the inequality
 ### indicators with dataset silc.p1.YY:
 # 1. Arbeitseinkommen: work.inc
