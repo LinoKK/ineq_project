@@ -167,25 +167,27 @@ svyqsr(~disp.inc, silc.hd.svy, 0.2, 0.8)
 
 # Top 10% Anteil
 
-ten.fac <- as.data.frame(svyby(~fac.inc, ~year, subset(silc.hd.svy, fac.inc >=
+ten.fac.p1 <- as.data.frame(svyby(~fac.inc, ~year, subset(silc.hd.svy, fac.inc >=
                                                          svyby(~fac.inc, ~ year, silc.hd.svy, svyquantile, quantile = 0.9,
                                                                keep.var = FALSE), svytotal, keep.var = FALSE), svytotal, keep.var = FALSE) / svyby(~fac.inc, ~year, silc.hd.svy, svytotal, keep.var = FALSE))
 
-ten.nat <- as.data.frame(svyby(~nat.inc, ~year,subset(silc.hd.svy, nat.inc >=                                                     svyby(~nat.inc, ~year, silc.hd.svy, svyquantile, quantile = 0.9, keep.var = FALSE), svytotal, keep.var = FALSE), svytotal, keep.var = FALSE) / svyby(~nat.inc, ~year, silc.hd.svy, svytotal, keep.var = FALSE))
+ten.nat.p1 <- as.data.frame(svyby(~nat.inc, ~year,subset(silc.hd.svy, nat.inc >=                                                     svyby(~nat.inc, ~year, silc.hd.svy, svyquantile, quantile = 0.9, keep.var = FALSE), svytotal, keep.var = FALSE), svytotal, keep.var = FALSE) / svyby(~nat.inc, ~year, silc.hd.svy, svytotal, keep.var = FALSE))
 
-ten.disp <- as.data.frame(svyby(~disp.inc, ~year,subset(silc.hd.svy, disp.inc >=                                                     svyby(~disp.inc, ~year, silc.hd.svy, svyquantile, quantile = 0.9, keep.var = FALSE), svytotal, keep.var = FALSE),svytotal, keep.var = FALSE) / svyby(~disp.inc, ~year, silc.hd.svy, svytotal, keep.var = FALSE))
+ten.disp.p1 <- as.data.frame(svyby(~disp.inc, ~year,subset(silc.hd.svy, disp.inc >=                                                     svyby(~disp.inc, ~year, silc.hd.svy, svyquantile, quantile = 0.9, keep.var = FALSE), svytotal, keep.var = FALSE),svytotal, keep.var = FALSE) / svyby(~disp.inc, ~year, silc.hd.svy, svytotal, keep.var = FALSE))
 
-names(ten.fac)[names(ten.fac) == 'statistic'] <- 'ten.fac'
-names(ten.nat)[names(ten.nat) == 'statistic'] <- 'ten.nat'
-names(ten.disp)[names(ten.disp) == 'statistic'] <- 'ten.disp'
+names(ten.fac.p1)[names(ten.fac.p1) == 'statistic'] <- 'ten.fac'
+names(ten.nat.p1)[names(ten.nat.p1) == 'statistic'] <- 'ten.nat'
+names(ten.disp.p1)[names(ten.disp.p1) == 'statistic'] <- 'ten.disp'
 
 
-ten.fac <- ten.fac %>% mutate(year = row.names(ten.fac))
-ten.nat <- ten.nat %>% mutate(year = row.names(ten.nat))
-ten.disp <- ten.disp %>% mutate(year = row.names(ten.disp))
-
-#Join into one table # funktioniert nicht
+#Join into one table # funktioniert nicht da Jahre nicht gescheit angezeigt werden
 ten.tot.p1 <- join_all(list(ten.fac, ten.nat, ten.disp), by="row.names")
+
+#Alternativ im Excel zusammenfügen:
+write.csv(ten.fac.p1, file = "reports/GBR/tables/ten.fac.p1.csv",row.names=FALSE)
+write.csv(ten.nat.p1, file = "reports/GBR/tables/ten.nat.p1.csv",row.names=FALSE)
+write.csv(ten.disp.p1, file = "reports/GBR/tables/ten.disp.p1.csv",row.names=FALSE)
+#
 
 #remove unnecessary tables
 rm(ten.fac, ten.nat, ten.disp)
@@ -338,32 +340,35 @@ svyqsr(~disp.inc, silc.p2.svy, 0.2, 0.8)
 
 # Top 10% Anteil
 
-ten.fac <- as.data.frame(svyby(~fac.inc, ~year, subset(silc.p2.svy, fac.inc >=
+ten.fac.p2 <- as.data.frame(svyby(~fac.inc, ~year, subset(silc.p2.svy, fac.inc >=
                                                          svyby(~fac.inc, ~ year, silc.p2.svy, svyquantile, quantile = 0.9,
                                                                keep.var = FALSE), svytotal, keep.var = FALSE), svytotal, keep.var = FALSE) / svyby(~fac.inc, ~year, silc.p2.svy, svytotal, keep.var = FALSE))
 
-ten.nat <- as.data.frame(svyby(~nat.inc, ~year,subset(silc.p2.svy, nat.inc >=                                                     svyby(~nat.inc, ~year, silc.p2.svy, svyquantile, quantile = 0.9, keep.var = FALSE), svytotal, keep.var = FALSE), svytotal, keep.var = FALSE) / svyby(~nat.inc, ~year, silc.p2.svy, svytotal, keep.var = FALSE))
+ten.nat.p2 <- as.data.frame(svyby(~nat.inc, ~year,subset(silc.p2.svy, nat.inc >=                                                     svyby(~nat.inc, ~year, silc.p2.svy, svyquantile, quantile = 0.9, keep.var = FALSE), svytotal, keep.var = FALSE), svytotal, keep.var = FALSE) / svyby(~nat.inc, ~year, silc.p2.svy, svytotal, keep.var = FALSE))
 
-ten.disp <- as.data.frame(svyby(~disp.inc, ~year,subset(silc.p2.svy, disp.inc >=                                                     svyby(~disp.inc, ~year, silc.p2.svy, svyquantile, quantile = 0.9, keep.var = FALSE), svytotal, keep.var = FALSE),svytotal, keep.var = FALSE) / svyby(~disp.inc, ~year, silc.p2.svy, svytotal, keep.var = FALSE))
+ten.disp.p2 <- as.data.frame(svyby(~disp.inc, ~year,subset(silc.p2.svy, disp.inc >=                                                     svyby(~disp.inc, ~year, silc.p2.svy, svyquantile, quantile = 0.9, keep.var = FALSE), svytotal, keep.var = FALSE),svytotal, keep.var = FALSE) / svyby(~disp.inc, ~year, silc.p2.svy, svytotal, keep.var = FALSE))
 
-names(ten.fac)[names(ten.fac) == 'statistic'] <- 'ten.fac'
-names(ten.nat)[names(ten.nat) == 'statistic'] <- 'ten.nat'
-names(ten.disp)[names(ten.disp) == 'statistic'] <- 'ten.disp'
+names(ten.fac.p2)[names(ten.fac.p2) == 'statistic'] <- 'Top10.fac.p2'
+names(ten.nat.p2)[names(ten.nat.p2) == 'statistic'] <- 'Top10.nat.p2'
+names(ten.disp.p2)[names(ten.disp.p2) == 'statistic'] <- 'Top10.disp.p2'
 
-
-ten.fac <- ten.fac %>% mutate(year = row.names(ten.fac))
-ten.nat <- ten.nat %>% mutate(year = row.names(ten.nat))
-ten.disp <- ten.disp %>% mutate(year = row.names(ten.disp))
 
 #Join into one table # funktioniert nicht
 ten.tot.p2 <- join_all(list(ten.fac, ten.nat, ten.disp), by="row.names")
 
+write.csv(ten.fac.p2, file = "reports/GBR/tables/ten.fac.p2.csv",row.names=FALSE)
+write.csv(ten.nat.p2, file = "reports/GBR/tables/ten.nat.p2.csv",row.names=FALSE)
+write.csv(ten.disp.p2, file = "reports/GBR/tables/ten.disp.p2.csv",row.names=FALSE)
+
 #remove unnecessary tables
 rm(ten.fac, ten.nat, ten.disp)
 
+#Top 10 zusammengefügt:
+top10.p1p2 <- read_excel("reports/GBR/top10.p1.p2.xlsx")
 
+top10.p1p2 <- round(top10.p1p2, digits = 3)
 
-
+write.csv(top10.p1p2, file = "reports/GBR/tables/top10.p1p2.csv",row.names=FALSE)
 #-----------------------------------------
 #Indikatoren auf Personenebene - P2
 #-----------------------------------------
