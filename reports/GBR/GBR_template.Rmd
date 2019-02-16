@@ -1,21 +1,22 @@
 ---
 title: "Einkommensverteilung in Großbritannien"
 author: "David Kamschal und Lino Kungl"
+date: '`r format(Sys.time(), "%d %B, %Y")`'
 output:
+  word_document:
+    toc: yes
   pdf_document:
+    highlight: tango
     includes:
       in_header: header.tex
+    number_sections: yes
     toc: yes
-    number_sections: true
-    highlight: tango
-    
   html_document:
     df_print: paged
     toc: yes
 keywords: a, b, c
-date: '`r format(Sys.time(), "%d %B, %Y")`'
-bibliography: references.bib
 subtitle: 2063 - Ökonomie der Verteilung
+bibliography: references.bib
 ---  
 \pagenumbering{gobble}
 \newpage
@@ -68,7 +69,7 @@ Im Vorfeld der Krise entwickelten sich sowohl Durchschnitts- als auch Medianeink
 
 Bei den Medianeinkommen der Haushalte zeichnet sich ein differenziertes Bild zu den durchschnittlichen Haushaltseinkommen: Sie legten im Vergleich überdurchschnittlich zu. Die Median-Faktoreinkommen wuchsen von 2005 bis 2007 um ca. 19% (P1) bzw. 23% (P2), die Durschnitts-Faktoreinkommen wuchsen im selben Zeitraum hingegen um nur 11% (P1) bzw. 12% (P2). Und auch bei den verfügbaren Einkommen zeigt sich die selbe Tendenz aus stark zunehmenden Medianeinkommen (16% bzw. 19%) und deutlich schwächer steigenden Durschnittseinkommen (11% bzw. 12%). Vergleicht man Median und Durchschnittseinkommen, so fällt eine Rechtsschiefe der Einkommensverteilung auf, da der Median niedriger ist als der Mittelwert. Dies deutet bereits auf eine ungleiche Verteilung hin. Die Schiefe ist bei den Faktoreinkommen am höchsten, da auch die Differenz zwischen Median und Mittelwert dort am größten ist und nimmt zum verfügbaren Einkommen hin ab. Umverteilungmaßnahmen sowie progressive Steuersätze scheinen also erwartungsgemäß zu einer gleicheren Verteilung zu führen.
 
-Im Rückblick offenbart die Entwicklung der Einkommen vor 2008, insbesondere das rasante Wachstum im Jahr 2007, alle Anzeichen einer Überhitzung der Wirtschaft, die von von Konsum, Spekulation und Verschuldung getriebenen wurde. Ab 2008, mit dem Beginn des Krachs an den Börsen, zeigten sich in allen Kategorien von Haushaltseinkommen deutliche Zeichen einer Abschwächung. Erst mit dem Jahr 2014 konnte dank der allmählichen Entspannung der Situation in Europa der kurzfristige Einbruch von 2013 vollständig kompensiert und überwunden werden. Doch bereits 2016 zeigen sich, möglicherweise in Folge des Brexit-Schocks in der britischen und europäischen Wirtschaft, wieder Anzeichen einer Stagnation der verfügbaren Haushaltseinkommen.
+Im Rückblick offenbart die Entwicklung der Einkommen vor 2008, insbesondere das rasante Wachstum im Jahr 2007, alle Anzeichen einer Überhitzung der Wirtschaft, die von Konsum, Spekulation und Verschuldung getrieben wurde. Ab 2008, mit dem Beginn des Krachs an den Börsen, zeigten sich in allen Kategorien von Haushaltseinkommen deutliche Zeichen einer Abschwächung. Erst mit dem Jahr 2014 konnte dank der allmählichen Entspannung der Situation in Europa der kurzfristige Einbruch von 2013 vollständig kompensiert und überwunden werden. Doch bereits 2016 zeigen sich, möglicherweise in Folge des Brexit-Schocks in der britischen und europäischen Wirtschaft, wieder Anzeichen einer Stagnation der verfügbaren Haushaltseinkommen.
 
 ```{r echo=FALSE, }
 # Read CSV data, "../../" to look two levels upwards
@@ -101,6 +102,8 @@ knitr::kable(table, caption = "Anteil der Top 10% P1 & P2 Households")
 Der Anteil der Top 10% der am besten verdienenden Haushalte im Vereinigten Königreich machte zwischen 2005 und 2016 etwa 54% bis 58% der verfügbaren Einkommen aus. Das sind selbstverständlich extrem hohe Werte die eindrucksvoll die eingangs erwähnte Tendenz stark wachsender Spitzenverdienste im Vergleich zu eher stagnierenden mittleren und niedrigeren Einkommen unterstreichen. Ebenfalls konsistent mit unseren Annahmen sanken diese Anteile ab 2009 um 1 bis 2 Prozentpunkte und erreichten ab 2013/2014 wieder ihre Werte von vor der Krise.
 
 # Deep Dive: Regionale Unterschiede und Brexit
+
+![GINI NUTS 2 - ohne Schottland, London und Surry, East and West Sussex](plots/UK_gini.jpeg){width=100%}
 
 An dieser Stelle wollen wir uns intensiver der Fragestellung widmen, inwieweit Ungleichheitsmaße
 mit dem Brexit in Verbindung gebracht werden können. Dazu wollen wir uns ansehen, ob sich regionale Unterschiede in den Abstimmungsergebnissen auch in unterschiedlichen Graden der Ungleichheit niederschlagen. Hierzu soll auf die 
@@ -163,12 +166,15 @@ Es ergeben sich für keine der Größen statistisch signifikante Effekte (bei de
 im Zuge der Globalisierung eher einen Schwund ihrer Wirtschaftskraft verbüßen mussten. Dazu zählen die Autoren beispielsweise die Regionen "East Yorkshire and Northern Lincolnshire" und "South Yorkshire", die mit knapp 65 respektive 61,5 Prozent für den Brexit stimmten und die ehemals das Zentrum der Kohle- und Stahlindustrie waren, seitdem aber einen wirtschaftlichen Abschwung erlebten. Im Gegensatz dazu stehen London und die südöstlichen Regionen "Berkshire, Buckinghamshire and Oxfordshire" und "Surrey, East and West Sussex", die wirtschaftliche Gewinner der letzten Dekaden waren und allesamt gegen den Brexit gestimmt haben. Aus diesem Grund sollen auch die Durchschnittseinkommen untersucht werden und als Proxy für die generelle Entwicklung der Wirtschaft in den Regionen dienen. 
 
 
-Im folgenden sieht man die Wahlergebnisse des Referendums auf NUTS 2 Ebene: 
+Im folgenden sieht man die Wahlergebnisse des Referendums auf NUTS 2 Ebene, sowie die dazugehörigen Einkommen: 
 
 ```{r echo=FALSE, }
 table <- read.csv("tables/nuts2.csv")
 knitr::kable(table, caption = "NUTS 2 Regions",format.args = list(big.mark = "'"))
 ```
+
+
+![Leave % NUTS 2 - ohne Schottland, London und Surry, East and West Sussex](plots/UK_brexit.jpeg){width=100%}
 
 Im Anschluss finden sich die Ergebnisse der Regressionen. Diese wurden immer mit den Kennzahlen auf Basis des verfügbaren Einkommens (disposable incomes) durchgeführt. In einer ersten Regression wird der Effekt des Gini-Koeffizienten, des Medianeinkommens sowie des Durchschnittseinkommens jeweils separat und für das Jahr 2011 geschätzt (Tabelle 10). 
 
@@ -183,7 +189,7 @@ stargazer(lm(Leave ~ gini.reg, subset(table, Leave > 0)), lm(Leave ~ median.reg,
 ```
 
 
-Wir finden zwei Regressionskoeffizienten die auf dem 5 Prozent Niveau signifikant sind, der des Ginis sowie der des Durchschnitteinkommens. Für den Gini ist der Koeffizient negativ, was bedeuten würde dass eine Erhöhung der Ungleichheit gemessen am Gini negativ mit den "Leave" Votum korreliert. Das heißt, ungleichere Regionen waren eher für den Verbleib in der EU. Umgekehrt - und damit eher wie erwartet - verhält es sich beim Durchschnittseinkommen, in Regionen mit hohem Durchschnittseinkommen wurde demnach eher gegen den Brexit gestimmt. Der Koeffizient für das Durchschnittseinkommen besagt, dass bei einer Erhöhung der Durchschnittseinkommen um 1000, eine Verringerung des "Leave" Votums von einem Prozentpunkt zu erwarten wäre. Allerdings bleiben hier viele korrelierende Effekte unberücksichtigt. So ist beispielsweise zu erwarten, dass bei höheren Durchschnittseinkommen auch der durchschnittliche Bildungsgrad der entsprechenden Region höher ist. Daher wollen wir der Höhe des Koeffizienten hier wenig Aussagenkraft einräumen. In einem zweiten Regressionsmodell wollen wir nun mehr Variablen mit aufnehmen um für weitere Effekte kontrollieren zu können. Speziell das Vorzeichen des Gini-Koeffizienten scheint im Anbetracht anderer Literatur (z.B.@darvas2016) aber auch intuitiv fragwürdig. Da wir in dieser Analyse nicht die Auswirkung der Veränderung der Einkommen schätzen sondern nur einen Datenpunkt des jeweiligen Jahrs haben, könnten die schottischen Regionen und Nordirland die Ergebnisse verzerren. Diese haben zwar eine Steigerung der Einkommen erfahren gemessen am Median und Mittelwert, jedoch ist das generelle Niveau im regionalen Vergleich eher tief. Aus dieser Überlegung heraus verwenden auch @Arnorsson2016brexit Dummies für die Regionen um den Effekt zu isolieren. Zusätzlich begründen sie die Entscheidung Schottland und Nordirland getrennt zu den anderen Regionen zu betrachten damit, dass die Beweggründe gegen den Brexit zu stimmen generell anders gelagert waren. Ein wichtiger Faktor für Nordirland ist beispielsweise die Grenze mit Irland die historisch Konfliktpotenzial birgt und auch in den aktuellen Verhandlungen über den geregelten Ausstieg Großbritanniens aus der EU eine wichtige Rolle einnimmt [@Patten2018Ireland]. Gleichfalls wird ein Dummy für Inner London verwendet, da dieser Region in vielerlei Hinsicht eine spezielle Rolle zukommt. Des weiteren wird in dieser Schätzmethode ein Interaktionsterm zwischen Gini-Koeffizienten und Durchschnittseinkommen verwendet. Dieser soll kontrollieren ob eine ungleiche Einkommensverteilung bei unterschiedlichen Einkommensniveaus anders korreliert. Damit wird der Effekt starker Ungleichheit in einer Region relativiert wenn dort das durchschnittliche Einkommen hoch ist. @darvas2016 (S.84) führen eine ähnliche Regression durch, können aber mit ihrem Datensatz zwischen 173 Regionen unterscheiden, was innerhalb der EU-Silc Daten nicht möglich ist. Daher kontrollieren sie zusätzlich beispielsweise für Altergruppen, Bildungsgrad oder Arbeitslosenrate. In dieser Arbeit werden diese zusätzlichen Variablen -  auch aufgrund der fehlenden Freiheitsgrade im kleineren Sample - nicht vorgenommen. Die zwei Regressionen in Tabelle 11 sind wie folgt definiert:
+Wir finden zwei Regressionskoeffizienten die auf dem 5 Prozent Niveau signifikant sind: Der des Ginis sowie der des Durchschnitteinkommens. Für den Gini ist der Koeffizient negativ, was bedeuten würde dass eine Erhöhung der Ungleichheit gemessen am Gini negativ mit den "Leave" Votum korreliert. Das heißt, ungleichere Regionen waren eher für den Verbleib in der EU. Umgekehrt - und damit eher wie erwartet - verhält es sich beim Durchschnittseinkommen, in Regionen mit hohem Durchschnittseinkommen wurde demnach eher gegen den Brexit gestimmt. Der Koeffizient für das Durchschnittseinkommen besagt, dass bei einer Erhöhung der Durchschnittseinkommen um 1000, eine Verringerung des "Leave" Votums von einem Prozentpunkt zu erwarten wäre. Allerdings bleiben hier viele korrelierende Effekte unberücksichtigt. So ist beispielsweise zu erwarten, dass bei höheren Durchschnittseinkommen auch der durchschnittliche Bildungsgrad der entsprechenden Region höher ist. Daher wollen wir der Höhe des Koeffizienten hier wenig Aussagenkraft einräumen. In einem zweiten Regressionsmodell wollen wir nun mehr Variablen mit aufnehmen um für weitere Effekte kontrollieren zu können. Speziell das Vorzeichen des Gini-Koeffizienten scheint im Anbetracht anderer Literatur (z.B.@darvas2016) aber auch intuitiv fragwürdig. Da wir in dieser Analyse nicht die Auswirkung der Veränderung der Einkommen schätzen sondern nur einen Datenpunkt des jeweiligen Jahrs haben, könnten die schottischen Regionen und Nordirland die Ergebnisse verzerren. Diese haben zwar eine Steigerung der Einkommen erfahren gemessen am Median und Mittelwert, jedoch ist das generelle Niveau im regionalen Vergleich eher tief. Aus dieser Überlegung heraus verwenden auch @Arnorsson2016brexit Dummies für die Regionen um den Effekt zu isolieren. Zusätzlich begründen sie die Entscheidung Schottland und Nordirland getrennt zu den anderen Regionen zu betrachten damit, dass die Beweggründe gegen den Brexit zu stimmen generell anders gelagert waren. Ein wichtiger Faktor für Nordirland ist beispielsweise die Grenze mit Irland die historisch Konfliktpotenzial birgt und auch in den aktuellen Verhandlungen über den geregelten Ausstieg Großbritanniens aus der EU eine wichtige Rolle einnimmt [@Patten2018Ireland]. Gleichfalls wird ein Dummy für Inner London verwendet, da dieser Region in vielerlei Hinsicht eine spezielle Rolle zukommt. Des weiteren wird in dieser Schätzmethode ein Interaktionsterm zwischen Gini-Koeffizienten und Durchschnittseinkommen verwendet. Dieser soll kontrollieren ob eine ungleiche Einkommensverteilung bei unterschiedlichen Einkommensniveaus anders korreliert. Damit wird der Effekt starker Ungleichheit in einer Region relativiert wenn dort das durchschnittliche Einkommen hoch ist. @darvas2016 (S.84) führen eine ähnliche Regression durch, können aber mit ihrem Datensatz zwischen 173 Regionen unterscheiden, was innerhalb der EU-Silc Daten nicht möglich ist. Daher kontrollieren sie zusätzlich beispielsweise für Altergruppen, Bildungsgrad oder Arbeitslosenrate. In dieser Arbeit werden diese zusätzlichen Variablen -  auch aufgrund der fehlenden Freiheitsgrade im kleineren Sample - nicht vorgenommen. Die zwei Regressionen in Tabelle 11 sind wie folgt definiert:
 
 
 $$(1)Leave.Share = \beta_0 + \beta_1 Gini + \beta_2 Mean + \beta_3 Gini*Mean + u$$
@@ -203,10 +209,19 @@ table.11 <- read.csv("tables/nuts.11.csv")
 stargazer(lm(Leave ~ gini.reg*mean.reg, subset(table.11, Leave > 0)),lm(Leave ~ gini.reg*mean.reg + Scotland + Northern.Ireland + London , subset(table.11, Leave > 0)),header=FALSE, title="Resultate NUTS 2 Regionen erweitert", covariate.labels=c("Gini", "Mean Income", "Scotland", "Northern Ireland", "Inner London", "Gini*Mean"))
 ```
 
+## Räumliche Regression
 
+Nach den regulären OLS-Schätzungen führten wir zusätzlich auch noch Schätzungen mit Methoden der räumlichen Ökonometrie durch. Die Datenbasis verblieb dabei dieselbe wie in NUTS-2, doch wurden aus Gründen einer Nicht-Übereinstimmung zwischen der NUTS-2-Einteilung von 2018 und den verfügbaren Daten die Regionen London, Schottland und die Region "Surry, East and West Sussex" exludiert. Damit verbleiben 33 Regionen. Die räumliche Regression beruht auf einem Spatial Error Model, d.h., es wird angenommen, dass die Fehlerterme aneinander angrenzender Regionen korreliert sind. Variablen die nicht im Model inkludiert sind, sich aber räumlich gegenseitig beeinflussen, können somit exkludiert und der Effekt der inkludierten Variablen besser isoliert werden. W gibt im Modell die räumliche Gewichtungsmatrix wieder, Lambda den räumlichen Fehlerparameter und Epsilon den Fehlerterm.
 
+$$(3)Leave.Share = \beta_0 + \beta_1 Gini + (I_n - \lambda W)^{-1} \epsilon$$
 
+Von Interesse war vor allem die Auswirkung des Gini-Koeffizienten auf das "Leave"-Votum (3). Berechnungen mit dem Spatial Error Model ergeben einen statistisch stark signifikanten (P = 0.012) Koeffizienten in Höhe von -0.49. Das bedeutet, dass eine Erhögung des Gini um einen Prozentpunkt zu einem erwarteten Absinken des Leave-Anteils um 0,49 Prozentpunkte führt. Dies ist insofern interessant, als die hierfür verwendete Datenbasis die Regionen London und Schottland exkludiert, die beide überdurchschnittlich stark für den Verbleib gestimmt hatten. 
 
+$$(4)Leave.Share = \beta_0 + \beta_1 Mean + (I_n - \lambda W)^{-1} \epsilon$$
+
+Die zweite räumliche Regression bezieht sich auf den Effekt des durchschnittlichen Einkommens auf das "Leave"-Votum. Hierbei ergeben sich ein Koeffizient von -8.3520e-06 und P-Wert von 0.054, nur knapp über dem 5%-Signifikanzniveau. Bezogen auf einen Anstieg der Durchschnittseinkommen von 1000 impliziert der Koeffizient somit eine Reduktion der "Leave"-Stimmen um 0.0083 (1 = 100%), also 0.83 Prozentpunkte.
+
+Damit liefern auch die räumlichen Modelle Indizien dafür, dass sowohl höhere Ungleichheit als auch ein höhere Einkommen einen negativen Effekt auf den Stimmanteil für den Brexit hatten, wenn auch in (4) die Signifikanzgrenze knapp überschritten wurde.
 
 # Zusammenfassung
 
