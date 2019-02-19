@@ -56,13 +56,15 @@ Die zweite Methode (P2) richtet sich nach der *World Inequality Database* und be
 ```{r echo=FALSE, }
 # Read CSV data, "../../" to look two levels upwards
 table <- read.csv("tables/mean.tot.csv")
-knitr::kable(table, caption = "Mean P1 & P2 Households",format.args = list(big.mark = "'"))
+table$year <- as.character(table$year)
+knitr::kable(table, caption = "Mean P1 & P2 Households",format.args = list(big.mark = ","))
 ```
 
 ```{r echo=FALSE, }
 # Read CSV data, "../../" to look two levels upwards
 table <- read.csv("tables/med.tot.csv")
-knitr::kable(table, caption = "Median P1 & P2 Households",format.args = list(big.mark = "'"))
+table$year <- as.character(table$year)
+knitr::kable(table, caption = "Median P1 & P2 Households",format.args = list(big.mark = ","))
 ```
 
 Im Vorfeld der Krise entwickelten sich sowohl Durchschnitts- als auch Medianeinkommen überdurchschnittlich stark. So wuchs etwa das durchschnittliche verfügbare Haushaltseinkommen im Jahr 2007 um ca. 10% (P1) bzw. 11% (P2) gegenüber dem des Vorjahres. Ebenfalls auffällig, aber nicht überraschend, ist der Rückfall des verfügbaren Einkommens im Jahr 2009 um ca. 22% (P1,P2) gegenüber dem Niveau von 2007 und ca. 14% (P1) bzw. 13% (P2) gegenüber 2006. Mit 2009 erreichten die Einkommen ihren definitiven Tiefpunkt und begannen in weiterer Folge, sich langsam aber unstetig zu erholen. Die Auswirkungen der Krise waren auch in den folgenden Jahren deutlich spürbar, denn die durchschnittlichen verfügbaren Haushaltseinkommen erreichten erst 2014 wieder das nominale Niveau von 2006, was einen ersten Schritt in Richtung Normalisierung und Überwindung der Krise andeutet. 2013 hatte es immerhin wieder einen vermutlich mit der Rezession im Euro-Raum zusammenhängenden Einbruch von 3% (P1) bzw. 5% (P2) der Durchschnittseinkommen gegeben. Dies verdeutlicht die starke Verflechtung der Wirtschaft des Vereinigten Königreichs mit der Europas trotz der Tatsache, dass Großbritannien nicht zum Euroraum gehört.
@@ -170,7 +172,7 @@ Im folgenden sieht man die Wahlergebnisse des Referendums auf NUTS 2 Ebene, sowi
 
 ```{r echo=FALSE, }
 table <- read.csv("tables/nuts2.csv")
-knitr::kable(table, caption = "NUTS 2 Regions",format.args = list(big.mark = "'"))
+knitr::kable(table, caption = "NUTS 2 Regions",format.args = list(big.mark = ","))
 ```
 
 
