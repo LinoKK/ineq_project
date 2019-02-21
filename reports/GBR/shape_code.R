@@ -162,6 +162,23 @@ choro.legend(2,57, sh=shades, title="Leave % NUTS 2", cex=0.75)
 #north.arrow(-4,60,0.2, col="red")
 
 
+#Importing / exporting of (spatial) regression output
+
+dput(summary(spatial.gini.reg.nuts),file="reports/GBR/spatial.gini.results.txt",control="all")
+dput(summary(spatial.mean.reg.nuts),file="reports/GBR/spatial.mean.results.txt",control="all")
+
+spatial1<-dget("reports/GBR/spatial.gini.results.txt")
+spatial2<-dget("reports/GBR/spatial.mean.results.txt")
+
+#testing of imported regression outputs
+
+summary(spatial1)
+summary(spatial2)
+
+stargazer(summary(spatial1),type="text")
+stargazer(summary(spatial1), summary(spatial2),type="text", title="Spatial Regression Results")
+
+
 #---------------------------------------------------------------------------------
 #Code for straightforward regression analysis (by Lino) - Used as a reference
 #---------------------------------------------------------------------------------
@@ -219,4 +236,6 @@ summary(mean.reg.nuts)
 
 # result is significant at the 5% level. It means that an increase in mean disposable income for 1000
 # leads to a decrease of the Leave votes of 0.0044, so almost half a percentage point
+
+
 
